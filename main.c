@@ -48,8 +48,8 @@ int main(void) {
 	{
 		UART_put_char(UART_0, 32);
 	}
-	fichas_peon_print();
-
+	//fichas_peon_print();
+	fichas_torre_print();
     while(1) {
     }
 }

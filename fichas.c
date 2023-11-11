@@ -98,37 +98,39 @@ void fichas_torre_print(void)
 	uint8_t i = 0;
 	/*Nivel 1*/
 	UART_put_char(UART_0, LLENO);
-
+	UART_put_char(UART_0, VACIO);
 	for(i = 0; i < 2; i++)
 	{
 		UART_put_char(UART_0, LLENO);
 	}
+	UART_put_char(UART_0, VACIO);
+	UART_put_char(UART_0, LLENO);
 
-	g_salto[6] = '3';
+	g_salto[6] = '6';
 	UART_put_string(UART_0, g_salto);
 
 	/*Nivel 2*/
+	for(i = 0; i < 6; i++)
+	{
+		UART_put_char(UART_0, LLENO);
+	}
+	g_salto[6] = '6';
+	UART_put_string(UART_0, g_salto);
+
+	/*Nivel 3*/
+	for(i = 0; i < 6; i++)
+	{
+		UART_put_char(UART_0, LLENO);
+	}
+	g_salto[6] = '5';
+	UART_put_string(UART_0, g_salto);
+
+	/*Nivel 4*/
 	for(i = 0; i < 4; i++)
 	{
 		UART_put_char(UART_0, LLENO);
 	}
 	g_salto[6] = '4';
-	UART_put_string(UART_0, g_salto);
-
-	/*Nivel 3*/
-	for(i = 0; i < 4; i++)
-	{
-		UART_put_char(UART_0, LLENO);
-	}
-	g_salto[6] = '3';
-	UART_put_string(UART_0, g_salto);
-
-	/*Nivel 4*/
-	for(i = 0; i < 2; i++)
-	{
-		UART_put_char(UART_0, LLENO);
-	}
-	g_salto[6] = '3';
 	UART_put_string(UART_0, g_salto);
 
 	/*Nivel 5*/
@@ -144,23 +146,23 @@ void fichas_torre_print(void)
 	{
 		UART_put_char(UART_0, LLENO);
 	}
-	g_salto[6] = '5';
+	g_salto[6] = '4';
 	UART_put_string(UART_0, g_salto);
 
 	/*Nivel 7*/
-	for(i = 0; i < 6; i++)
+	for(i = 0; i < 4; i++)
+	{
+		UART_put_char(UART_0, LLENO);
+	}
+	g_salto[6] = '4';
+	UART_put_string(UART_0, g_salto);
+
+	/*Nivel 8*/
+	for(i = 0; i < 4; i++)
 	{
 		UART_put_char(UART_0, LLENO);
 	}
 	g_salto[6] = '6';
-	UART_put_string(UART_0, g_salto);
-
-	/*Nivel 8*/
-	for(i = 0; i < 6; i++)
-	{
-		UART_put_char(UART_0, LLENO);
-	}
-	g_salto[6] = '7';
 	UART_put_string(UART_0, g_salto);
 
 	/*Nivel 9*/

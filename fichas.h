@@ -14,5 +14,6 @@
 #define VACIO 	(32U)
 
 void fichas_peon_print(void);
+void fichas_torre_print(void);
 
 #endif /* FICHAS_H_ */
