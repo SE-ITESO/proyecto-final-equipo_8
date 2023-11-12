@@ -8,6 +8,8 @@
  * Notas:
  * El 219 Es un "█"
  * El 32 Es un " "
+ * http://graphcomp.com/info/specs/ansi_col.html
+ *
  * */
 
 #include <stdio.h>
@@ -19,14 +21,10 @@
 #include "fsl_debug_console.h"
 
 #include "fichas.h"
+#include "tablero.h"
 #include "NVIC.h"
 
-static uint8_t prueba[] = "\033[20;10H";
 static uint8_t g_mover_arriba[] = "\033[10A";
-static uint8_t g_array_init[] = "\033[0;34;43m"
-		"\033[2J";
-
-
 
 int main(void) {
 
@@ -37,23 +35,27 @@ int main(void) {
 
 	NVIC_enable_interrupt_and_priotity(UART0_IRQ, PRIORITY_10);
 
-	UART_put_string(UART_0, g_array_init);
-	UART_put_string(UART_0, prueba);
+	tablero_init();
 
-
+	UART_put_string(UART_0, "\033[30;30H");
 	UART_put_string(UART_0, g_mover_arriba);
 
 	int i = 0;
+/*
 	for(i = 0; i < 3; i++)
 	{
 		UART_put_char(UART_0, 32);
 	}
+*/
+
 	//fichas_peon_print();
 	//fichas_torre_print();
 	//fichas_alfil_print();
 	//fichas_caballo_print();
 	//fichas_reina_print();
-	fichas_rey_print();
+	//fichas_rey_print();
+
+	//UART_put_string(UART_0, "Hola puto");
     while(1) {
     }
 }
