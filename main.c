@@ -51,8 +51,9 @@ int main(void) {
 	//fichas_peon_print();
 	//fichas_torre_print();
 	//fichas_alfil_print();
-	fichas_caballo_print();
-
+	//fichas_caballo_print();
+	//fichas_reina_print();
+	fichas_rey_print();
     while(1) {
     }
 }
