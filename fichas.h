@@ -48,6 +48,8 @@ typedef struct
 	uint8_t offset[2];
 }struct_ficha_t;
 
+void fichas_config(struct_ficha_t* ficha, name_ficha_t name, color_ficha_t color);
+
 void fichas_color(color_ficha_t color);
 
 void fichas_peon_print(void);
@@ -57,6 +59,6 @@ void fichas_caballo_print(void);
 void fichas_reina_print(void);
 void fichas_rey_print(void);
 
-void ficha_vacio_print(void);
+void fichas_vacio_print(void);
 
 #endif /* FICHAS_H_ */

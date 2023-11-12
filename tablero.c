@@ -10,7 +10,7 @@
 static struct_ficha_t g_ficha_generica =
 {
 		indefinido,
-		ficha_vacio_print,
+		fichas_vacio_print,
 		ninguno,
 		{0, 0}
 };
@@ -37,7 +37,7 @@ void tablero_init(void)
 		{
 			temp_x = (((l + 1) % 2) * 16) + (i * 32) + 1;
 			tablero_mover_cursor(temp_x, temp_y);
-			ficha_vacio_print();
+			fichas_vacio_print();
 		}
 	}
 
@@ -67,16 +67,54 @@ void tablero_acomodo_arreglo(void)
 		g_array_ajedrez[i] = g_ficha_generica;
 	}
 
-	g_ficha_generica.color = negras;
-	g_ficha_generica.ficha_name = peon;
-	g_ficha_generica.print_ficha = fichas_peon_print;
-	g_ficha_generica.offset[offset_x] = 6;
-	g_ficha_generica.offset[offset_y] = 2;
-
+	/*Posición de negras*/
+	fichas_config(&g_ficha_generica, peon, negras);
 	for(i = 0; i < 8; i++)
 	{
 		g_array_ajedrez[i + 8] = g_ficha_generica;
 	}
+	fichas_config(&g_ficha_generica, reina, negras);
+	g_array_ajedrez[3] = g_ficha_generica;
+
+	fichas_config(&g_ficha_generica, alfil, negras);
+	g_array_ajedrez[2] = g_ficha_generica;
+	g_array_ajedrez[5] = g_ficha_generica;
+
+	fichas_config(&g_ficha_generica, torre, negras);
+	g_array_ajedrez[0] = g_ficha_generica;
+	g_array_ajedrez[7] = g_ficha_generica;
+
+	fichas_config(&g_ficha_generica, caballo, negras);
+	g_array_ajedrez[1] = g_ficha_generica;
+	g_array_ajedrez[6] = g_ficha_generica;
+
+	fichas_config(&g_ficha_generica, rey, negras);
+	g_array_ajedrez[4] = g_ficha_generica;
+
+	/*Posición de blancas*/
+	fichas_config(&g_ficha_generica, peon, blancas);
+	for(i = 0; i < 8; i++)
+	{
+		g_array_ajedrez[i + 48] = g_ficha_generica;
+	}
+
+	fichas_config(&g_ficha_generica, reina, blancas);
+	g_array_ajedrez[3 + 56] = g_ficha_generica;
+
+	fichas_config(&g_ficha_generica, alfil, blancas);
+	g_array_ajedrez[2 + 56] = g_ficha_generica;
+	g_array_ajedrez[5 + 56] = g_ficha_generica;
+
+	fichas_config(&g_ficha_generica, torre, blancas);
+	g_array_ajedrez[0 + 56] = g_ficha_generica;
+	g_array_ajedrez[7 + 56] = g_ficha_generica;
+
+	fichas_config(&g_ficha_generica, caballo, blancas);
+	g_array_ajedrez[1 + 56] = g_ficha_generica;
+	g_array_ajedrez[6 + 56] = g_ficha_generica;
+
+	fichas_config(&g_ficha_generica, rey, blancas);
+	g_array_ajedrez[4 + 56] = g_ficha_generica;
 }
 
 void tablero_print_fichas(void)
@@ -84,15 +122,27 @@ void tablero_print_fichas(void)
 	uint8_t i = 0;
 	uint8_t coordenada_x = 0;
 	uint8_t coordenada_y = 0;
-
-	for(i = 0; i < 8; i++)
+	/*Impresión de fichas negras*/
+	for(i = 0; i < 16; i++)
 	{
-		coordenada_x = (((i + 8) % 8) * 16) + 1;
-		coordenada_y = (((i + 8) / 8) * 8) + 1;
-		coordenada_x = coordenada_x + g_array_ajedrez[i + 8].offset[offset_x];
-		coordenada_y = coordenada_y + g_array_ajedrez[i + 8].offset[offset_y];
+		coordenada_x = ((i % 8) * 16) + 1;
+		coordenada_y = ((i / 8) * 8) + 1;
+		coordenada_x = coordenada_x + g_array_ajedrez[i].offset[offset_x];
+		coordenada_y = coordenada_y + g_array_ajedrez[i].offset[offset_y];
 		tablero_mover_cursor(coordenada_x, coordenada_y);
-		fichas_color(g_array_ajedrez[i + 8].color);
-		g_array_ajedrez[i + 8].print_ficha();
+		fichas_color(g_array_ajedrez[i].color);
+		g_array_ajedrez[i].print_ficha();
+	}
+
+	/*Impresión de fichas blancas*/
+	for(i = 0; i < 16; i++)
+	{
+		coordenada_x = (((i + 48) % 8) * 16) + 1;
+		coordenada_y = (((i + 48) / 8) * 8) + 1;
+		coordenada_x = coordenada_x + g_array_ajedrez[i + 48].offset[offset_x];
+		coordenada_y = coordenada_y + g_array_ajedrez[i + 48].offset[offset_y];
+		tablero_mover_cursor(coordenada_x, coordenada_y);
+		fichas_color(g_array_ajedrez[i + 48].color);
+		g_array_ajedrez[i + 48].print_ficha();
 	}
 }

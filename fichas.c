@@ -18,6 +18,50 @@ static uint8_t g_array_color_blue[] = "\033[34m";
 
 static uint8_t g_array_color_cyan[] = "\033[36m";
 
+void fichas_config(struct_ficha_t* ficha, name_ficha_t name, color_ficha_t color)
+{
+	switch(name)
+	{
+	case peon:
+		ficha->print_ficha = fichas_peon_print;
+		ficha->offset[offset_x] = 6;
+		ficha->offset[offset_y] = 2;
+		break;
+	case torre:
+		ficha->print_ficha = fichas_torre_print;
+		ficha->offset[offset_x] = 5;
+		ficha->offset[offset_y] = 2;
+		break;
+	case alfil:
+		ficha->print_ficha = fichas_alfil_print;
+		ficha->offset[offset_x] = 6;
+		ficha->offset[offset_y] = 2;
+		break;
+	case caballo:
+		ficha->print_ficha = fichas_caballo_print;
+		ficha->offset[offset_x] = 7;
+		ficha->offset[offset_y] = 1;
+		break;
+	case reina:
+		ficha->print_ficha = fichas_reina_print;
+		ficha->offset[offset_x] = 4;
+		ficha->offset[offset_y] = 2;
+		break;
+	case rey:
+		ficha->print_ficha = fichas_rey_print;
+		ficha->offset[offset_x] = 7;
+		ficha->offset[offset_y] = 1;
+		break;
+	default:
+		ficha->print_ficha = fichas_vacio_print;
+		ficha->offset[offset_x] = 0;
+		ficha->offset[offset_y] = 0;
+		break;
+	}
+	ficha->ficha_name = name;
+	ficha->color = color;
+}
+
 void fichas_color(color_ficha_t color)
 {
 	switch(color)
@@ -357,7 +401,7 @@ void fichas_rey_print(void)
 	UART_put_string(UART_0, g_salto);
 }
 
-void ficha_vacio_print(void)
+void fichas_vacio_print(void)
 {
 	uint8_t i;
 	uint8_t l;
