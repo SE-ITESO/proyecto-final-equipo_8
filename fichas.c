@@ -10,6 +10,35 @@ static uint8_t g_salto[] = {'\e','[','1','B','\e','[','0','D','\0'};
 
 static uint8_t g_salto_16[] = {'\e','[','1','B','\e','[','1','6','D','\0'};
 
+static uint8_t g_array_color_white[] = "\033[37m";
+
+static uint8_t g_array_color_black[] = "\033[30m";
+
+static uint8_t g_array_color_blue[] = "\033[34m";
+
+static uint8_t g_array_color_cyan[] = "\033[36m";
+
+void fichas_color(color_ficha_t color)
+{
+	switch(color)
+	{
+	case blancas:
+		UART_put_string(UART_0, g_array_color_white);
+		break;
+	case negras:
+		UART_put_string(UART_0, g_array_color_black);
+		break;
+	case azul:
+		UART_put_string(UART_0, g_array_color_blue);
+		break;
+	case cyan:
+		UART_put_string(UART_0, g_array_color_cyan);
+		break;
+	default:
+		break;
+	}
+}
+
 void fichas_peon_print(void)
 {
 	uint8_t i = 0;

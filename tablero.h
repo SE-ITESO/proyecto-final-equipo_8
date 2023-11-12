@@ -15,5 +15,7 @@
 
 void tablero_mover_cursor (uint16_t x, uint8_t y);
 void tablero_init(void);
+void tablero_acomodo_arreglo(void);
+void tablero_print_fichas(void);
 
 #endif /* TABLERO_H_ */
