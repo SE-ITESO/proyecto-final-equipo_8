@@ -15,7 +15,7 @@
 #define DOWN_LLENO	(220U)
 #define VACIO 		(32U)
 
-typedef void(*funct_print_ficha)(void);
+#define NUM_TO_ASCII(a) (a + 0x30)
 
 typedef enum{
 	indefinido,
@@ -40,25 +40,40 @@ typedef enum{
 	offset_y
 }offset_t;
 
+typedef void(*funct_print_ficha)(color_ficha_t color, uint16_t x, uint8_t y);
+
 typedef struct
 {
 	name_ficha_t ficha_name;
 	funct_print_ficha print_ficha;
 	color_ficha_t color;
-	uint8_t offset[2];
 }struct_ficha_t;
+
+void fichas_mover_cursor(UART_channel_t UART_name, uint16_t x, uint8_t y);
 
 void fichas_config(struct_ficha_t* ficha, name_ficha_t name, color_ficha_t color);
 
-void fichas_color(color_ficha_t color);
+void fichas_color(UART_channel_t UART_name, color_ficha_t color);
 
-void fichas_peon_print(void);
-void fichas_torre_print(void);
-void fichas_alfil_print(void);
-void fichas_caballo_print(void);
-void fichas_reina_print(void);
-void fichas_rey_print(void);
+void fichas_peon_print(color_ficha_t color, uint16_t x, uint8_t y);
+void fichas_peon_UART(UART_channel_t UART_name);
 
-void fichas_vacio_print(void);
+void fichas_torre_print(color_ficha_t color, uint16_t x, uint8_t y);
+void fichas_torre_UART(UART_channel_t UART_name);
+
+void fichas_alfil_print(color_ficha_t color, uint16_t x, uint8_t y);
+void fichas_alfil_UART(UART_channel_t UART_name);
+
+void fichas_caballo_print(color_ficha_t color, uint16_t x, uint8_t y);
+void fichas_caballo_UART(UART_channel_t UART_name);
+
+void fichas_reina_print(color_ficha_t color, uint16_t x, uint8_t y);
+void fichas_reina_UART(UART_channel_t UART_name);
+
+void fichas_rey_print(color_ficha_t color, uint16_t x, uint8_t y);
+void fichas_rey_UART(UART_channel_t UART_name);
+
+void fichas_vacio_print(color_ficha_t color, uint16_t x, uint8_t y);
+void fichas_vacio_UART(UART_channel_t UART_name, uint8_t color);
 
 #endif /* FICHAS_H_ */

@@ -11,9 +11,6 @@
 #include "UART.h"
 #include "fichas.h"
 
-#define NUM_TO_ASCII(a) (a + 0x30)
-
-void tablero_mover_cursor (uint16_t x, uint8_t y);
 void tablero_init(void);
 void tablero_acomodo_arreglo(void);
 void tablero_print_fichas(void);
