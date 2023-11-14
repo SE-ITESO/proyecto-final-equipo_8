@@ -19,16 +19,6 @@ void PIT_set_flag_nintendo(uint8_t pit)
 
 void control_nintendo_init(void)
 {
-	/*PIT configuration*/
-	PIT_enable();
-	PIT_set_time(PIT_CH3, TIEMPO_CH3);
-	PIT_enable_channel_interrupt(PIT_CH3);
-	PIT_callback_init(channel_3, PIT_set_flag_nintendo);
-	PIT_start_channel(PIT_CH3);
-
-	NVIC_set_basepri_threshold(0x0);
-	NVIC_enable_interrupt_and_priotity(PIT_CH3_IRQ, PRIORITY_3);
-
 
 	GPIO_activate_clock_port(PORT_D);
 
@@ -63,112 +53,80 @@ void control_nintendo_init(void)
 	GPIO_general_configuration_pin(PORT_D_PIN_BASE_ADDR, bit_3, &data_config);
 	GPIO_configure_pin_input_output(GPIO_D, bit_3, PIN_INPUT);
 
+	/*PIT configuration*/
+	PIT_enable();
+	PIT_set_time(PIT_CH3, TIEMPO_CH3);
+	PIT_enable_channel_interrupt(PIT_CH3);
+	PIT_callback_init(channel_3, PIT_set_flag_nintendo);
+	PIT_start_channel(PIT_CH3);
+
+	NVIC_set_basepri_threshold(0x0);
+	NVIC_enable_interrupt_and_priotity(PIT_CH3_IRQ, PRIORITY_3);
+
 }
 
-void control_nintendo_control(uint8_t g_array_buttons[7])
+void control_nintendo_control(uint8_t array_buttons[7])
 {
 	static uint8_t state = 0;
+	static uint16_t counter_to_latch = 0;
+	static uint8_t control_index = 0;
 
-	switch (state)
+	if(FALSE != PIT_nintendo_flag)
 	{
-	case 0:
-		GPIO_set_output_port(GPIO_D, BIT_LATCH);
-	break;
-	case 1:
-		GPIO_clear_output_port(GPIO_D, BIT_LATCH);
-	break;
 
-	case 2:
-		GPIO_set_output_port(GPIO_D, BIT_CLOCK);
-	break;
-	case 3:
-		GPIO_clear_output_port(GPIO_D, BIT_CLOCK);
-	break;
-	case 4:
-		if (FALSE == GPIO_read_input_pin(GPIO_D, BIT_DATA))
-			g_array_buttons[0] = TRUE;
-	break;
+		PIT_nintendo_flag = 0;
 
-	case 5:
-		GPIO_set_output_port(GPIO_D, BIT_CLOCK);
-	break;
-	case 6:
-		GPIO_clear_output_port(GPIO_D, BIT_CLOCK);
-	break;
-	case 7:
-		if (FALSE == GPIO_read_input_pin(GPIO_D, BIT_DATA))
-			g_array_buttons[1] = TRUE;
-	break;
-	case 8:
-		GPIO_set_output_port(GPIO_D, BIT_CLOCK);
-	break;
-	case 9:
-		GPIO_clear_output_port(GPIO_D, BIT_CLOCK);
-	break;
-	case 10:
-		if (FALSE == GPIO_read_input_pin(GPIO_D, BIT_DATA))
-			g_array_buttons[2] = TRUE;
-	break;
-	case 11:
-		GPIO_set_output_port(GPIO_D, BIT_CLOCK);
-	break;
-	case 12:
-		GPIO_clear_output_port(GPIO_D, BIT_CLOCK);
-	break;
-	case 13:
-		if (FALSE == GPIO_read_input_pin(GPIO_D, BIT_DATA))
-			g_array_buttons[3] = TRUE;
-	break;
-	case 14:
-		GPIO_set_output_port(GPIO_D, BIT_CLOCK);
-	break;
-	case 15:
-		GPIO_clear_output_port(GPIO_D, BIT_CLOCK);
-	break;
-	case 16:
-		if (FALSE == GPIO_read_input_pin(GPIO_D, BIT_DATA))
-			g_array_buttons[4] = TRUE;
-	break;
-	case 17:
-		GPIO_set_output_port(GPIO_D, BIT_CLOCK);
-	break;
-	case 18:
-		GPIO_clear_output_port(GPIO_D, BIT_CLOCK);
-	break;
-	case 19:
-		if (FALSE == GPIO_read_input_pin(GPIO_D, BIT_DATA))
-			g_array_buttons[5] = TRUE;
-	break;
-	case 20:
-		GPIO_set_output_port(GPIO_D, BIT_CLOCK);
-	break;
-	case 21:
-		GPIO_clear_output_port(GPIO_D, BIT_CLOCK);
-	break;
-	case 22:
-		if (FALSE == GPIO_read_input_pin(GPIO_D, BIT_DATA))
-			g_array_buttons[6] = TRUE;
-	break;
-	case 23:
-		GPIO_set_output_port(GPIO_D, BIT_CLOCK);
-	break;
-	case 24:
-		GPIO_clear_output_port(GPIO_D, BIT_CLOCK);
-	break;
-	case 25:
-		if (FALSE == GPIO_read_input_pin(GPIO_D, BIT_DATA))
-			g_array_buttons[7] = TRUE;
-	break;
-
-	}
-
-	if (FALSE != PIT_nintendo_flag)
+		switch (state)
 		{
-			state++;
-			if (state == 26)
+		case 0:
+			counter_to_latch++;
+
+			if (1500 < counter_to_latch)	//12u * 1500 = 18milis
+			{
+				counter_to_latch=0;
+				state = 1;
+			}
+
+		break;
+		case 1:
+			GPIO_set_output_port(GPIO_D, BIT_LATCH);
+			state = 2;
+		break;
+		case 2:
+			GPIO_clear_output_port(GPIO_D, BIT_LATCH);
+			state = 3;
+		break;
+		case 3:
+			GPIO_set_output_port(GPIO_D, BIT_CLOCK);
+			state = 4;
+		break;
+		case 4:
+			GPIO_clear_output_port(GPIO_D, BIT_CLOCK);
+			state = 5;
+		break;
+		case 5:
+
+			if (FALSE == GPIO_read_input_pin(GPIO_D, BIT_DATA))
+			{
+				array_buttons[control_index] = TRUE;
+			}
+
+			if (7 <= control_index)
+			{
 				state = 0;
-			PIT_nintendo_flag = 0;
+				control_index = 0;
+			}else{
+				state = 3;
+				control_index++;
+			}
+
+		break;
+		default:
+			state = 0;
+		break;
+
 		}
+	}
 
 }
 

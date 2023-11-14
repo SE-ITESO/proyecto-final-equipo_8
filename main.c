@@ -10,7 +10,7 @@
 
 int main(void)
 {
-	static uint8_t g_array_buttons[7] = {0};
+	static uint8_t g_array_buttons[8] = {0};
 
 	control_nintendo_init();
 
