@@ -81,7 +81,7 @@ void control_nintendo_control(uint8_t array_buttons[7])
 		case 0:
 			counter_to_latch++;
 
-			if (1500 < counter_to_latch)	//12u * 1500 = 18milis
+			if (150 < counter_to_latch)	//12u * 1500 = 18milis
 			{
 				counter_to_latch=0;
 				state = 1;
@@ -96,31 +96,34 @@ void control_nintendo_control(uint8_t array_buttons[7])
 			GPIO_clear_output_port(GPIO_D, BIT_LATCH);
 			state = 3;
 		break;
+
 		case 3:
-			GPIO_set_output_port(GPIO_D, BIT_CLOCK);
-			state = 4;
-		break;
-		case 4:
-			GPIO_clear_output_port(GPIO_D, BIT_CLOCK);
-			state = 5;
-		break;
-		case 5:
 
 			if (FALSE == GPIO_read_input_pin(GPIO_D, BIT_DATA))
 			{
 				array_buttons[control_index] = TRUE;
 			}
 
-			if (7 <= control_index)
+			if (6 < control_index)
 			{
 				state = 0;
 				control_index = 0;
 			}else{
-				state = 3;
+				state = 4;
 				control_index++;
 			}
 
 		break;
+
+		case 4:
+			GPIO_set_output_port(GPIO_D, BIT_CLOCK);
+			state = 5;
+		break;
+		case 5:
+			GPIO_clear_output_port(GPIO_D, BIT_CLOCK);
+			state = 3;
+		break;
+
 		default:
 			state = 0;
 		break;
