@@ -18,7 +18,7 @@ int main(void)
 	for(;;)
 	{
 		control_nintendo_control(CONTROL_1, g_array_buttons_control_1);
-		//control_nintendo_control(CONTROL_2, g_array_buttons_control_2);
+		control_nintendo_control(CONTROL_2, g_array_buttons_control_2);
 	}
 
 }

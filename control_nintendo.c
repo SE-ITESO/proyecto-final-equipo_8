@@ -81,9 +81,9 @@ void control_nintendo_init(void)
 
 void control_nintendo_control(control_num_t control, uint8_t array_buttons[7])
 {
-	static uint8_t state = 0;
-	static uint16_t counter_to_latch = 0;
-	static uint8_t control_index = A;
+	static uint8_t state[2] = {0,0};
+	static uint16_t counter_to_latch[2] = {0,0};
+	static uint8_t control_index[2] = {0,0};
 
 	uint32_t data = 0;
 	uint32_t clock = 0;
@@ -105,60 +105,59 @@ void control_nintendo_control(control_num_t control, uint8_t array_buttons[7])
 
 		PIT_nintendo_flag[control] = 0;
 
-		switch (state)
+		switch (state[control])
 		{
 		case 0:
-			counter_to_latch++;
+			counter_to_latch[control]++;
 
-			if (150 < counter_to_latch)	//12u * 1500 = 18milis
+			if (150 < counter_to_latch[control])	//12u * 1500 = 18milis
 			{
-				counter_to_latch=0;
-				state = 1;
+				counter_to_latch[control]=0;
+				state[control] = 1;
 			}
 
 		break;
 		case 1:
 			GPIO_set_output_port(GPIO_C, latch);
-			state = 2;
+			state[control] = 2;
 		break;
 		case 2:
 			GPIO_clear_output_port(GPIO_C, latch);
-			state = 3;
+			state[control] = 3;
 		break;
 
 		case 3:
 
 			if (FALSE == GPIO_read_input_pin(GPIO_C, data))
 			{
-				array_buttons[control_index] = TRUE;
+				array_buttons[control_index[control]] = TRUE;
 			}
 
-			if (6 < control_index)
+			if (6 < control_index[control])
 			{
-				state = 0;
-				control_index = 0;
+				state[control] = 0;
+				control_index[control] = 0;
 			}else{
-				state = 4;
-				control_index++;
+				state[control] = 4;
+				control_index[control]++;
 			}
 
 		break;
 
 		case 4:
 			GPIO_set_output_port(GPIO_C, clock);
-			state = 5;
+			state[control] = 5;
 		break;
 		case 5:
 			GPIO_clear_output_port(GPIO_C, clock);
-			state = 3;
+			state[control] = 3;
 		break;
 
 		default:
-			state = 0;
+			state[control] = 0;
 		break;
 
 		}
 	}
 
 }
-
