@@ -1,18 +1,7 @@
 #include <temporizador.h>
 
 static uint8_t tiempo_restante[2] = {0, 0};
-
-void temporizador_init(uint8 tiempo_inicial)
-{
-	tiempo_restante[0] = tiempo_inicial;
-	tiempo_restante[1] = tiempo_inicial;
-}
-
-void temporizador_cero_print(uint16_t posicion)
-{
-	temporizador_mover_cursor(UART_0, posicion);
-	temporizador_cero_UART(UART_0);
-}
+static uint8_t g_temporizador_posicion[] = {'\e','[','0','0',';','0','0','0','H','\0'};
 
 void temporizador_mover_cursor(UART_channel_t UART_name, uint8_t posicion)
 {
@@ -29,50 +18,27 @@ void temporizador_mover_cursor(UART_channel_t UART_name, uint8_t posicion)
 
 	g_temporizador_posicion[2] = NUM_TO_ASCII(0);
 	g_temporizador_posicion[3] = NUM_TO_ASCII(1);
-	UART_put_string(UART_name, g_posicion);
+	UART_put_string(UART_name, g_temporizador_posicion);
 }
 
-void temporizador_cero_UART(UART_0)
+void temporizador_cero_UART()
 {
-	uint8_t i = 0;
-
 	/*Nivel 1*/
-	UART_put_char(UART_name, DOWN_LLENO);
-	UART_put_char(UART_name, LLENO);
-	UART_put_char(UART_name, LLENO);
-	UART_put_char(UART_name, DOWN_LLENO);
-	g_salto[6] = '4';
-	UART_put_string(UART_name, g_salto);
+	UART_put_string(UART_0, "xdxdxdxd");
 
-	/*Nivel 2*/
-	UART_put_char(UART_name, UP_LLENO);
-	UART_put_char(UART_name, LLENO);
-	UART_put_char(UART_name, LLENO);
-	UART_put_char(UART_name, UP_LLENO);
-	g_salto[6] = '4';
-	UART_put_string(UART_name, g_salto);
+}
 
-	/*Nivel 3*/
-	for(i = 0; i < 4; i++)
-	{
-		UART_put_char(UART_name, LLENO);
-	}
-	g_salto[6] = '5';
-	UART_put_string(UART_name, g_salto);
 
-	/*Nivel 4*/
-	for(i = 0; i < 6; i++)
-	{
-		UART_put_char(UART_name, LLENO);
-	}
-	g_salto[6] = '7';
-	UART_put_string(UART_name, g_salto);
+void temporizador_cero_print(uint16_t posicion)
+{
+	temporizador_mover_cursor(UART_0, posicion);
+	temporizador_cero_UART(UART_0);
+}
 
-	/*Nivel 5*/
-	for(i = 0; i < 8; i++)
-	{
-		UART_put_char(UART_name, LLENO);
-	}
-	g_salto[6] = '8';
-	UART_put_string(UART_name, g_salto);
+void temporizador_init(uint8_t tiempo_inicial)
+{
+	tiempo_restante[0] = tiempo_inicial;
+	tiempo_restante[1] = tiempo_inicial;
+
+	temporizador_cero_print(0);
 }
