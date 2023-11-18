@@ -15,4 +15,6 @@ void tablero_init(void);
 void tablero_acomodo_arreglo(void);
 void tablero_print_fichas(void);
 
+void tablero_switch_string(uint8_t* array, uint8_t old_character, uint8_t new_character);
+
 #endif /* TABLERO_H_ */
