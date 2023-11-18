@@ -20,12 +20,8 @@
 #include "MK64F12.h"
 #include "fsl_debug_console.h"
 
-#include "fichas.h"
-#include "tablero.h"
-#include "temporizador.h"
+#include "ajedrez.h"
 #include "NVIC.h"
-
-static uint8_t g_mover_arriba[] = "\033[10A";
 
 int main(void) {
 	CLOCK_SetSimSafeDivs();
@@ -37,19 +33,8 @@ int main(void) {
 	NVIC_enable_interrupt_and_priotity(UART0_IRQ, PRIORITY_10);
 	NVIC_enable_interrupt_and_priotity(UART4_IRQ, PRIORITY_10);
 
-	tablero_init();
-	temporizador_init(5);
-
-	UART_put_string(UART_0, "\033[30;30H");
-	UART_put_string(UART_0, g_mover_arriba);
-
-	int i = 0;
-/*
-	for(i = 0; i < 3; i++)
-	{
-		UART_put_char(UART_0, 32);
-	}
-*/
+	ajedrez_init();
+	//tablero_init();
 
 	//fichas_peon_print();
 	//fichas_torre_print();
@@ -58,7 +43,8 @@ int main(void) {
 	//fichas_reina_print();
 	//fichas_rey_print();
 
-	//UART_put_string(UART_0, "Hola puto");
-    while(1) {
+    while(1)
+    {
+    	ajedrez_control();
     }
 }

@@ -16,13 +16,21 @@ static struct_ficha_t g_ficha_generica =
 
 static struct_ficha_t g_array_ajedrez[64];
 
-static uint8_t g_array_init[] = "\033[0;34;46m"
-		"\033[2J";
+void tablero_switch_string(uint8_t* array, uint8_t old_character, uint8_t new_character)
+{
+	int i = 0;
+	while(0 != *(array + i)){
+		if(old_character == (*(array + i)))
+		{
+			*(array + i) = new_character;
+		}
+		i++;
+	}
+}
 
 void tablero_init(void)
 {
-	UART_put_string(UART_0, g_array_init);
-	UART_put_string(UART_4, g_array_init);
+
 
 	uint8_t i;
 	uint8_t l;
