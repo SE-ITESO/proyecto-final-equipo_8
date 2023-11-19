@@ -22,7 +22,8 @@ typedef enum{
 	blancas,
 	negras,
 	azul,
-	cyan
+	cyan,
+	rojo
 }color_ficha_t;
 
 typedef enum{
@@ -75,5 +76,7 @@ void fichas_rey_UART(UART_channel_t UART_name);
 
 void fichas_vacio_print(color_ficha_t color, uint16_t x, uint8_t y);
 void fichas_vacio_UART(UART_channel_t UART_name, uint8_t color);
+
+void fichas_seleccion_print(UART_channel_t UART_name, color_ficha_t color);
 
 #endif /* FICHAS_H_ */

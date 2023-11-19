@@ -10,6 +10,10 @@ static uint8_t g_salto[] = {'\e','[','1','B','\e','[','0','D','\0'};
 
 static uint8_t g_salto_16[] = {'\e','[','1','B','\e','[','1','6','D','\0'};
 
+static uint8_t g_salto_n[] = {'\e','[','1','B','\e','[','5','D','\0'};
+
+static uint8_t g_regreso_n[] = {'\e','[','5','A','\0'};
+
 static uint8_t g_array_color_white[] = "\033[37m";
 
 static uint8_t g_array_color_black[] = "\033[30m";
@@ -17,6 +21,8 @@ static uint8_t g_array_color_black[] = "\033[30m";
 static uint8_t g_array_color_blue[] = "\033[34m";
 
 static uint8_t g_array_color_cyan[] = "\033[36m";
+
+static uint8_t g_array_color_rojo[] = "\033[31m";
 
 static uint8_t g_posicion[] = {'\e','[','0','0',';','0','0','0','H','\0'};
 
@@ -79,6 +85,9 @@ void fichas_color(UART_channel_t UART_name, color_ficha_t color)
 		break;
 	case cyan:
 		UART_put_string(UART_name, g_array_color_cyan);
+		break;
+	case rojo:
+		UART_put_string(UART_name, g_array_color_rojo);
 		break;
 	default:
 		break;
@@ -500,4 +509,21 @@ void fichas_vacio_UART(UART_channel_t UART_name, uint8_t color)
 		}
 		UART_put_string(UART_name, g_salto_16);
 	}
+}
+
+void fichas_seleccion_print(UART_channel_t UART_name, color_ficha_t color)
+{
+	uint8_t i;
+	uint8_t l;
+
+	fichas_color(UART_name, color);
+	for(l = 0; l < 5; l++)
+	{
+		for(i = 0; i < 5; i++)
+		{
+			UART_put_char(UART_name, LLENO);
+		}
+		UART_put_string(UART_name, g_salto_n);
+	}
+	UART_put_string(UART_name, g_regreso_n);
 }

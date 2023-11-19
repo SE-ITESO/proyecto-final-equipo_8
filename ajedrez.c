@@ -12,6 +12,10 @@ static uint8_t g_array_init[] = "\033[0;34;46m"
 
 static uint8_t g_array_clear[] = "\033[2J";
 
+static uint8_t g_log = log_0;
+
+static uint8_t g_turno = jugador_1;
+
 static uint8_t g_buttons_control_1[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 static uint8_t g_buttons_control_2[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 
@@ -66,63 +70,63 @@ static uint8_t g_array_guardado_2[] =
 
 static uint8_t g_array_guardado_3[] =
 		//L   O   G        1
-		"-   --- ----      - "
-		"\e[1B\e[20D"
-		"-   - - -        -- "
-		"\e[1B\e[20D"
-		"-   - - - --      - "
-		"\e[1B\e[20D"
-		"-   - - -  -      - "
-		"\e[1B\e[20D"
-		"--- --- ----     ---";
+		"-   ---- ----      - "
+		"\e[1B\e[21D"
+		"-   -  - -        -- "
+		"\e[1B\e[21D"
+		"-   -  - - --      - "
+		"\e[1B\e[21D"
+		"-   -  - -  -      - "
+		"\e[1B\e[21D"
+		"--- ---- ----     ---";
 
 static uint8_t g_array_guardado_4[] =
 		//L   O   G        2
-		"-   --- ----     ----"
-		"\e[1B\e[21D"
-		"-   - - -           -"
-		"\e[1B\e[21D"
-		"-   - - - --     ----"
-		"\e[1B\e[21D"
-		"-   - - -  -     -   "
-		"\e[1B\e[21D"
-		"--- --- ----     ----";
+		"-   ---- ----     ----"
+		"\e[1B\e[22D"
+		"-   -  - -           -"
+		"\e[1B\e[22D"
+		"-   -  - - --     ----"
+		"\e[1B\e[22D"
+		"-   -  - -  -     -   "
+		"\e[1B\e[22D"
+		"--- ---- ----     ----";
 
 static uint8_t g_array_guardado_5[] =
 		//L   O   G        3
-		"-   --- ----     ---"
-		"\e[1B\e[20D"
-		"-   - - -          -"
-		"\e[1B\e[20D"
-		"-   - - - --     ---"
-		"\e[1B\e[20D"
-		"-   - - -  -       -"
-		"\e[1B\e[20D"
-		"--- --- ----     ---";
+		"-   ---- ----     ---"
+		"\e[1B\e[21D"
+		"-   -  - -          -"
+		"\e[1B\e[21D"
+		"-   -  - - --     ---"
+		"\e[1B\e[21D"
+		"-   -  - -  -       -"
+		"\e[1B\e[21D"
+		"--- ---- ----     ---";
 
 static uint8_t g_array_guardado_6[] =
 		//L   O   G        4
-		"-   --- ----     -  -"
-		"\e[1B\e[21D"
-		"-   - - -        -  -"
-		"\e[1B\e[21D"
-		"-   - - - --     ----"
-		"\e[1B\e[21D"
-		"-   - - -  -        -"
-		"\e[1B\e[21D"
-		"--- --- ----        -";
+		"-   ---- ----     -  -"
+		"\e[1B\e[22D"
+		"-   -  - -        -  -"
+		"\e[1B\e[22D"
+		"-   -  - - --     ----"
+		"\e[1B\e[22D"
+		"-   -  - -  -        -"
+		"\e[1B\e[22D"
+		"--- ---- ----        -";
 
 static uint8_t g_array_guardado_7[] =
 		//L   O   G        5
-		"-   --- ----     ----"
-		"\e[1B\e[21D"
-		"-   - - -        -   "
-		"\e[1B\e[21D"
-		"-   - - - --     ----"
-		"\e[1B\e[21D"
-		"-   - - -  -        -"
-		"\e[1B\e[21D"
-		"--- --- ----     ----";
+		"-   ---- ----     ----"
+		"\e[1B\e[22D"
+		"-   -  - -        -   "
+		"\e[1B\e[22D"
+		"-   -  - - --     ----"
+		"\e[1B\e[22D"
+		"-   -  - -  -        -"
+		"\e[1B\e[22D"
+		"--- ---- ----     ----";
 
 static uint8_t g_array_regresar[] =
 		// R    E   G     R    E   S    A    R
@@ -136,7 +140,7 @@ static uint8_t g_array_regresar[] =
 		"\e[1B\e[39D"
 		" -  - --- ----  -  - --- ---- - -  -  -";
 
-static ventana_function g_array_ventana_function[] = {ajedrez_v_menu, ajedrez_v_save};
+static ventana_function g_array_ventana_function[] = {ajedrez_v_menu, ajedrez_v_save, ajedrez_v_juego};
 
 static uint8_t g_ventana = v_inicio;
 static uint8_t g_modo = 0;
@@ -174,6 +178,7 @@ void ajedrez_v_menu(uint8_t * modo)
 	switch(*modo)
 	{
 	case 0:
+		UART_put_string(UART_0, g_array_clear);
 		fichas_mover_cursor(UART_0, 10, 10);
 		UART_put_string(UART_0, g_array_menu_1);
 		UART_put_string(UART_0, g_array_menu_2);
@@ -183,7 +188,6 @@ void ajedrez_v_menu(uint8_t * modo)
 		{
 			control_nintendo_clear(g_buttons_control_1);
 			control_nintendo_clear(g_buttons_control_2);
-			UART_put_string(UART_0, g_array_clear);
 			g_ventana = v_save;
 			*modo = 0;
 		}
@@ -193,25 +197,111 @@ void ajedrez_v_menu(uint8_t * modo)
 
 void ajedrez_v_save(uint8_t * modo)
 {
+	static uint8_t coor_y;
 	switch(*modo)
 	{
 	case 0:
+		UART_put_string(UART_0, g_array_clear);
 		fichas_mover_cursor(UART_0, 10, 10);
 		UART_put_string(UART_0, g_array_guardado_1);
-		fichas_mover_cursor(UART_0, 15, 15);
+		fichas_mover_cursor(UART_0, 25, 16);
 		UART_put_string(UART_0, g_array_guardado_2);
-		fichas_mover_cursor(UART_0, 15, 20);
+		fichas_mover_cursor(UART_0, 25, 22);
 		UART_put_string(UART_0, g_array_guardado_3);
-		fichas_mover_cursor(UART_0, 15, 25);
+		fichas_mover_cursor(UART_0, 25, 28);
 		UART_put_string(UART_0, g_array_guardado_4);
-		fichas_mover_cursor(UART_0, 15, 30);
+		fichas_mover_cursor(UART_0, 25, 34);
 		UART_put_string(UART_0, g_array_guardado_5);
-		fichas_mover_cursor(UART_0, 15, 35);
+		fichas_mover_cursor(UART_0, 25, 40);
 		UART_put_string(UART_0, g_array_guardado_6);
-		fichas_mover_cursor(UART_0, 15, 40);
+		fichas_mover_cursor(UART_0, 25, 46);
 		UART_put_string(UART_0, g_array_guardado_7);
+
+		fichas_mover_cursor(UART_0, 25, 52);
+		UART_put_string(UART_0, g_array_regresar);
+
+		fichas_mover_cursor(UART_0, 10, 16);
+		fichas_seleccion_print(UART_0, rojo);
+
+		coor_y = 16;
 		*modo = 1;
 	case 1:  		//espera a que se seleccione una opción
+		if((FALSE != g_buttons_control_1[DOWN]) | (FALSE != g_buttons_control_2[DOWN]))
+		{
+			fichas_mover_cursor(UART_0, 10, coor_y);
+			fichas_seleccion_print(UART_0, cyan);
+
+			if(52 == coor_y)
+			{
+				coor_y = 16;
+			}
+			else
+			{
+				coor_y += 6;
+			}
+
+			fichas_mover_cursor(UART_0, 10, coor_y);
+			fichas_seleccion_print(UART_0, rojo);
+
+			g_buttons_control_1[DOWN] = FALSE;
+			g_buttons_control_2[DOWN] = FALSE;
+		}
+		else if((FALSE != g_buttons_control_1[UP]) | (FALSE != g_buttons_control_2[UP]))
+		{
+			fichas_mover_cursor(UART_0, 10, coor_y);
+			fichas_seleccion_print(UART_0, cyan);
+
+			if(16 == coor_y)
+			{
+				coor_y = 52;
+			}
+			else
+			{
+				coor_y -= 6;
+			}
+
+			fichas_mover_cursor(UART_0, 10, coor_y);
+			fichas_seleccion_print(UART_0, rojo);
+
+			g_buttons_control_1[UP] = FALSE;
+			g_buttons_control_2[UP] = FALSE;
+		}
+		else if((FALSE != g_buttons_control_1[A]) | (FALSE != g_buttons_control_2[A]))
+		{
+			coor_y = (coor_y - 16) / 6;
+			if(6 > coor_y)
+			{
+				g_log = coor_y;
+				control_nintendo_clear(g_buttons_control_1);
+				control_nintendo_clear(g_buttons_control_2);
+				*modo = 0;
+				g_ventana = v_juego;
+			}
+			else
+			{
+				control_nintendo_clear(g_buttons_control_1);
+				control_nintendo_clear(g_buttons_control_2);
+				fichas_color(UART_0, azul);
+				*modo = 0;
+				g_ventana = v_inicio;
+			}
+		}
+		break;
+	}
+}
+
+void ajedrez_v_juego(uint8_t * modo)
+{
+	uint8_t status;
+	switch(*modo)
+	{
+	case 0:
+		UART_put_string(UART_0, g_array_clear);
+		tablero_init();
+		*modo = 1;
+	case 1:
+
+		status = tablero_control();
 		break;
 	}
 }

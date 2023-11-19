@@ -16,7 +16,7 @@
 #include "GPIO.h"
 #include "NVIC.h"
 
-#define TIEMPO_CH3		(1260U)
+#define TIEMPO_CH3		(10500U)
 
 #define BIT_DATA_C1			(bit_0)
 #define BIT_CLOCK_C1		(BIT_ON << 5)

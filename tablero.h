@@ -17,4 +17,6 @@ void tablero_print_fichas(void);
 
 void tablero_switch_string(uint8_t* array, uint8_t old_character, uint8_t new_character);
 
+uint8_t tablero_control(void);
+
 #endif /* TABLERO_H_ */

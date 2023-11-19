@@ -30,8 +30,8 @@ void tablero_switch_string(uint8_t* array, uint8_t old_character, uint8_t new_ch
 
 void tablero_init(void)
 {
-
-
+	fichas_color(UART_0, azul);
+	fichas_color(UART_4, azul);
 	uint8_t i;
 	uint8_t l;
 	uint16_t temp_x;
@@ -128,4 +128,9 @@ void tablero_print_fichas(void)
 		coordenada_y = (((i + 48) / 8) * 8) + 1;
 		g_array_ajedrez[i + 48].print_ficha(g_array_ajedrez[i + 48].color, coordenada_x, coordenada_y);
 	}
+}
+
+uint8_t tablero_control(void)
+{
+
 }
