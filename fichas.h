@@ -56,6 +56,7 @@ typedef struct
 	name_ficha_t ficha_name;
 	funct_print_ficha print_ficha;
 	color_ficha_t color;
+	uint8_t posible_mov;
 	struct_opciones_t opciones;
 }struct_ficha_t;
 
@@ -104,5 +105,7 @@ void fichas_seleccion_print(UART_channel_t UART_name, color_ficha_t color);
 
 void fichas_print_opcion(uint8_t UART_num);
 void fichas_mostrar_opciones(struct_opciones_t* posibilidades, uint8_t jugador, struct_ficha_t ajedrez[64]);
+
+void fichas_clear_opciones(struct_opciones_t* posibilidades, UART_channel_t UART_name, struct_ficha_t ajedrez[64]);
 
 #endif /* FICHAS_H_ */

@@ -13,7 +13,8 @@ static struct_ficha_t g_ficha_generica =
 {
 		indefinido,
 		fichas_vacio_print,
-		ninguno
+		ninguno,
+		FALSE
 };
 
 static funct_mov_ficha g_funct_movimiento[] =
@@ -142,6 +143,9 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button)
 	static uint8_t coordenada_x = 0;
 	static uint8_t coordenada_y = 7;
 	static struct_ficha_t ficha;
+	static struct_ficha_t ficha_seleccionada;
+	static uint8_t x_selec = 0;
+	static uint8_t y_selec = 0;
 	switch(g_modo)
 	{
 
@@ -256,7 +260,10 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button)
 	case 2:
 		g_funct_movimiento[ficha.ficha_name - 1](coordenada_x, coordenada_y, g_array_ajedrez);
 		ficha = *(g_array_ajedrez + coordenada_x + (coordenada_y * 8));
-		fichas_mostrar_opciones(&(ficha.opciones), *jugador, g_array_ajedrez);
+		ficha_seleccionada = *(g_array_ajedrez + coordenada_x + (coordenada_y * 8));
+		x_selec = coordenada_x;
+		y_selec = coordenada_y;
+		fichas_mostrar_opciones(&(ficha_seleccionada.opciones), *jugador, g_array_ajedrez);
 		fichas_color((*jugador) * 3, rojo);
 		g_modo = 3;
 		break;
@@ -268,7 +275,17 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button)
 
 			fichas_mover_cursor((*jugador) * 3, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
 			fichas_vacio_print(indefinido, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
-			ficha.print_ficha(ficha.color, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+			/*Opcion para imprimir el color previo*/
+			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			if(ficha.posible_mov)
+			{
+				fichas_mover_cursor((*jugador) * 3, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+				fichas_print_opcion((*jugador) * 3);
+			}
+			if(ninguno != ficha.ficha_name)
+			{
+				ficha.print_ficha(ficha.color, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+			}
 			if(7 == coordenada_x)
 			{
 				coordenada_x = 0;
@@ -285,7 +302,16 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button)
 
 			fichas_mover_cursor((*jugador) * 3, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
 			fichas_vacio_print(indefinido, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
-			ficha.print_ficha(ficha.color, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+			/*Opcion para imprimir el color previo*/
+			if(ficha.posible_mov)
+			{
+				fichas_mover_cursor((*jugador) * 3, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+				fichas_print_opcion((*jugador) * 3);
+			}
+			if(ninguno != ficha.ficha_name)
+			{
+				ficha.print_ficha(ficha.color, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+			}
 			if(0 == coordenada_x)
 			{
 				coordenada_x = 7;
@@ -302,7 +328,16 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button)
 
 			fichas_mover_cursor((*jugador) * 3, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
 			fichas_vacio_print(indefinido, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
-			ficha.print_ficha(ficha.color, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+			/*Opcion para imprimir el color previo*/
+			if(ficha.posible_mov)
+			{
+				fichas_mover_cursor((*jugador) * 3, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+				fichas_print_opcion((*jugador) * 3);
+			}
+			if(ninguno != ficha.ficha_name)
+			{
+				ficha.print_ficha(ficha.color, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+			}
 			if(0 == coordenada_y)
 			{
 				coordenada_y = 7;
@@ -319,7 +354,16 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button)
 
 			fichas_mover_cursor((*jugador) * 3, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
 			fichas_vacio_print(indefinido, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
-			ficha.print_ficha(ficha.color, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+			/*Opcion para imprimir el color previo*/
+			if(ficha.posible_mov)
+			{
+				fichas_mover_cursor((*jugador) * 3, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+				fichas_print_opcion((*jugador) * 3);
+			}
+			if(ninguno != ficha.ficha_name)
+			{
+				ficha.print_ficha(ficha.color, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+			}
 			if(7 == coordenada_y)
 			{
 				coordenada_y = 0;
@@ -333,6 +377,12 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button)
 		else if(FALSE != *(array_button + A))
 		{
 			*(array_button + A) = FALSE;
+			if(ficha.posible_mov)
+			{
+				fichas_clear_opciones((&ficha_seleccionada.opciones), (*jugador) * 3, g_array_ajedrez);
+				tablero_movimiento(x_selec, y_selec, coordenada_x, coordenada_y);
+				g_modo = 5;
+			}
 		}
 		break;
 
@@ -346,6 +396,23 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button)
 			ficha.print_ficha(ficha.color, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
 		}
 		g_modo = 3;
+		break;
+	case 5:
+		break;
 	}
 	return 0;
+}
+
+void tablero_movimiento(uint8_t x_old, uint8_t y_old, uint8_t x_new, uint8_t y_new)
+{
+	struct_ficha_t ficha;
+	ficha = *(g_array_ajedrez + x_old + (y_old * 8));
+	*(g_array_ajedrez + x_new + (y_new * 8)) = ficha;
+
+	ficha.print_ficha(ficha.color, (x_new * 16) + 1, (y_new * 8) + 1);
+
+	fichas_config(&ficha, ninguno, indefinido);
+	*(g_array_ajedrez + x_old + (y_old * 8)) = ficha;
+
+	ficha.print_ficha(ficha.color, (x_old * 16) + 1, (y_old * 8) + 1);
 }

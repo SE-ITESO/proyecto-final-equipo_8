@@ -72,6 +72,7 @@ void fichas_config(struct_ficha_t* ficha, name_ficha_t name, color_ficha_t color
 	}
 	ficha->ficha_name = name;
 	ficha->color = color;
+	ficha->posible_mov = FALSE;
 	ficha->opciones.number_opciones = 0;
 }
 
@@ -170,11 +171,13 @@ void fichas_peon_mov(uint8_t x, uint8_t y, struct_ficha_t ajedrez[64])
 		if(ninguno == (peon - 8)->ficha_name)
 		{
 			peon->opciones.valor_opciones[peon->opciones.number_opciones] = x + ((y - 1) * 8);
+			ajedrez[x + ((y - 1) * 8)].posible_mov = TRUE;
 			peon->opciones.number_opciones++;
 		}
 		if((ninguno == (peon - 16)->ficha_name) & (6 == y))
 		{
 			peon->opciones.valor_opciones[peon->opciones.number_opciones] = x + ((y - 2) * 8);
+			ajedrez[x + ((y - 2) * 8)].posible_mov = TRUE;
 			peon->opciones.number_opciones++;
 		}
 	}
@@ -183,11 +186,13 @@ void fichas_peon_mov(uint8_t x, uint8_t y, struct_ficha_t ajedrez[64])
 		if(ninguno == (peon + 8)->ficha_name)
 		{
 			peon->opciones.valor_opciones[peon->opciones.number_opciones] = x + ((y + 1) * 8);
+			ajedrez[x + ((y + 1) * 8)].posible_mov = TRUE;
 			peon->opciones.number_opciones++;
 		}
 		if((ninguno == (peon + 16)->ficha_name) & (1 == y))
 		{
 			peon->opciones.valor_opciones[peon->opciones.number_opciones] = x + ((y + 2) * 8);
+			ajedrez[x + ((y + 2) * 8)].posible_mov = TRUE;
 			peon->opciones.number_opciones++;
 		}
 	}
@@ -587,6 +592,22 @@ void fichas_print_opcion(uint8_t UART_num)
 		}
 		UART_put_string(UART_num, g_salto_16);
 	}
+}
+
+void fichas_clear_opciones(struct_opciones_t* posibilidades, UART_channel_t UART_name, struct_ficha_t ajedrez[64])
+{
+	uint8_t i;
+	uint8_t x;
+	uint8_t y;
+	for(i = 0; i < posibilidades->number_opciones; i++)
+	{
+		ajedrez[posibilidades->valor_opciones[i]].posible_mov = FALSE;
+		x = posibilidades->valor_opciones[i] % 8;
+		y = posibilidades->valor_opciones[i] / 8;
+		fichas_mover_cursor(UART_name, (x * 16) + 1, (y * 8) + 1);
+		fichas_vacio_print(indefinido, (x * 16) + 1, (y * 8) + 1);
+	}
+	posibilidades->number_opciones = 0;
 }
 
 void fichas_mostrar_opciones(struct_opciones_t* posibilidades, uint8_t jugador, struct_ficha_t ajedrez[64])
