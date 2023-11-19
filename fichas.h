@@ -23,7 +23,8 @@ typedef enum{
 	negras,
 	azul,
 	cyan,
-	rojo
+	rojo,
+	verde
 }color_ficha_t;
 
 typedef enum{

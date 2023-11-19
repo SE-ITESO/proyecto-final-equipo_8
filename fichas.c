@@ -24,6 +24,8 @@ static uint8_t g_array_color_cyan[] = "\033[36m";
 
 static uint8_t g_array_color_rojo[] = "\033[31m";
 
+static uint8_t g_array_color_verde[] = "\033[32m";
+
 static uint8_t g_posicion[] = {'\e','[','0','0',';','0','0','0','H','\0'};
 
 void fichas_mover_cursor(UART_channel_t UART_name, uint16_t x, uint8_t y)
@@ -88,6 +90,9 @@ void fichas_color(UART_channel_t UART_name, color_ficha_t color)
 		break;
 	case rojo:
 		UART_put_string(UART_name, g_array_color_rojo);
+		break;
+	case verde:
+		UART_put_string(UART_name, g_array_color_verde);
 		break;
 	default:
 		break;
@@ -488,6 +493,8 @@ void fichas_vacio_print(color_ficha_t color, uint16_t x, uint8_t y)
 	}
 	else
 	{
+		fichas_color(UART_0, azul);
+		fichas_color(UART_4, azul);
 		colorear = LLENO;
 	}
 	fichas_mover_cursor(UART_0, x, y);

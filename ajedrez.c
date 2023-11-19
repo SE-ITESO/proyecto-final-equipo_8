@@ -292,7 +292,8 @@ void ajedrez_v_save(uint8_t * modo)
 
 void ajedrez_v_juego(uint8_t * modo)
 {
-	uint8_t status;
+	//uint8_t status;
+	uint8_t* pointer_button;
 	switch(*modo)
 	{
 	case 0:
@@ -300,8 +301,15 @@ void ajedrez_v_juego(uint8_t * modo)
 		tablero_init();
 		*modo = 1;
 	case 1:
-
-		status = tablero_control();
+		if(jugador_1 == g_turno)
+		{
+			pointer_button = g_buttons_control_1;
+		}
+		else
+		{
+			pointer_button = g_buttons_control_2;
+		}
+		tablero_control(&g_turno, pointer_button);
 		break;
 	}
 }

@@ -7,6 +7,8 @@
 
 #include "tablero.h"
 
+static uint8_t g_modo = 1;
+
 static struct_ficha_t g_ficha_generica =
 {
 		indefinido,
@@ -130,7 +132,42 @@ void tablero_print_fichas(void)
 	}
 }
 
-uint8_t tablero_control(void)
+uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button)
 {
+	static uint8_t coordenada_x = 0;
+	static uint8_t coordenada_y = 7;
+	static struct_ficha_t ficha;
+	switch(g_modo)
+	{
+	case 0:
+		if(FALSE != *(array_button + RIGHT))
+		{
+			*(array_button + RIGHT) = FALSE;
 
+			fichas_mover_cursor((*jugador) * 3, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+			fichas_vacio_print(indefinido, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+			ficha.print_ficha(ficha.color, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+			if(7 == coordenada_x)
+			{
+				coordenada_x = 0;
+			}
+			else
+			{
+				coordenada_x ++;
+			}
+			g_modo = 1;
+		}
+		break;
+	case 1:
+		ficha = *(g_array_ajedrez + coordenada_x + (coordenada_y * 8));
+		fichas_mover_cursor((*jugador) * 3, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+		fichas_color((*jugador) * 3, verde);
+		fichas_vacio_UART((*jugador) * 3, LLENO);
+		ficha.print_ficha(ficha.color, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+
+		g_modo = 0;
+		break;
+	}
+
+	return 0;
 }
