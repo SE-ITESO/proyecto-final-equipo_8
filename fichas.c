@@ -613,7 +613,7 @@ void fichas_clear_opciones(struct_opciones_t* posibilidades, UART_channel_t UART
 void fichas_mostrar_opciones(struct_opciones_t* posibilidades, uint8_t jugador, struct_ficha_t ajedrez[64])
 {
 	uint8_t index;
-	uint8_t UART_num = jugador * 3;
+	uint8_t UART_num = jugador * 4;
 	uint8_t x;
 	uint8_t y;
 	struct_ficha_t ficha;
@@ -622,10 +622,25 @@ void fichas_mostrar_opciones(struct_opciones_t* posibilidades, uint8_t jugador, 
 		x = posibilidades->valor_opciones[index] % 8;
 		y = posibilidades->valor_opciones[index] / 8;
 		ficha = *(ajedrez + x + (y * 8));
-		fichas_mover_cursor(UART_num, (x * 16) + 1, (y * 8) + 1);
+		if(0 == jugador)
+		{
+			fichas_mover_cursor(UART_num, (x * 16) + 1, (y * 8) + 1);
+		}
+		else
+		{
+			fichas_mover_cursor(UART_num, ((7 - x) * 16) + 1, ((7 - y) * 8) + 1);
+		}
 		fichas_print_opcion(UART_num);
-		if(ninguno != ficha.ficha_name){
-			ficha.print_ficha(ficha.color, (x * 16) + 1, (y * 8) + 1);
+		if(ninguno != ficha.ficha_name)
+		{
+			if(0 == jugador)
+			{
+				ficha.print_ficha(ficha.color, (x * 16) + 1, (y * 8) + 1);
+			}
+			else
+			{
+				ficha.print_ficha(ficha.color, ((7 - x) * 16) + 1, ((7 - y) * 8) + 1);
+			}
 		}
 	}
 }

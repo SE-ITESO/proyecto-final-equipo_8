@@ -146,6 +146,7 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button)
 	static struct_ficha_t ficha_seleccionada;
 	static uint8_t x_selec = 0;
 	static uint8_t y_selec = 0;
+	uint8_t temporal;
 	switch(g_modo)
 	{
 
@@ -154,9 +155,28 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button)
 		{
 			*(array_button + RIGHT) = FALSE;
 
-			fichas_mover_cursor((*jugador) * 3, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
-			fichas_vacio_print(indefinido, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
-			ficha.print_ficha(ficha.color, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+			fichas_mover_cursor((*jugador) * 4, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+			temporal = (coordenada_x + coordenada_y) % 2;
+			if(0 == temporal)
+			{
+				fichas_vacio_UART((*jugador) * 4, VACIO);
+			}
+			else
+			{
+				fichas_color((*jugador) * 4, azul);
+				fichas_vacio_UART((*jugador) * 4, LLENO);
+			}
+			if(ninguno != ficha.ficha_name)
+			{
+				if(0 == *jugador)
+				{
+					ficha.print_ficha(ficha.color, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+				}
+				else
+				{
+					ficha.print_ficha(ficha.color, ((7 - coordenada_x) * 16) + 1, ((7 - coordenada_y) * 8) + 1);
+				}
+			}
 			if(7 == coordenada_x)
 			{
 				coordenada_x = 0;
@@ -171,9 +191,28 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button)
 		{
 			*(array_button + LEFT) = FALSE;
 
-			fichas_mover_cursor((*jugador) * 3, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
-			fichas_vacio_print(indefinido, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
-			ficha.print_ficha(ficha.color, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+			fichas_mover_cursor((*jugador) * 4, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+			temporal = (coordenada_x + coordenada_y) % 2;
+			if(0 == temporal)
+			{
+				fichas_vacio_UART((*jugador) * 4, VACIO);
+			}
+			else
+			{
+				fichas_color((*jugador) * 4, azul);
+				fichas_vacio_UART((*jugador) * 4, LLENO);
+			}
+			if(ninguno != ficha.ficha_name)
+			{
+				if(0 == *jugador)
+				{
+					ficha.print_ficha(ficha.color, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+				}
+				else
+				{
+					ficha.print_ficha(ficha.color, ((7 - coordenada_x) * 16) + 1, ((7 - coordenada_y) * 8) + 1);
+				}
+			}
 			if(0 == coordenada_x)
 			{
 				coordenada_x = 7;
@@ -188,9 +227,28 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button)
 		{
 			*(array_button + UP) = FALSE;
 
-			fichas_mover_cursor((*jugador) * 3, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
-			fichas_vacio_print(indefinido, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
-			ficha.print_ficha(ficha.color, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+			fichas_mover_cursor((*jugador) * 4, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+			temporal = (coordenada_x + coordenada_y) % 2;
+			if(0 == temporal)
+			{
+				fichas_vacio_UART((*jugador) * 4, VACIO);
+			}
+			else
+			{
+				fichas_color((*jugador) * 4, azul);
+				fichas_vacio_UART((*jugador) * 4, LLENO);
+			}
+			if(ninguno != ficha.ficha_name)
+			{
+				if(0 == *jugador)
+				{
+					ficha.print_ficha(ficha.color, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+				}
+				else
+				{
+					ficha.print_ficha(ficha.color, ((7 - coordenada_x) * 16) + 1, ((7 - coordenada_y) * 8) + 1);
+				}
+			}
 			if(0 == coordenada_y)
 			{
 				coordenada_y = 7;
@@ -205,9 +263,28 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button)
 		{
 			*(array_button + DOWN) = FALSE;
 
-			fichas_mover_cursor((*jugador) * 3, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
-			fichas_vacio_print(indefinido, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
-			ficha.print_ficha(ficha.color, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+			fichas_mover_cursor((*jugador) * 4, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+			temporal = (coordenada_x + coordenada_y) % 2;
+			if(0 == temporal)
+			{
+				fichas_vacio_UART((*jugador) * 4, VACIO);
+			}
+			else
+			{
+				fichas_color((*jugador) * 4, azul);
+				fichas_vacio_UART((*jugador) * 4, LLENO);
+			}
+			if(ninguno != ficha.ficha_name)
+			{
+				if(0 == *jugador)
+				{
+					ficha.print_ficha(ficha.color, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+				}
+				else
+				{
+					ficha.print_ficha(ficha.color, ((7 - coordenada_x) * 16) + 1, ((7 - coordenada_y) * 8) + 1);
+				}
+			}
 			if(7 == coordenada_y)
 			{
 				coordenada_y = 0;
@@ -226,7 +303,7 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button)
 			{
 				if(blancas == ficha.color)
 				{
-					fichas_mover_cursor((*jugador) * 3, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+					fichas_mover_cursor((*jugador) * 4, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
 					fichas_vacio_print(indefinido, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
 					ficha.print_ficha(ficha.color, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
 					g_modo = 2;
@@ -236,9 +313,9 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button)
 			{
 				if(negras == ficha.color)
 				{
-					fichas_mover_cursor((*jugador) * 3, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
-					fichas_vacio_print(indefinido, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
-					ficha.print_ficha(ficha.color, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+					fichas_mover_cursor((*jugador) * 4, ((7 - coordenada_x) * 16) + 1, ((7 - coordenada_y) * 8) + 1);
+					fichas_vacio_print(indefinido, ((7 - coordenada_x) * 16) + 1, ((7 - coordenada_y) * 8) + 1);
+					ficha.print_ficha(ficha.color, ((7 - coordenada_x) * 16) + 1, ((7 - coordenada_y) * 8) + 1);
 					g_modo = 2;
 				}
 			}
@@ -246,25 +323,55 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button)
 		break;
 
 	case 1:
-		ficha = *(g_array_ajedrez + coordenada_x + (coordenada_y * 8));
-		fichas_mover_cursor((*jugador) * 3, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
-		fichas_color((*jugador) * 3, verde);
-		fichas_vacio_UART((*jugador) * 3, LLENO);
+		if(0 == *jugador)
+		{
+			ficha = *(g_array_ajedrez + coordenada_x + (coordenada_y * 8));
+		}
+		else
+		{
+			ficha = *(g_array_ajedrez + (7 - coordenada_x) + ((7 - coordenada_y) * 8));
+		}
+		fichas_mover_cursor((*jugador) * 4, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+		fichas_color((*jugador) * 4, verde);
+		fichas_vacio_UART((*jugador) * 4, LLENO);
 		if(ninguno != ficha.ficha_name)
 		{
-			ficha.print_ficha(ficha.color, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+			if(0 == *jugador)
+			{
+				ficha.print_ficha(ficha.color, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+			}
+			else
+			{
+				ficha.print_ficha(ficha.color, ((7 - coordenada_x) * 16) + 1, ((7 - coordenada_y) * 8) + 1);
+			}
 		}
 		g_modo = 0;
 		break;
 
 	case 2:
-		g_funct_movimiento[ficha.ficha_name - 1](coordenada_x, coordenada_y, g_array_ajedrez);
-		ficha = *(g_array_ajedrez + coordenada_x + (coordenada_y * 8));
-		ficha_seleccionada = *(g_array_ajedrez + coordenada_x + (coordenada_y * 8));
+		if(0 == *jugador)
+		{
+			g_funct_movimiento[ficha.ficha_name - 1](coordenada_x, coordenada_y, g_array_ajedrez);
+		}
+		else
+		{
+			g_funct_movimiento[ficha.ficha_name - 1](7 - coordenada_x, 7 - coordenada_y, g_array_ajedrez);
+		}
+		if(0 == *jugador)
+		{
+			ficha = *(g_array_ajedrez + coordenada_x + (coordenada_y * 8));
+			ficha_seleccionada = *(g_array_ajedrez + coordenada_x + (coordenada_y * 8));
+		}
+		else
+		{
+			ficha = *(g_array_ajedrez + (7 - coordenada_x) + ((7 - coordenada_y) * 8));
+			ficha_seleccionada = *(g_array_ajedrez + (7 - coordenada_x) + ((7 - coordenada_y) * 8));
+		}
+
 		x_selec = coordenada_x;
 		y_selec = coordenada_y;
 		fichas_mostrar_opciones(&(ficha_seleccionada.opciones), *jugador, g_array_ajedrez);
-		fichas_color((*jugador) * 3, rojo);
+		fichas_color((*jugador) * 4, rojo);
 		g_modo = 3;
 		break;
 
@@ -273,18 +380,34 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button)
 		{
 			*(array_button + RIGHT) = FALSE;
 
-			fichas_mover_cursor((*jugador) * 3, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
-			fichas_vacio_print(indefinido, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+			fichas_mover_cursor((*jugador) * 4, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+			temporal = (coordenada_x + coordenada_y) % 2;
+			if(0 == temporal)
+			{
+				fichas_vacio_UART((*jugador) * 4, VACIO);
+			}
+			else
+			{
+				fichas_color((*jugador) * 4, azul);
+				fichas_vacio_UART((*jugador) * 4, LLENO);
+			}
 			/*Opcion para imprimir el color previo*/
 			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			if(ficha.posible_mov)
 			{
-				fichas_mover_cursor((*jugador) * 3, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
-				fichas_print_opcion((*jugador) * 3);
+				fichas_mover_cursor((*jugador) * 4, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+				fichas_print_opcion((*jugador) * 4);
 			}
 			if(ninguno != ficha.ficha_name)
 			{
-				ficha.print_ficha(ficha.color, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+				if(0 == *jugador)
+				{
+					ficha.print_ficha(ficha.color, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+				}
+				else
+				{
+					ficha.print_ficha(ficha.color, ((7 - coordenada_x) * 16) + 1, ((7 - coordenada_y) * 8) + 1);
+				}
 			}
 			if(7 == coordenada_x)
 			{
@@ -300,17 +423,33 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button)
 		{
 			*(array_button + LEFT) = FALSE;
 
-			fichas_mover_cursor((*jugador) * 3, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
-			fichas_vacio_print(indefinido, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+			fichas_mover_cursor((*jugador) * 4, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+			temporal = (coordenada_x + coordenada_y) % 2;
+			if(0 == temporal)
+			{
+				fichas_vacio_UART((*jugador) * 4, VACIO);
+			}
+			else
+			{
+				fichas_color((*jugador) * 4, azul);
+				fichas_vacio_UART((*jugador) * 4, LLENO);
+			}
 			/*Opcion para imprimir el color previo*/
 			if(ficha.posible_mov)
 			{
-				fichas_mover_cursor((*jugador) * 3, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
-				fichas_print_opcion((*jugador) * 3);
+				fichas_mover_cursor((*jugador) * 4, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+				fichas_print_opcion((*jugador) * 4);
 			}
 			if(ninguno != ficha.ficha_name)
 			{
-				ficha.print_ficha(ficha.color, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+				if(0 == *jugador)
+				{
+					ficha.print_ficha(ficha.color, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+				}
+				else
+				{
+					ficha.print_ficha(ficha.color, ((7 - coordenada_x) * 16) + 1, ((7 - coordenada_y) * 8) + 1);
+				}
 			}
 			if(0 == coordenada_x)
 			{
@@ -326,17 +465,33 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button)
 		{
 			*(array_button + UP) = FALSE;
 
-			fichas_mover_cursor((*jugador) * 3, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
-			fichas_vacio_print(indefinido, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+			fichas_mover_cursor((*jugador) * 4, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+			temporal = (coordenada_x + coordenada_y) % 2;
+			if(0 == temporal)
+			{
+				fichas_vacio_UART((*jugador) * 4, VACIO);
+			}
+			else
+			{
+				fichas_color((*jugador) * 4, azul);
+				fichas_vacio_UART((*jugador) * 4, LLENO);
+			}
 			/*Opcion para imprimir el color previo*/
 			if(ficha.posible_mov)
 			{
-				fichas_mover_cursor((*jugador) * 3, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
-				fichas_print_opcion((*jugador) * 3);
+				fichas_mover_cursor((*jugador) * 4, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+				fichas_print_opcion((*jugador) * 4);
 			}
 			if(ninguno != ficha.ficha_name)
 			{
-				ficha.print_ficha(ficha.color, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+				if(0 == *jugador)
+				{
+					ficha.print_ficha(ficha.color, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+				}
+				else
+				{
+					ficha.print_ficha(ficha.color, ((7 - coordenada_x) * 16) + 1, ((7 - coordenada_y) * 8) + 1);
+				}
 			}
 			if(0 == coordenada_y)
 			{
@@ -352,17 +507,33 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button)
 		{
 			*(array_button + DOWN) = FALSE;
 
-			fichas_mover_cursor((*jugador) * 3, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
-			fichas_vacio_print(indefinido, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+			fichas_mover_cursor((*jugador) * 4, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+			temporal = (coordenada_x + coordenada_y) % 2;
+			if(0 == temporal)
+			{
+				fichas_vacio_UART((*jugador) * 4, VACIO);
+			}
+			else
+			{
+				fichas_color((*jugador) * 4, azul);
+				fichas_vacio_UART((*jugador) * 4, LLENO);
+			}
 			/*Opcion para imprimir el color previo*/
 			if(ficha.posible_mov)
 			{
-				fichas_mover_cursor((*jugador) * 3, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
-				fichas_print_opcion((*jugador) * 3);
+				fichas_mover_cursor((*jugador) * 4, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+				fichas_print_opcion((*jugador) * 4);
 			}
 			if(ninguno != ficha.ficha_name)
 			{
-				ficha.print_ficha(ficha.color, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+				if(0 == *jugador)
+				{
+					ficha.print_ficha(ficha.color, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+				}
+				else
+				{
+					ficha.print_ficha(ficha.color, ((7 - coordenada_x) * 16) + 1, ((7 - coordenada_y) * 8) + 1);
+				}
 			}
 			if(7 == coordenada_y)
 			{
@@ -379,7 +550,7 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button)
 			*(array_button + A) = FALSE;
 			if(ficha.posible_mov)
 			{
-				fichas_clear_opciones((&ficha_seleccionada.opciones), (*jugador) * 3, g_array_ajedrez);
+				fichas_clear_opciones(&((g_array_ajedrez + x_selec + (y_selec * 8))->opciones), (*jugador) * 4, g_array_ajedrez);
 				tablero_movimiento(x_selec, y_selec, coordenada_x, coordenada_y);
 				g_modo = 5;
 			}
@@ -387,17 +558,37 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button)
 		break;
 
 	case 4:
-		ficha = *(g_array_ajedrez + coordenada_x + (coordenada_y * 8));
-		fichas_mover_cursor((*jugador) * 3, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
-		fichas_color((*jugador) * 3, rojo);
-		fichas_vacio_UART((*jugador) * 3, LLENO);
+		if(0 == *jugador)
+		{
+			ficha = *(g_array_ajedrez + coordenada_x + (coordenada_y * 8));
+		}
+		else
+		{
+			ficha = *(g_array_ajedrez + (7 - coordenada_x) + ((7 - coordenada_y) * 8));
+		}
+
+		fichas_mover_cursor((*jugador) * 4, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+		fichas_color((*jugador) * 4, rojo);
+		fichas_vacio_UART((*jugador) * 4, LLENO);
+
 		if(ninguno != ficha.ficha_name)
 		{
-			ficha.print_ficha(ficha.color, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+			if(0 == *jugador)
+			{
+				ficha.print_ficha(ficha.color, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
+			}
+			else
+			{
+				ficha.print_ficha(ficha.color, ((7 - coordenada_x) * 16) + 1, ((7 - coordenada_y) * 8) + 1);
+			}
 		}
 		g_modo = 3;
 		break;
+
 	case 5:
+		(*jugador) = 1 - (*jugador);
+		g_modo = 1;
+
 		break;
 	}
 	return 0;
