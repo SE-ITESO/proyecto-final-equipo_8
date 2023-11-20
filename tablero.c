@@ -357,6 +357,7 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button)
 		{
 			g_funct_movimiento[ficha.ficha_name - 1](7 - coordenada_x, 7 - coordenada_y, g_array_ajedrez);
 		}
+
 		if(0 == *jugador)
 		{
 			ficha = *(g_array_ajedrez + coordenada_x + (coordenada_y * 8));
@@ -371,8 +372,15 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button)
 		x_selec = coordenada_x;
 		y_selec = coordenada_y;
 		fichas_mostrar_opciones(&(ficha_seleccionada.opciones), *jugador, g_array_ajedrez);
-		fichas_color((*jugador) * 4, rojo);
-		g_modo = 3;
+		if(0 != ficha_seleccionada.opciones.number_opciones)
+		{
+			fichas_color((*jugador) * 4, rojo);
+			g_modo = 3;
+		}
+		else
+		{
+			g_modo = 1;
+		}
 		break;
 
 	case 3:
@@ -550,8 +558,16 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button)
 			*(array_button + A) = FALSE;
 			if(ficha.posible_mov)
 			{
-				fichas_clear_opciones(&((g_array_ajedrez + x_selec + (y_selec * 8))->opciones), (*jugador) * 4, g_array_ajedrez);
-				tablero_movimiento(x_selec, y_selec, coordenada_x, coordenada_y);
+				if(0 == *jugador)
+				{
+					fichas_clear_opciones(&((g_array_ajedrez + x_selec + (y_selec * 8))->opciones), (*jugador) * 4, g_array_ajedrez);
+					tablero_movimiento(x_selec, y_selec, coordenada_x, coordenada_y);
+				}
+				else
+				{
+					fichas_clear_opciones(&((g_array_ajedrez + (7 - x_selec) + ((7 - y_selec) * 8))->opciones), (*jugador) * 4, g_array_ajedrez);
+					tablero_movimiento(7 - x_selec, 7 - y_selec, 7 - coordenada_x, 7 - coordenada_y);
+				}
 				g_modo = 5;
 			}
 		}
