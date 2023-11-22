@@ -165,6 +165,8 @@ void fichas_peon_UART(UART_channel_t UART_name)
 void fichas_peon_mov(uint8_t x, uint8_t y, struct_ficha_t ajedrez[64])
 {
 	struct_ficha_t* peon;
+	struct_ficha_t* alt;
+	uint8_t index;
 	peon = ajedrez + x + (y * 8);
 	if(blancas == peon->color)
 	{
@@ -173,13 +175,37 @@ void fichas_peon_mov(uint8_t x, uint8_t y, struct_ficha_t ajedrez[64])
 			peon->opciones.valor_opciones[peon->opciones.number_opciones] = x + ((y - 1) * 8);
 			ajedrez[x + ((y - 1) * 8)].posible_mov = TRUE;
 			peon->opciones.number_opciones++;
+			if((ninguno == (peon - 16)->ficha_name) & (6 == y))
+			{
+				peon->opciones.valor_opciones[peon->opciones.number_opciones] = x + ((y - 2) * 8);
+				ajedrez[x + ((y - 2) * 8)].posible_mov = TRUE;
+				peon->opciones.number_opciones++;
+			}
 		}
-		if((ninguno == (peon - 16)->ficha_name) & (6 == y))
+
+		index = x - 1;
+		if(index < 8)
 		{
-			peon->opciones.valor_opciones[peon->opciones.number_opciones] = x + ((y - 2) * 8);
-			ajedrez[x + ((y - 2) * 8)].posible_mov = TRUE;
-			peon->opciones.number_opciones++;
+			alt = ajedrez + index + ((y - 1) * 8);
+			if((ninguno != alt->ficha_name) & (negras == alt->color))
+			{
+				peon->opciones.valor_opciones[peon->opciones.number_opciones] = index + ((y - 1) * 8);
+				ajedrez[index + ((y - 1) * 8)].posible_mov = TRUE;
+				peon->opciones.number_opciones++;
+			}
 		}
+		index = x + 1;
+		if(index < 8)
+		{
+			alt = ajedrez + index + ((y - 1) * 8);
+			if((ninguno != alt->ficha_name) & (negras == alt->color))
+			{
+				peon->opciones.valor_opciones[peon->opciones.number_opciones] = index + ((y - 1) * 8);
+				ajedrez[index + ((y - 1) * 8)].posible_mov = TRUE;
+				peon->opciones.number_opciones++;
+			}
+		}
+
 	}
 	else
 	{
@@ -188,13 +214,38 @@ void fichas_peon_mov(uint8_t x, uint8_t y, struct_ficha_t ajedrez[64])
 			peon->opciones.valor_opciones[peon->opciones.number_opciones] = x + ((y + 1) * 8);
 			ajedrez[x + ((y + 1) * 8)].posible_mov = TRUE;
 			peon->opciones.number_opciones++;
+			if((ninguno == (peon + 16)->ficha_name) & (1 == y))
+			{
+				peon->opciones.valor_opciones[peon->opciones.number_opciones] = x + ((y + 2) * 8);
+				ajedrez[x + ((y + 2) * 8)].posible_mov = TRUE;
+				peon->opciones.number_opciones++;
+			}
 		}
-		if((ninguno == (peon + 16)->ficha_name) & (1 == y))
+
+
+		index = x - 1;
+		if(index < 8)
 		{
-			peon->opciones.valor_opciones[peon->opciones.number_opciones] = x + ((y + 2) * 8);
-			ajedrez[x + ((y + 2) * 8)].posible_mov = TRUE;
-			peon->opciones.number_opciones++;
+			alt = ajedrez + index + ((y + 1) * 8);
+			if((ninguno != alt->ficha_name) & (blancas == alt->color))
+			{
+				peon->opciones.valor_opciones[peon->opciones.number_opciones] = index + ((y + 1) * 8);
+				ajedrez[index + ((y + 1) * 8)].posible_mov = TRUE;
+				peon->opciones.number_opciones++;
+			}
 		}
+		index = x + 1;
+		if(index < 8)
+		{
+			alt = ajedrez + index + ((y + 1) * 8);
+			if((ninguno != alt->ficha_name) & (blancas == alt->color))
+			{
+				peon->opciones.valor_opciones[peon->opciones.number_opciones] = index + ((y + 1) * 8);
+				ajedrez[index + ((y + 1) * 8)].posible_mov = TRUE;
+				peon->opciones.number_opciones++;
+			}
+		}
+
 	}
 }
 
@@ -257,6 +308,74 @@ void fichas_torre_UART(UART_channel_t UART_name)
 	}
 	g_salto[6] = '8';
 	UART_put_string(UART_name, g_salto);
+}
+
+void fichas_movimiento_horizontal(uint8_t* y_min, uint8_t x, uint8_t y, struct_ficha_t ajedrez[64])
+{
+	uint8_t i;
+
+	(*y_min) = 0;
+
+	for(i = 0; i < y; i++)
+	{
+		if(ninguno != ajedrez[x + (8 * (i))].ficha_name)
+		{
+			(*y_min) = i;
+		}
+	}
+
+	*(y_min + 1) = 7;
+	for(i = 0; i < (7 - y); i++)
+	{
+		if(ninguno != ajedrez[x + (8 * (7 - i))].ficha_name)
+		{
+			*(y_min + 1) = 7 - i;
+		}
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void fichas_torre_mov(uint8_t x, uint8_t y, struct_ficha_t ajedrez[64])
+{
+	struct_ficha_t* torre;
+	uint8_t temp;
+	uint8_t i;
+	uint8_t y_min[2];
+
+	torre = ajedrez + x + (y * 8);
+
+	fichas_movimiento_horizontal(y_min, x, y, ajedrez);
+
+	temp = y - *(y_min);
+	for(i = 0; i < (temp - 1); i++)
+	{
+		torre->opciones.valor_opciones[torre->opciones.number_opciones] = x + ((y - i - 1) * 8);
+		ajedrez[x + ((y - i - 1) * 8)].posible_mov = TRUE;
+		torre->opciones.number_opciones++;
+	}
+
+	if(ajedrez[x + ((y - temp) * 8)].color != torre->color)
+	{
+		torre->opciones.valor_opciones[torre->opciones.number_opciones] = x + ((y - temp) * 8);
+		ajedrez[x + ((y - temp) * 8)].posible_mov = TRUE;
+		torre->opciones.number_opciones++;
+	}
+
+	temp = *(y_min + 1) - y;
+	for(i = 0; i < (temp - 1); i++)
+	{
+		torre->opciones.valor_opciones[torre->opciones.number_opciones] = x + ((y + i + 1) * 8);
+		ajedrez[x + ((y + i + 1) * 8)].posible_mov = TRUE;
+		torre->opciones.number_opciones++;
+	}
+
+	if(ajedrez[x + ((y + temp) * 8)].color != torre->color)
+	{
+		torre->opciones.valor_opciones[torre->opciones.number_opciones] = x + ((y + temp) * 8);
+		ajedrez[x + ((y + temp) * 8)].posible_mov = TRUE;
+		torre->opciones.number_opciones++;
+	}
+
 }
 
 void fichas_alfil_print(color_ficha_t color, uint16_t x, uint8_t y)
@@ -599,13 +718,19 @@ void fichas_clear_opciones(struct_opciones_t* posibilidades, UART_channel_t UART
 	uint8_t i;
 	uint8_t x;
 	uint8_t y;
+	struct_ficha_t ficha;
 	for(i = 0; i < posibilidades->number_opciones; i++)
 	{
 		ajedrez[posibilidades->valor_opciones[i]].posible_mov = FALSE;
 		x = posibilidades->valor_opciones[i] % 8;
 		y = posibilidades->valor_opciones[i] / 8;
+		ficha = *(ajedrez + x + (y * 8));
 		fichas_mover_cursor(UART_name, (x * 16) + 1, (y * 8) + 1);
 		fichas_vacio_print(indefinido, (x * 16) + 1, (y * 8) + 1);
+		if(ninguno != ficha.ficha_name)
+		{
+				ficha.print_ficha(ficha.color, (x * 16) + 1, (y * 8) + 1);
+		}
 	}
 	posibilidades->number_opciones = 0;
 }
@@ -633,14 +758,7 @@ void fichas_mostrar_opciones(struct_opciones_t* posibilidades, uint8_t jugador, 
 		fichas_print_opcion(UART_num);
 		if(ninguno != ficha.ficha_name)
 		{
-			if(0 == jugador)
-			{
 				ficha.print_ficha(ficha.color, (x * 16) + 1, (y * 8) + 1);
-			}
-			else
-			{
-				ficha.print_ficha(ficha.color, ((7 - x) * 16) + 1, ((7 - y) * 8) + 1);
-			}
 		}
 	}
 }

@@ -19,7 +19,8 @@ static struct_ficha_t g_ficha_generica =
 
 static funct_mov_ficha g_funct_movimiento[] =
 {
-		fichas_peon_mov
+		fichas_peon_mov,
+		fichas_torre_mov
 };
 
 static struct_ficha_t g_array_ajedrez[64];
@@ -616,6 +617,7 @@ void tablero_movimiento(uint8_t x_old, uint8_t y_old, uint8_t x_new, uint8_t y_n
 	ficha = *(g_array_ajedrez + x_old + (y_old * 8));
 	*(g_array_ajedrez + x_new + (y_new * 8)) = ficha;
 
+	fichas_vacio_print(indefinido, (x_new * 16) + 1, (y_new * 8) + 1);
 	ficha.print_ficha(ficha.color, (x_new * 16) + 1, (y_new * 8) + 1);
 
 	fichas_config(&ficha, ninguno, indefinido);
