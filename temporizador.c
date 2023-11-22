@@ -52,7 +52,6 @@ void temporizador_init(uint8_t minuto_inicial, uint8_t segundo_inicial)
 	temporizador_puntos_print();
 	temporizador_update();
 
-
 }
 
 
