@@ -16,7 +16,7 @@
 #include "GPIO.h"
 #include "NVIC.h"
 
-#define TIEMPO_CH3		(1260U)
+#define TIEMPO_CH3		(10500U)
 
 #define BIT_DATA_C1			(bit_0)
 #define BIT_CLOCK_C1		(BIT_ON << 5)
@@ -44,7 +44,9 @@ typedef enum{
 
 void control_nintendo_init(void);
 
-void control_nintendo_control(control_num_t control, uint8_t array_control[7]);
+void control_nintendo_clear(uint8_t array_buttons[8]);
+
+void control_nintendo_control(control_num_t control, uint8_t array_control[8]);
 
 
 #endif /* CONTROL_NINTENDO_H_ */

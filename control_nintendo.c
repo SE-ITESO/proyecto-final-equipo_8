@@ -18,6 +18,15 @@ void PIT_set_flag_nintendo(uint8_t pit)
 	PIT_nintendo_flag[1] = TRUE;
 }
 
+void control_nintendo_clear(uint8_t array_buttons[8])
+{
+	uint8_t i;
+	for(i = A; i <= RIGHT; i++)
+	{
+		array_buttons[i] = FALSE;
+	}
+}
+
 void control_nintendo_init(void)
 {
 
@@ -79,7 +88,7 @@ void control_nintendo_init(void)
 
 }
 
-void control_nintendo_control(control_num_t control, uint8_t array_buttons[7])
+void control_nintendo_control(control_num_t control, uint8_t array_buttons[8])
 {
 	static uint8_t state[2] = {0,0};
 	static uint16_t counter_to_latch[2] = {0,0};

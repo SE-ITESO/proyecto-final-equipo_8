@@ -22,7 +22,6 @@
 
 #include "ajedrez.h"
 #include "NVIC.h"
-#include "temporizador.h"
 
 int main(void) {
 	CLOCK_SetSimSafeDivs();
@@ -35,10 +34,17 @@ int main(void) {
 	NVIC_enable_interrupt_and_priotity(UART4_IRQ, PRIORITY_10);
 
 	ajedrez_init();
-	temporizador_init(2,0);
+	//tablero_init();
+
+	//fichas_peon_print();
+	//fichas_torre_print();
+	//fichas_alfil_print();
+	//fichas_caballo_print();
+	//fichas_reina_print();
+	//fichas_rey_print();
 
     while(1)
     {
-    	temporizador_update();
+    	ajedrez_control();
     }
 }
