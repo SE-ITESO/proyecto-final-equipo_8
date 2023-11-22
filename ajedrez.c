@@ -19,6 +19,9 @@ static uint8_t g_turno = jugador_1;
 static uint8_t g_buttons_control_1[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 static uint8_t g_buttons_control_2[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 
+static uint8_t g_buttons_control_1_fake[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+static uint8_t g_buttons_control_2_fake[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+
 static uint8_t g_array_menu_1[] =
 		 //S    T    A	  R	    T	   ->	 I   N    I   C   I   A    R         J   U    E   G     O
 		"---- ----- --- ----- -----     -   --- -   - --- --- --- --- -----      --- -  - --- ---- ----"
@@ -149,6 +152,7 @@ static uint8_t g_modo = 0;
 void ajedrez_init(void)
 {
 	control_nintendo_init();
+
 	UART_put_string(UART_0, g_array_init);
 	UART_put_string(UART_4, g_array_init);
 
@@ -164,12 +168,13 @@ void ajedrez_init(void)
 	tablero_switch_string(g_array_guardado_7, '-', 219);
 
 	tablero_switch_string(g_array_regresar, '-', 219);
+
 }
 
 void ajedrez_control(void)
 {
-	control_nintendo_control(CONTROL_1, g_buttons_control_1);
-	control_nintendo_control(CONTROL_2, g_buttons_control_2);
+	control_nintendo_control(CONTROL_1, g_buttons_control_1_fake);
+	control_nintendo_control(CONTROL_2, g_buttons_control_2_fake);
 	g_array_ventana_function[g_ventana](&g_modo);
 }
 
@@ -330,12 +335,16 @@ void ajedrez_v_juego(uint8_t * modo)
 {
 	//uint8_t status;
 	uint8_t* pointer_button;
+
+	temporizador_update();
+
 	switch(*modo)
 	{
 	case 0:
 		UART_put_string(UART_0, g_array_clear);
 		UART_put_string(UART_4, g_array_clear);
 		tablero_init();
+		temporizador_init(2, 0);
 		*modo = 1;
 	case 1:
 		if(jugador_1 == g_turno)
