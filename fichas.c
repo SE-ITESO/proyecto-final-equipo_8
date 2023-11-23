@@ -709,6 +709,101 @@ void fichas_caballo_mov(uint8_t x, uint8_t y, struct_ficha_t ajedrez[64])
 	uint8_t coordenada_x;
 	uint8_t coordenada_y;
 
+	coordenada_x = x + 1;
+	coordenada_y = y + 2;
+	if((coordenada_y < 8) & (coordenada_x < 8))
+	{
+		if((caballo->color) != (ajedrez[(coordenada_x) + (coordenada_y * 8)].color))
+		{
+			caballo->opciones.valor_opciones[caballo->opciones.number_opciones] = (coordenada_x) + (coordenada_y * 8);
+			ajedrez[(coordenada_x) + (coordenada_y * 8)].posible_mov = TRUE;
+			caballo->opciones.number_opciones++;
+		}
+	}
+
+	coordenada_x = x + 1;
+	coordenada_y = y - 2;
+	if((coordenada_y < 8) & (coordenada_x < 8))
+	{
+		if((caballo->color) != (ajedrez[(coordenada_x) + (coordenada_y * 8)].color))
+		{
+			caballo->opciones.valor_opciones[caballo->opciones.number_opciones] = (coordenada_x) + (coordenada_y * 8);
+			ajedrez[(coordenada_x) + (coordenada_y * 8)].posible_mov = TRUE;
+			caballo->opciones.number_opciones++;
+		}
+	}
+
+	coordenada_x = x + 2;
+	coordenada_y = y + 1;
+	if((coordenada_y < 8) & (coordenada_x < 8))
+	{
+		if((caballo->color) != (ajedrez[(coordenada_x) + (coordenada_y * 8)].color))
+		{
+			caballo->opciones.valor_opciones[caballo->opciones.number_opciones] = (coordenada_x) + (coordenada_y * 8);
+			ajedrez[(coordenada_x) + (coordenada_y * 8)].posible_mov = TRUE;
+			caballo->opciones.number_opciones++;
+		}
+	}
+
+	coordenada_x = x + 2;
+	coordenada_y = y - 1;
+	if((coordenada_y < 8) & (coordenada_x < 8))
+	{
+		if((caballo->color) != (ajedrez[(coordenada_x) + (coordenada_y * 8)].color))
+		{
+			caballo->opciones.valor_opciones[caballo->opciones.number_opciones] = (coordenada_x) + (coordenada_y * 8);
+			ajedrez[(coordenada_x) + (coordenada_y * 8)].posible_mov = TRUE;
+			caballo->opciones.number_opciones++;
+		}
+	}
+
+	coordenada_x = x - 1;
+	coordenada_y = y + 2;
+	if((coordenada_y < 8) & (coordenada_x < 8))
+	{
+		if((caballo->color) != (ajedrez[(coordenada_x) + (coordenada_y * 8)].color))
+		{
+			caballo->opciones.valor_opciones[caballo->opciones.number_opciones] = (coordenada_x) + (coordenada_y * 8);
+			ajedrez[(coordenada_x) + (coordenada_y * 8)].posible_mov = TRUE;
+			caballo->opciones.number_opciones++;
+		}
+	}
+
+	coordenada_x = x - 1;
+	coordenada_y = y - 2;
+	if((coordenada_y < 8) & (coordenada_x < 8))
+	{
+		if((caballo->color) != (ajedrez[(coordenada_x) + (coordenada_y * 8)].color))
+		{
+			caballo->opciones.valor_opciones[caballo->opciones.number_opciones] = (coordenada_x) + (coordenada_y * 8);
+			ajedrez[(coordenada_x) + (coordenada_y * 8)].posible_mov = TRUE;
+			caballo->opciones.number_opciones++;
+		}
+	}
+
+	coordenada_x = x - 2;
+	coordenada_y = y + 1;
+	if((coordenada_y < 8) & (coordenada_x < 8))
+	{
+		if((caballo->color) != (ajedrez[(coordenada_x) + (coordenada_y * 8)].color))
+		{
+			caballo->opciones.valor_opciones[caballo->opciones.number_opciones] = (coordenada_x) + (coordenada_y * 8);
+			ajedrez[(coordenada_x) + (coordenada_y * 8)].posible_mov = TRUE;
+			caballo->opciones.number_opciones++;
+		}
+	}
+
+	coordenada_x = x - 2;
+	coordenada_y = y - 1;
+	if((coordenada_y < 8) & (coordenada_x < 8))
+	{
+		if((caballo->color) != (ajedrez[(coordenada_x) + (coordenada_y * 8)].color))
+		{
+			caballo->opciones.valor_opciones[caballo->opciones.number_opciones] = (coordenada_x) + (coordenada_y * 8);
+			ajedrez[(coordenada_x) + (coordenada_y * 8)].posible_mov = TRUE;
+			caballo->opciones.number_opciones++;
+		}
+	}
 }
 
 void fichas_reina_print(color_ficha_t color, uint16_t x, uint8_t y)
