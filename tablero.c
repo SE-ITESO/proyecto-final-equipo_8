@@ -20,7 +20,8 @@ static struct_ficha_t g_ficha_generica =
 static funct_mov_ficha g_funct_movimiento[] =
 {
 		fichas_peon_mov,
-		fichas_torre_mov
+		fichas_torre_mov,
+		fichas_alfil_mov
 };
 
 static struct_ficha_t g_array_ajedrez[64];

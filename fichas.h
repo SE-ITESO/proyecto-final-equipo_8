@@ -43,6 +43,13 @@ typedef enum{
 	offset_y
 }offset_t;
 
+typedef enum{
+	limite_menos_x,
+	limite_mas_x,
+	limite_menos_y,
+	limite_mas_y
+}limite_t;
+
 typedef void(*funct_print_ficha)(color_ficha_t color, uint16_t x, uint8_t y);
 
 typedef struct
@@ -108,6 +115,7 @@ void fichas_mostrar_opciones(struct_opciones_t* posibilidades, uint8_t jugador, 
 
 void fichas_clear_opciones(struct_opciones_t* posibilidades, UART_channel_t UART_name, struct_ficha_t ajedrez[64]);
 
-void fichas_movimiento_horizontal(uint8_t* y_min, uint8_t x, uint8_t y, struct_ficha_t ajedrez[64]);
+void fichas_movimiento_vertical(uint8_t* y_min, uint8_t x, uint8_t y, struct_ficha_t ajedrez[64]);
+void fichas_movimiento_horizontal(uint8_t* x_min, uint8_t x, uint8_t y, struct_ficha_t ajedrez[64]);
 
 #endif /* FICHAS_H_ */
