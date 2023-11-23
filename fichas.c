@@ -947,6 +947,110 @@ void fichas_rey_UART(UART_channel_t UART_name)
 	UART_put_string(UART_name, g_salto);
 }
 
+void fichas_rey_mov(uint8_t x, uint8_t y, struct_ficha_t ajedrez[64])
+{
+	struct_ficha_t* rey;
+	rey = ajedrez + x + (y * 8);
+	uint8_t coordenada_x;
+	uint8_t coordenada_y;
+
+	coordenada_x = x - 1;
+	coordenada_y = y - 1;
+	if((coordenada_y < 8) & (coordenada_x < 8))
+	{
+		if((rey->color) != (ajedrez[(coordenada_x) + (coordenada_y * 8)].color))
+		{
+			rey->opciones.valor_opciones[rey->opciones.number_opciones] = (coordenada_x) + (coordenada_y * 8);
+			ajedrez[(coordenada_x) + (coordenada_y * 8)].posible_mov = TRUE;
+			rey->opciones.number_opciones++;
+		}
+	}
+
+	coordenada_x = x;
+	coordenada_y = y - 1;
+	if((coordenada_y < 8) & (coordenada_x < 8))
+	{
+		if((rey->color) != (ajedrez[(coordenada_x) + (coordenada_y * 8)].color))
+		{
+			rey->opciones.valor_opciones[rey->opciones.number_opciones] = (coordenada_x) + (coordenada_y * 8);
+			ajedrez[(coordenada_x) + (coordenada_y * 8)].posible_mov = TRUE;
+			rey->opciones.number_opciones++;
+		}
+	}
+
+	coordenada_x = x + 1;
+	coordenada_y = y - 1;
+	if((coordenada_y < 8) & (coordenada_x < 8))
+	{
+		if((rey->color) != (ajedrez[(coordenada_x) + (coordenada_y * 8)].color))
+		{
+			rey->opciones.valor_opciones[rey->opciones.number_opciones] = (coordenada_x) + (coordenada_y * 8);
+			ajedrez[(coordenada_x) + (coordenada_y * 8)].posible_mov = TRUE;
+			rey->opciones.number_opciones++;
+		}
+	}
+
+	coordenada_x = x - 1;
+	coordenada_y = y;
+	if((coordenada_y < 8) & (coordenada_x < 8))
+	{
+		if((rey->color) != (ajedrez[(coordenada_x) + (coordenada_y * 8)].color))
+		{
+			rey->opciones.valor_opciones[rey->opciones.number_opciones] = (coordenada_x) + (coordenada_y * 8);
+			ajedrez[(coordenada_x) + (coordenada_y * 8)].posible_mov = TRUE;
+			rey->opciones.number_opciones++;
+		}
+	}
+
+	coordenada_x = x + 1;
+	coordenada_y = y;
+	if((coordenada_y < 8) & (coordenada_x < 8))
+	{
+		if((rey->color) != (ajedrez[(coordenada_x) + (coordenada_y * 8)].color))
+		{
+			rey->opciones.valor_opciones[rey->opciones.number_opciones] = (coordenada_x) + (coordenada_y * 8);
+			ajedrez[(coordenada_x) + (coordenada_y * 8)].posible_mov = TRUE;
+			rey->opciones.number_opciones++;
+		}
+	}
+
+	coordenada_x = x - 1;
+	coordenada_y = y + 1;
+	if((coordenada_y < 8) & (coordenada_x < 8))
+	{
+		if((rey->color) != (ajedrez[(coordenada_x) + (coordenada_y * 8)].color))
+		{
+			rey->opciones.valor_opciones[rey->opciones.number_opciones] = (coordenada_x) + (coordenada_y * 8);
+			ajedrez[(coordenada_x) + (coordenada_y * 8)].posible_mov = TRUE;
+			rey->opciones.number_opciones++;
+		}
+	}
+
+	coordenada_x = x;
+	coordenada_y = y + 1;
+	if((coordenada_y < 8) & (coordenada_x < 8))
+	{
+		if((rey->color) != (ajedrez[(coordenada_x) + (coordenada_y * 8)].color))
+		{
+			rey->opciones.valor_opciones[rey->opciones.number_opciones] = (coordenada_x) + (coordenada_y * 8);
+			ajedrez[(coordenada_x) + (coordenada_y * 8)].posible_mov = TRUE;
+			rey->opciones.number_opciones++;
+		}
+	}
+
+	coordenada_x = x + 1;
+	coordenada_y = y + 1;
+	if((coordenada_y < 8) & (coordenada_x < 8))
+	{
+		if((rey->color) != (ajedrez[(coordenada_x) + (coordenada_y * 8)].color))
+		{
+			rey->opciones.valor_opciones[rey->opciones.number_opciones] = (coordenada_x) + (coordenada_y * 8);
+			ajedrez[(coordenada_x) + (coordenada_y * 8)].posible_mov = TRUE;
+			rey->opciones.number_opciones++;
+		}
+	}
+}
+
 void fichas_vacio_print(color_ficha_t color, uint16_t x, uint8_t y)
 {
 	uint8_t colorear;
