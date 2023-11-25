@@ -633,3 +633,22 @@ void tablero_movimiento(uint8_t x_old, uint8_t y_old, uint8_t x_new, uint8_t y_n
 
 	ficha.print_ficha(ficha.color, (x_old * 16) + 1, (y_old * 8) + 1);
 }
+
+void tablero_print_tablero(void)
+{
+	uint8_t x;
+	uint8_t y;
+	struct_ficha_t ficha;
+	for(y = 0; y < 8; y++)
+	{
+		for(x = 0; x < 8; x++)
+		{
+			fichas_vacio_print(indefinido, (x * 16) + 1, (y * 8) + 1);
+			ficha = *(g_array_ajedrez + x + (y * 8));
+			if(ninguno != ficha.ficha_name)
+			{
+				ficha.print_ficha(ficha.color, (x * 16) + 1, (y * 8) + 1);
+			}
+		}
+	}
+}

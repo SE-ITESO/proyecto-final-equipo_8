@@ -26,4 +26,6 @@ void tablero_movimiento(uint8_t x_old, uint8_t y_old, uint8_t x_new, uint8_t y_n
 
 uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button);
 
+void tablero_print_tablero(void);
+
 #endif /* TABLERO_H_ */
