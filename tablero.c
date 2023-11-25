@@ -152,6 +152,8 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button)
 	static uint8_t x_selec = 0;
 	static uint8_t y_selec = 0;
 	uint8_t temporal;
+	uint8_t status = s_none_t;
+
 	switch(g_modo)
 	{
 
@@ -608,11 +610,13 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button)
 
 	case 5:
 		(*jugador) = 1 - (*jugador);
-		g_modo = 1;
 
+		g_modo = 1;
+		status = s_change_t;
 		break;
 	}
-	return 0;
+
+	return status;
 }
 
 void tablero_movimiento(uint8_t x_old, uint8_t y_old, uint8_t x_new, uint8_t y_new)

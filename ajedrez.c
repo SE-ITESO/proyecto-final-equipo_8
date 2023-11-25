@@ -140,6 +140,30 @@ static uint8_t g_array_regresar[] =
 		"\e[1B\e[39D"
 		" -  - --- ----  -  - --- ---- - -  -  -";
 
+static uint8_t g_array_pausa_1[] =
+		//  T   A    B   L   A   S
+		"----- --- ---- -   --- ----"
+		"\e[1B\e[27D"
+		"  -   - -  - - -   - - -   "
+		"\e[1B\e[27D"
+		"  -   ---  --- -   --- ----"
+		"\e[1B\e[27D"
+		"  -   - -  - - -   - -    -"
+		"\e[1B\e[27D"
+		"  -   - - ---- --- - - ----";
+
+static uint8_t g_array_pausa_2[] =
+		// R    E    T    I    R    A    D   A
+		"----- --- ----- --- ----- --- ---- ---"
+		"\e[1B\e[38D"
+		" -  - -     -    -   -  - - -  - - - -"
+		"\e[1B\e[38D"
+		" ---- ---   -    -   ---- ---  - - ---"
+		"\e[1B\e[38D"
+		" - -  -     -    -   - -  - -  - - - -"
+		"\e[1B\e[38D"
+		" -  - ---   -   ---  -  - - - ---- - -";
+
 static ventana_function g_array_ventana_function[] = {ajedrez_v_menu, ajedrez_v_save, ajedrez_v_juego};
 
 static uint8_t g_ventana = v_inicio;
@@ -162,6 +186,9 @@ void ajedrez_init(void)
 	tablero_switch_string(g_array_guardado_5, '-', 219);
 	tablero_switch_string(g_array_guardado_6, '-', 219);
 	tablero_switch_string(g_array_guardado_7, '-', 219);
+
+	tablero_switch_string(g_array_pausa_1, '-', 219);
+	tablero_switch_string(g_array_pausa_2, '-', 219);
 
 	tablero_switch_string(g_array_regresar, '-', 219);
 }
@@ -328,7 +355,7 @@ void ajedrez_v_save(uint8_t * modo)
 
 void ajedrez_v_juego(uint8_t * modo)
 {
-	//uint8_t status;
+	uint8_t status;
 	uint8_t* pointer_button;
 	switch(*modo)
 	{
@@ -346,7 +373,48 @@ void ajedrez_v_juego(uint8_t * modo)
 		{
 			pointer_button = g_buttons_control_2;
 		}
-		tablero_control(&g_turno, pointer_button);
+		status = tablero_control(&g_turno, pointer_button);
+		if(s_change_t == status)
+		{
+			if(jugador_1 == g_turno)
+			{
+				control_nintendo_clear(g_buttons_control_1);
+			}
+			else
+			{
+				control_nintendo_clear(g_buttons_control_2);
+			}
+		}
+		else
+		{
+			if((jugador_1 == g_turno) & (TRUE == g_buttons_control_1[B]))
+			{
+				*modo = 2;
+				control_nintendo_clear(g_buttons_control_1);
+			}
+			else if((jugador_2 == g_turno) & (TRUE == g_buttons_control_2[B]))
+			{
+				*modo = 2;
+				control_nintendo_clear(g_buttons_control_2);
+			}
+		}
+		break;
+	case 2:
+		UART_put_string((g_turno * 4), g_array_clear);
+		fichas_color((g_turno * 4), negras);
+		fichas_mover_cursor((g_turno * 4), 25, 10);
+		UART_put_string((g_turno * 4), g_array_regresar);
+		fichas_mover_cursor((g_turno * 4), 25, 16);
+		UART_put_string((g_turno * 4), g_array_pausa_1);
+		fichas_mover_cursor((g_turno * 4), 25, 22);
+		UART_put_string((g_turno * 4), g_array_pausa_2);
+		fichas_mover_cursor((g_turno * 4), 10, 10);
+		fichas_seleccion_print((g_turno * 4), rojo);
+
+		*modo = 3;
+		break;
+
+	case 3:
 		break;
 	}
 }

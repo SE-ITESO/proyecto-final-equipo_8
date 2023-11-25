@@ -12,6 +12,11 @@
 #include "fichas.h"
 #include "control_nintendo.h"
 
+typedef enum{
+	s_none_t,
+	s_change_t
+}status_player_t;
+
 void tablero_init(void);
 void tablero_acomodo_arreglo(void);
 void tablero_print_fichas(void);
