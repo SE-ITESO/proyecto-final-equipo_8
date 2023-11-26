@@ -1171,3 +1171,483 @@ void fichas_mostrar_opciones(struct_opciones_t* posibilidades, uint8_t jugador, 
 		}
 	}
 }
+
+uint8_t fichas_jaque_sencillo(uint8_t jugador, uint8_t x, uint8_t y, struct_ficha_t ajedrez[64])
+{
+	uint8_t color;
+	struct_ficha_t posibilidad;
+	uint8_t y_min[2];
+	uint8_t x_min[2];
+	uint8_t status = libre;
+
+	if(0 == jugador)
+	{
+		color = negras;
+	}
+	else
+	{
+		color = blancas;
+	}
+
+	/*---------------------------------TORRE REINA-------------------------------*/
+	fichas_movimiento_vertical(y_min, x, y, ajedrez);
+	posibilidad = ajedrez[x + (y_min[0] * 8)];
+
+	if((posibilidad.ficha_name == torre) | (posibilidad.ficha_name == reina))
+	{
+		if(color == posibilidad.color)
+		{
+			status |= jaque;
+		}
+	}
+
+	posibilidad = ajedrez[x + (y_min[1] * 8)];
+
+	if((posibilidad.ficha_name == torre) | (posibilidad.ficha_name == reina))
+	{
+		if(color == posibilidad.color)
+		{
+			status |= jaque;
+		}
+	}
+
+	fichas_movimiento_horizontal(x_min, x, y, ajedrez);
+
+	posibilidad = ajedrez[x_min[0] + (y * 8)];
+	if((posibilidad.ficha_name == torre) | (posibilidad.ficha_name == reina))
+	{
+		if(color == posibilidad.color)
+		{
+			status |= jaque;
+		}
+	}
+
+	posibilidad = ajedrez[x_min[1] + (y * 8)];
+	if((posibilidad.ficha_name == torre) | (posibilidad.ficha_name == reina))
+	{
+		if(color == posibilidad.color)
+		{
+			status |= jaque;
+		}
+	}
+	/*---------------------------------ALFIL REINA-------------------------------*/
+	uint8_t lim[4];
+	uint8_t i;
+	uint8_t limite;
+	uint8_t coordenada;
+
+	lim[limite_menos_x] = x;
+	lim[limite_menos_y] = y;
+	lim[limite_mas_x] = 7 - x;
+	lim[limite_mas_y] = 7 - y;
+
+	/*Caso [-k,-k]*/
+	if(lim[limite_menos_x] < lim[limite_menos_y])
+	{
+		limite = lim[limite_menos_x];
+	}
+	else
+	{
+		limite = lim[limite_menos_y];
+	}
+	coordenada = limite;
+	for(i = 0; i < limite; i++)
+	{
+		if(ninguno != ajedrez[(x - limite + i) + ((y - limite + i) * 8)].ficha_name)
+		{
+			coordenada = (limite - i);
+		}
+	}
+	posibilidad = *(ajedrez + (x - coordenada) + ((y - coordenada) * 8));
+	if((posibilidad.ficha_name == alfil) | (posibilidad.ficha_name == reina))
+	{
+		if(color == posibilidad.color)
+		{
+			status |= jaque;
+		}
+	}
+
+	/*Caso [+k,-k]*/
+	if(lim[limite_mas_x] < lim[limite_menos_y])
+	{
+		limite = lim[limite_mas_x];
+	}
+	else
+	{
+		limite = lim[limite_menos_y];
+	}
+	coordenada = limite;
+	for(i = 0; i < limite; i++)
+	{
+		if(ninguno != ajedrez[(x + limite - i) + ((y - limite + i) * 8)].ficha_name)
+		{
+			coordenada = (limite - i);
+		}
+	}
+	posibilidad = *(ajedrez + (x + coordenada) + ((y - coordenada) * 8));
+	if((posibilidad.ficha_name == alfil) | (posibilidad.ficha_name == reina))
+	{
+		if(color == posibilidad.color)
+		{
+			status |= jaque;
+		}
+	}
+
+	/*Caso [-k,+k]*/
+	if(lim[limite_menos_x] < lim[limite_mas_y])
+	{
+		limite = lim[limite_menos_x];
+	}
+	else
+	{
+		limite = lim[limite_mas_y];
+	}
+	coordenada = limite;
+	for(i = 0; i < limite; i++)
+	{
+		if(ninguno != ajedrez[(x - limite + i) + ((y + limite - i) * 8)].ficha_name)
+		{
+			coordenada = (limite - i);
+		}
+	}
+	posibilidad = *(ajedrez + (x - coordenada) + ((y + coordenada) * 8));
+	if((posibilidad.ficha_name == alfil) | (posibilidad.ficha_name == reina))
+	{
+		if(color == posibilidad.color)
+		{
+			status |= jaque;
+		}
+	}
+
+	/*Caso [+k,+k]*/
+	if(lim[limite_mas_x] < lim[limite_mas_y])
+	{
+		limite = lim[limite_mas_x];
+	}
+	else
+	{
+		limite = lim[limite_mas_y];
+	}
+	coordenada = limite;
+	for(i = 0; i < limite; i++)
+	{
+		if(ninguno != ajedrez[(x + limite - i) + ((y + limite - i) * 8)].ficha_name)
+		{
+			coordenada = (limite - i);
+		}
+	}
+	posibilidad = *(ajedrez + (x + coordenada) + ((y + coordenada) * 8));
+	if((posibilidad.ficha_name == alfil) | (posibilidad.ficha_name == reina))
+	{
+		if(color == posibilidad.color)
+		{
+			status |= jaque;
+		}
+	}
+
+
+	/*-----------------------------CABALLO----------------------------------*/
+	uint8_t coordenada_y;
+	uint8_t coordenada_x;
+
+	coordenada_x = x + 1;
+	coordenada_y = y + 2;
+	if((coordenada_y < 8) & (coordenada_x < 8))
+	{
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		if(caballo == posibilidad.ficha_name)
+		{
+			if(color == posibilidad.color)
+			{
+				status |= jaque;
+			}
+		}
+	}
+
+	coordenada_x = x + 1;
+	coordenada_y = y - 2;
+	if((coordenada_y < 8) & (coordenada_x < 8))
+	{
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		if(caballo == posibilidad.ficha_name)
+		{
+			if(color == posibilidad.color)
+			{
+				status |= jaque;
+			}
+		}
+	}
+
+	coordenada_x = x + 2;
+	coordenada_y = y + 1;
+	if((coordenada_y < 8) & (coordenada_x < 8))
+	{
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		if(caballo == posibilidad.ficha_name)
+		{
+			if(color == posibilidad.color)
+			{
+				status |= jaque;
+			}
+		}
+	}
+
+	coordenada_x = x + 2;
+	coordenada_y = y - 1;
+	if((coordenada_y < 8) & (coordenada_x < 8))
+	{
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		if(caballo == posibilidad.ficha_name)
+		{
+			if(color == posibilidad.color)
+			{
+				status |= jaque;
+			}
+		}
+	}
+
+	coordenada_x = x - 1;
+	coordenada_y = y + 2;
+	if((coordenada_y < 8) & (coordenada_x < 8))
+	{
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		if(caballo == posibilidad.ficha_name)
+		{
+			if(color == posibilidad.color)
+			{
+				status |= jaque;
+			}
+		}
+	}
+
+	coordenada_x = x - 1;
+	coordenada_y = y - 2;
+	if((coordenada_y < 8) & (coordenada_x < 8))
+	{
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		if(caballo == posibilidad.ficha_name)
+		{
+			if(color == posibilidad.color)
+			{
+				status |= jaque;
+			}
+		}
+	}
+
+	coordenada_x = x - 2;
+	coordenada_y = y + 1;
+	if((coordenada_y < 8) & (coordenada_x < 8))
+	{
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		if(caballo == posibilidad.ficha_name)
+		{
+			if(color == posibilidad.color)
+			{
+				status |= jaque;
+			}
+		}
+	}
+
+	coordenada_x = x - 2;
+	coordenada_y = y - 1;
+	if((coordenada_y < 8) & (coordenada_x < 8))
+	{
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		if(caballo == posibilidad.ficha_name)
+		{
+			if(color == posibilidad.color)
+			{
+				status |= jaque;
+			}
+		}
+	}
+
+
+	/*------------------------------Peon----------------------------------*/
+	if(0 == jugador)
+	{
+		coordenada_y = y - 1;
+	}
+	else
+	{
+		coordenada_y = y + 1;
+	}
+
+	coordenada_x = x + 1;
+	if((coordenada_y < 8) & (coordenada_x < 8))
+	{
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		if(peon == posibilidad.ficha_name)
+		{
+			if(color == posibilidad.color)
+			{
+				status |= jaque;
+			}
+		}
+	}
+
+	coordenada_x = x - 1;
+	if((coordenada_y < 8) & (coordenada_x < 8))
+	{
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		if(peon == posibilidad.ficha_name)
+		{
+			if(color == posibilidad.color)
+			{
+				status |= jaque;
+			}
+		}
+	}
+
+	return status;
+}
+
+uint8_t fichas_jaque_mate(uint8_t jugador, uint8_t x, uint8_t y, struct_ficha_t ajedrez[64])
+{
+	uint8_t s_jaque;
+	uint8_t status = 0;
+	uint8_t coordenada_x;
+	uint8_t coordenada_y;
+	struct_ficha_t ficha;
+	struct_ficha_t rey = ajedrez[x + (8 * y)];
+	uint8_t color = rey.color;
+
+	coordenada_x = x - 1;
+	coordenada_y = y - 1;
+	ficha = ajedrez[coordenada_x + (8 * coordenada_y)];
+	if((coordenada_y < 8) & (coordenada_x < 8) & (color != ficha.color))
+	{
+		s_jaque = fichas_jaque_sencillo(jugador, coordenada_x, coordenada_y, ajedrez);
+		if(jaque == s_jaque)
+		{
+			status++;
+		}
+	}
+	else
+	{
+		status++;
+	}
+
+	coordenada_x = x;
+	coordenada_y = y - 1;
+	ficha = ajedrez[coordenada_x + (8 * coordenada_y)];
+	if((coordenada_y < 8) & (coordenada_x < 8) & (color != ficha.color))
+	{
+		s_jaque = fichas_jaque_sencillo(jugador, coordenada_x, coordenada_y, ajedrez);
+		if(jaque == s_jaque)
+		{
+			status++;
+		}
+	}
+	else
+	{
+		status++;
+	}
+
+	coordenada_x = x + 1;
+	coordenada_y = y - 1;
+	ficha = ajedrez[coordenada_x + (8 * coordenada_y)];
+	if((coordenada_y < 8) & (coordenada_x < 8) & (color != ficha.color))
+	{
+		s_jaque = fichas_jaque_sencillo(jugador, coordenada_x, coordenada_y, ajedrez);
+		if(jaque == s_jaque)
+		{
+			status++;
+		}
+	}
+	else
+	{
+		status++;
+	}
+
+	coordenada_x = x - 1;
+	coordenada_y = y;
+	ficha = ajedrez[coordenada_x + (8 * coordenada_y)];
+	if((coordenada_y < 8) & (coordenada_x < 8) & (color != ficha.color))
+	{
+		s_jaque = fichas_jaque_sencillo(jugador, coordenada_x, coordenada_y, ajedrez);
+		if(jaque == s_jaque)
+		{
+			status++;
+		}
+	}
+	else
+	{
+		status++;
+	}
+
+	coordenada_x = x + 1;
+	coordenada_y = y;
+	ficha = ajedrez[coordenada_x + (8 * coordenada_y)];
+	if((coordenada_y < 8) & (coordenada_x < 8) & (color != ficha.color))
+	{
+		s_jaque = fichas_jaque_sencillo(jugador, coordenada_x, coordenada_y, ajedrez);
+		if(jaque == s_jaque)
+		{
+			status++;
+		}
+	}
+	else
+	{
+		status++;
+	}
+
+	coordenada_x = x - 1;
+	coordenada_y = y + 1;
+	ficha = ajedrez[coordenada_x + (8 * coordenada_y)];
+	if((coordenada_y < 8) & (coordenada_x < 8) & (color != ficha.color))
+	{
+		s_jaque = fichas_jaque_sencillo(jugador, coordenada_x, coordenada_y, ajedrez);
+		if(jaque == s_jaque)
+		{
+			status++;
+		}
+	}
+	else
+	{
+		status++;
+	}
+
+	coordenada_x = x;
+	coordenada_y = y + 1;
+	ficha = ajedrez[coordenada_x + (8 * coordenada_y)];
+	if((coordenada_y < 8) & (coordenada_x < 8) & (color != ficha.color))
+	{
+		s_jaque = fichas_jaque_sencillo(jugador, coordenada_x, coordenada_y, ajedrez);
+		if(jaque == s_jaque)
+		{
+			status++;
+		}
+	}
+	else
+	{
+		status++;
+	}
+
+	coordenada_x = x + 1;
+	coordenada_y = y + 1;
+	ficha = ajedrez[coordenada_x + (8 * coordenada_y)];
+	if((coordenada_y < 8) & (coordenada_x < 8) & (color != ficha.color))
+	{
+		s_jaque = fichas_jaque_sencillo(jugador, coordenada_x, coordenada_y, ajedrez);
+		if(jaque == s_jaque)
+		{
+			status++;
+		}
+	}
+	else
+	{
+		status++;
+	}
+
+	if(8 == status)
+	{
+		status = jaque_mate;
+	}
+	else
+	{
+		status = jaque;
+	}
+
+	return status;
+}

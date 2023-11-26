@@ -471,6 +471,14 @@ void ajedrez_v_juego(uint8_t * modo)
 				control_nintendo_clear(g_buttons_control_2);
 			}
 		}
+		else if(s_jaque_mate == status)
+		{
+			g_ventana = v_derrota;
+			*modo = 0;
+			control_nintendo_clear(g_buttons_control_1);
+			control_nintendo_clear(g_buttons_control_2);
+			g_ganador = jugador_2 - g_turno;
+		}
 		else
 		{
 			if((jugador_1 == g_turno) & (TRUE == g_buttons_control_1[B]))

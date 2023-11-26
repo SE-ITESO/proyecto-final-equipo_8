@@ -29,6 +29,12 @@ typedef enum{
 }color_ficha_t;
 
 typedef enum{
+	libre,
+	jaque,
+	jaque_mate
+}status_rey_t;
+
+typedef enum{
 	ninguno,
 	peon,
 	torre,
@@ -117,5 +123,8 @@ void fichas_clear_opciones(struct_opciones_t* posibilidades, UART_channel_t UART
 
 void fichas_movimiento_vertical(uint8_t* y_min, uint8_t x, uint8_t y, struct_ficha_t ajedrez[64]);
 void fichas_movimiento_horizontal(uint8_t* x_min, uint8_t x, uint8_t y, struct_ficha_t ajedrez[64]);
+
+uint8_t fichas_jaque_sencillo(uint8_t jugador, uint8_t x, uint8_t y, struct_ficha_t ajedrez[64]);
+uint8_t fichas_jaque_mate(uint8_t jugador, uint8_t x, uint8_t y, struct_ficha_t ajedrez[64]);
 
 #endif /* FICHAS_H_ */
