@@ -24,21 +24,25 @@
 #include "ajedrez.h"
 #include "NVIC.h"
 
+#include "SPI.h"
+#include "memory.h"
+
 int main(void) {
+
+	uint8_t data[255] = {0};
+
 	clock_init();
-	CLOCK_SetSimSafeDivs();
-	UART_init (UART_0,  100000000, BD_115200, kUART_ParityDisabled, kUART_OneStopBit);
-	UART_init (UART_4,  50000000, BD_115200, kUART_ParityDisabled, kUART_OneStopBit);
-	UART_interrupt_enable(UART_0);
-	UART_interrupt_enable(UART_4);
+	SPI_config();
 
-	NVIC_enable_interrupt_and_priotity(UART0_IRQ, PRIORITY_10);
-	NVIC_enable_interrupt_and_priotity(UART4_IRQ, PRIORITY_10);
+	memory_create_log(1);
 
-	ajedrez_init();
+	for(uint8_t index = 0; index <125; index++)
+	{
+		memory_add_movimiento(index);
+	}
 
-    while(1)
-    {
-    	ajedrez_control();
-    }
+	memory_send_log();
+	memory_read_log(&data);
+
+	return 0;
 }

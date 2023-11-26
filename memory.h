@@ -14,6 +14,8 @@
 #include "stdint.h"
 #include "SPI.h"
 #include "fsl_dspi.h"
+#include "PIT.h"
+#include "NVIC.h"
 
 #define SHIFT_PART_1	(16U)
 #define SHIFT_PART_2	(8U)
@@ -29,7 +31,8 @@
 #define WD_COMMAND		(0x04)
 #define WRITE_COMMAND	(0x02)
 
-#define TIEMPO_LIMITE	(50U)
+#define TIEMPO_LIMITE	(10000000U)
+#define TIEMPO_CH1	(1000000U)
 
 typedef struct{
 	uint32_t address;
@@ -41,8 +44,13 @@ typedef struct{
  *
  * @param sound_t* sound_n Pointer to struct of sound
  */
-void memory_read(log_struct_t* log);
-void memory_write_log(log_struct_t* log);
-void initial_logs(void);
+void memory_create_log(uint8_t log_number);
+
+void memory_add_movimiento(uint8_t movimiento);
+
+void memory_send_log(void);
+
+void memory_read_log(void* data);
+
 
 #endif /* MEMORY_H_ */
