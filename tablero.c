@@ -19,8 +19,15 @@ static struct_ficha_t g_ficha_generica =
 
 static funct_mov_ficha g_funct_movimiento[] =
 {
-		fichas_peon_mov
+		fichas_peon_mov,
+		fichas_torre_mov,
+		fichas_alfil_mov,
+		fichas_caballo_mov,
+		fichas_reina_mov,
+		fichas_rey_mov
 };
+
+static uint8_t g_posicion_reyes[2][2] = {{},{}};
 
 static struct_ficha_t g_array_ajedrez[64];
 
@@ -61,6 +68,8 @@ void tablero_init(void)
 void tablero_acomodo_arreglo(void)
 {
 	uint8_t i;
+
+	fichas_config(&g_ficha_generica, ninguno, indefinido);
 	for(i = 0; i < 64; i++)
 	{
 		g_array_ajedrez[i] = g_ficha_generica;
@@ -138,7 +147,7 @@ void tablero_print_fichas(void)
 	}
 }
 
-uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button)
+uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button, uint8_t* reinicio)
 {
 	static uint8_t coordenada_x = 0;
 	static uint8_t coordenada_y = 7;
@@ -147,9 +156,19 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button)
 	static uint8_t x_selec = 0;
 	static uint8_t y_selec = 0;
 	uint8_t temporal;
+	uint8_t status = s_none_t;
+
+	if(TRUE == *reinicio)
+	{
+		coordenada_x = 0;
+		coordenada_y = 7;
+		*reinicio = FALSE;
+		g_modo = 1;
+	}
+
+
 	switch(g_modo)
 	{
-
 	case 0:
 		if(FALSE != *(array_button + RIGHT))
 		{
@@ -603,11 +622,13 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button)
 
 	case 5:
 		(*jugador) = 1 - (*jugador);
-		g_modo = 1;
 
+		g_modo = 1;
+		status = s_change_t;
 		break;
 	}
-	return 0;
+
+	return status;
 }
 
 void tablero_movimiento(uint8_t x_old, uint8_t y_old, uint8_t x_new, uint8_t y_new)
@@ -616,10 +637,30 @@ void tablero_movimiento(uint8_t x_old, uint8_t y_old, uint8_t x_new, uint8_t y_n
 	ficha = *(g_array_ajedrez + x_old + (y_old * 8));
 	*(g_array_ajedrez + x_new + (y_new * 8)) = ficha;
 
+	fichas_vacio_print(indefinido, (x_new * 16) + 1, (y_new * 8) + 1);
 	ficha.print_ficha(ficha.color, (x_new * 16) + 1, (y_new * 8) + 1);
 
 	fichas_config(&ficha, ninguno, indefinido);
 	*(g_array_ajedrez + x_old + (y_old * 8)) = ficha;
 
 	ficha.print_ficha(ficha.color, (x_old * 16) + 1, (y_old * 8) + 1);
+}
+
+void tablero_print_tablero(void)
+{
+	uint8_t x;
+	uint8_t y;
+	struct_ficha_t ficha;
+	for(y = 0; y < 8; y++)
+	{
+		for(x = 0; x < 8; x++)
+		{
+			fichas_vacio_print(indefinido, (x * 16) + 1, (y * 8) + 1);
+			ficha = *(g_array_ajedrez + x + (y * 8));
+			if(ninguno != ficha.ficha_name)
+			{
+				ficha.print_ficha(ficha.color, (x * 16) + 1, (y * 8) + 1);
+			}
+		}
+	}
 }

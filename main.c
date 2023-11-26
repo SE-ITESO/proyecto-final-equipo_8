@@ -34,14 +34,6 @@ int main(void) {
 	NVIC_enable_interrupt_and_priotity(UART4_IRQ, PRIORITY_10);
 
 	ajedrez_init();
-	//tablero_init();
-
-	//fichas_peon_print();
-	//fichas_torre_print();
-	//fichas_alfil_print();
-	//fichas_caballo_print();
-	//fichas_reina_print();
-	//fichas_rey_print();
 
     while(1)
     {
