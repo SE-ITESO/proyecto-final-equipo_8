@@ -19,14 +19,16 @@
 #include "clock_config.h"
 #include "MK64F12.h"
 #include "fsl_debug_console.h"
+#include "clock.h"
 
 #include "ajedrez.h"
 #include "NVIC.h"
 
 int main(void) {
+	clock_init();
 	CLOCK_SetSimSafeDivs();
-	UART_init (UART_0,  21000000, BD_115200, kUART_ParityDisabled, kUART_OneStopBit);
-	UART_init (UART_4,  10500000, BD_115200, kUART_ParityDisabled, kUART_OneStopBit);
+	UART_init (UART_0,  100000000, BD_115200, kUART_ParityDisabled, kUART_OneStopBit);
+	UART_init (UART_4,  50000000, BD_115200, kUART_ParityDisabled, kUART_OneStopBit);
 	UART_interrupt_enable(UART_0);
 	UART_interrupt_enable(UART_4);
 

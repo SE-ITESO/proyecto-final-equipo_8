@@ -22,6 +22,8 @@ static uint8_t g_ganador = jugador_1;
 
 static uint8_t g_buttons_control_1[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 static uint8_t g_buttons_control_2[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+static uint8_t g_buttons_control_1_f[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+static uint8_t g_buttons_control_2_f[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 
 static uint8_t g_array_menu_1[] =
 		 //S    T    A	  R	    T	   ->	 I   N    I   C   I   A    R         J   U    E   G     O
@@ -280,8 +282,8 @@ void ajedrez_init(void)
 
 void ajedrez_control(void)
 {
-	control_nintendo_control(CONTROL_1, g_buttons_control_1);
-	control_nintendo_control(CONTROL_2, g_buttons_control_2);
+	control_nintendo_control(CONTROL_1, g_buttons_control_1_f);
+	control_nintendo_control(CONTROL_2, g_buttons_control_2_f);
 	g_array_ventana_function[g_ventana](&g_modo);
 }
 

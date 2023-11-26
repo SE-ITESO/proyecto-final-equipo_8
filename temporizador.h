@@ -10,7 +10,7 @@
 
 #define NUM_TO_ASCII(a) (a + 0x30)
 
-#define TIEMPO_CH2 (10500000U)
+#define TIEMPO_CH2 (50000000U)
 
 void temporizador_init(uint8_t minuto_inicial, uint8_t segundo_inicial);
 void temporizador_cero_print(UART_channel_t UART_name, uint8_t posicion);
