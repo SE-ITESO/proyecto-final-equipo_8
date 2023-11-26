@@ -19,32 +19,21 @@
 #include "clock_config.h"
 #include "MK64F12.h"
 #include "fsl_debug_console.h"
+#include "memory.h"
 
 #include "ajedrez.h"
 #include "NVIC.h"
 
-int main(void) {
-	CLOCK_SetSimSafeDivs();
-	UART_init (UART_0,  21000000, BD_115200, kUART_ParityDisabled, kUART_OneStopBit);
-	UART_init (UART_4,  10500000, BD_115200, kUART_ParityDisabled, kUART_OneStopBit);
-	UART_interrupt_enable(UART_0);
-	UART_interrupt_enable(UART_4);
 
-	NVIC_enable_interrupt_and_priotity(UART0_IRQ, PRIORITY_10);
-	NVIC_enable_interrupt_and_priotity(UART4_IRQ, PRIORITY_10);
+int main(void)
+{
+	SPI_config();
 
-	ajedrez_init();
-	//tablero_init();
+	uint8_t data_cero[255] = {0};
+	log_struct_t log_cero;
+	log_cero.address = 0x41000;
+	log_cero.data = data_cero;
+	memory_read(&log_cero);
 
-	//fichas_peon_print();
-	//fichas_torre_print();
-	//fichas_alfil_print();
-	//fichas_caballo_print();
-	//fichas_reina_print();
-	//fichas_rey_print();
-
-    while(1)
-    {
-    	ajedrez_control();
-    }
+	return 0;
 }

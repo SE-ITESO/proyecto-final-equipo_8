@@ -24,30 +24,25 @@
 #define SIZE_TX			(4U)
 #define SIZE_RX			(1U)
 
-typedef enum {
-	k_sound,
-	s_sound,
-	b_sound,
-	h_sound,
-	g_sound,
-	r_sound,
-	t_sound,
-	c_sound,
-	w_sound
-}sound_name_t;
+#define ERASE_COMMAND	(0x20)
+#define WE_COMMAND		(0x06)
+#define WD_COMMAND		(0x04)
+#define WRITE_COMMAND	(0x02)
 
-typedef struct {
+#define TIEMPO_LIMITE	(50U)
+
+typedef struct{
 	uint32_t address;
-	uint16_t size;
-	uint8_t* array;
-	uint8_t character;
-}sound_t;
+	uint8_t* data;
+}log_struct_t;
 
 /*!
  * @brief It used to read the memory, only byte by byte
  *
  * @param sound_t* sound_n Pointer to struct of sound
  */
-void memory_read(sound_t* sound_n);
+void memory_read(log_struct_t* log);
+void memory_write_log(log_struct_t* log);
+void initial_logs(void);
 
 #endif /* MEMORY_H_ */
