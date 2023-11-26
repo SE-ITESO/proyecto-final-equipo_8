@@ -16,6 +16,10 @@ static uint8_t g_log = log_0;
 
 static uint8_t g_turno = jugador_1;
 
+static uint8_t g_reinicio = TRUE;
+
+static uint8_t g_ganador = jugador_1;
+
 static uint8_t g_buttons_control_1[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 static uint8_t g_buttons_control_2[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 
@@ -200,7 +204,44 @@ static uint8_t g_array_no[] =
 		"\e[1B\e[10D"
 		"-   - ----";
 
-static ventana_function g_array_ventana_function[] = {ajedrez_v_menu, ajedrez_v_save, ajedrez_v_juego, ajedrez_v_pausa, ajedrez_v_tablas};
+static uint8_t g_array_perdiste [] =
+		//P    E    R     D   I    S    T    E
+		"---- --- ----- ---- --- ---- ----- ---"
+		"\e[1B\e[38D"
+		" - - -    -  -  - -  -  -      -   -  "
+		"\e[1B\e[38D"
+		" --- ---  ----  - -  -  ----   -   ---"
+		"\e[1B\e[38D"
+		" -   -    - -   - -  -     -   -   -  "
+		"\e[1B\e[38D"
+		" -   ---  -  - ---- --- ----   -   ---";
+
+static uint8_t g_array_ganaste [] =
+		//G    A    N    A   S     T    E
+		"---- --- -   - --- ---- ----- ---"
+		"\e[1B\e[33D"
+		"-    - - --  - - - -      -   -  "
+		"\e[1B\e[33D"
+		"- -- --- - - - --- ----   -   ---"
+		"\e[1B\e[33D"
+		"-  - - - -  -- - -    -   -   -  "
+		"\e[1B\e[33D"
+		"---- - - -   - - - ----   -   ---";
+
+static uint8_t g_array_espera_1 [] =
+		// S    T    A    R     T             M    E    N    U
+		"---- ----- --- ----- -----     -   -   - --- -   - -  -"
+		"\e[1B\e[55D"
+		"-      -   - -  -  -   -        -  -- -- -   --  - -  -"
+		"\e[1B\e[55D"
+		"----   -   ---  ----   -   ------- - - - --- - - - -  -"
+		"\e[1B\e[55D"
+		"   -   -   - -  - -    -        -  -   - -   -  -- -  -"
+		"\e[1B\e[55D"
+		"----   -   - -  -  -   -       -   -   - --- -   - ----";
+
+
+static ventana_function g_array_ventana_function[] = {ajedrez_v_menu, ajedrez_v_save, ajedrez_v_juego, ajedrez_v_pausa, ajedrez_v_tablas, ajedrez_v_espera, ajedrez_v_derrota};
 
 static uint8_t g_ventana = v_inicio;
 static uint8_t g_modo = 0;
@@ -229,6 +270,10 @@ void ajedrez_init(void)
 	tablero_switch_string(g_array_tablas_1, '-', 219);
 	tablero_switch_string(g_array_si, '-', 219);
 	tablero_switch_string(g_array_no, '-', 219);
+
+	tablero_switch_string(g_array_perdiste, '-', 219);
+	tablero_switch_string(g_array_ganaste, '-', 219);
+	tablero_switch_string(g_array_espera_1, '-', 219);
 
 	tablero_switch_string(g_array_regresar, '-', 219);
 }
@@ -403,6 +448,7 @@ void ajedrez_v_juego(uint8_t * modo)
 		UART_put_string(UART_0, g_array_clear);
 		UART_put_string(UART_4, g_array_clear);
 		tablero_init();
+		g_turno   = jugador_1;
 		*modo = 1;
 	case 1:
 		if(jugador_1 == g_turno)
@@ -413,7 +459,7 @@ void ajedrez_v_juego(uint8_t * modo)
 		{
 			pointer_button = g_buttons_control_2;
 		}
-		status = tablero_control(&g_turno, pointer_button);
+		status = tablero_control(&g_turno, pointer_button, &g_reinicio);
 		if(s_change_t == status)
 		{
 			if(jugador_1 == g_turno)
@@ -525,9 +571,16 @@ void ajedrez_v_pausa(uint8_t * modo)
 				control_nintendo_clear(g_buttons_control_1);
 				control_nintendo_clear(g_buttons_control_2);
 			}
+			else if(2 == temp)
+			{
+				g_ventana = v_derrota;
+				*modo = 0;
+				control_nintendo_clear(g_buttons_control_1);
+				control_nintendo_clear(g_buttons_control_2);
+				g_ganador = jugador_2 - g_turno;
+			}
 		}
 		break;
-
 	case 2:
 		control_nintendo_clear(g_buttons_control_1);
 		control_nintendo_clear(g_buttons_control_2);
@@ -543,6 +596,7 @@ void ajedrez_v_tablas(uint8_t * modo)
 	static uint8_t coor_y;
 	uint8_t UART_num = UART_4 - (g_turno * 4);
 	static uint8_t* pointer_button;
+	uint8_t temp;
 
 	switch(*modo)
 	{
@@ -596,10 +650,89 @@ void ajedrez_v_tablas(uint8_t * modo)
 
 			*(pointer_button + UP) = FALSE;
 		}
+		else if(FALSE != *(pointer_button + A))
+		{
+			temp = (coor_y - 16) / 6;
+			if(0 == temp)
+			{
+				UART_put_string(UART_0, g_array_clear);
+				fichas_color(UART_0, negras);
+				fichas_mover_cursor(UART_0, 25, 10);
+				UART_put_string(UART_0, g_array_pausa_1);
+
+				UART_put_string(UART_4, g_array_clear);
+				fichas_color(UART_4, negras);
+				fichas_mover_cursor(UART_4, 25, 10);
+				UART_put_string(UART_4, g_array_pausa_1);
+				*modo = 0;
+				g_ventana = v_espera;
+			}
+			else
+			{
+				control_nintendo_clear(g_buttons_control_1);
+				control_nintendo_clear(g_buttons_control_2);
+				tablero_print_tablero();
+				*modo = 1;
+				g_ventana = v_juego;
+			}
+		}
 		break;
+	}
+}
 
-	case 2:
+void ajedrez_v_derrota(uint8_t * modo)
+{
+	uint8_t ganador = g_ganador * 4;
+	uint8_t perdedor = UART_4 - ganador;
 
+	switch(*modo)
+	{
+	case 0:
+		UART_put_string(ganador, g_array_clear);
+		fichas_color(ganador, negras);
+		fichas_mover_cursor(ganador, 25, 10);
+		UART_put_string(ganador, g_array_ganaste);
+
+		UART_put_string(perdedor, g_array_clear);
+		fichas_color(perdedor, negras);
+		fichas_mover_cursor(perdedor, 25, 10);
+		UART_put_string(perdedor, g_array_perdiste);
+
+		control_nintendo_clear(g_buttons_control_1);
+		control_nintendo_clear(g_buttons_control_2);
+
+		*modo = 0;
+		g_ventana = v_espera;
+		break;
+	}
+}
+
+void ajedrez_v_espera(uint8_t * modo)
+{
+
+	switch(*modo)
+	{
+	case 0:
+		fichas_color(UART_0, negras);
+		fichas_mover_cursor(UART_0, 40, 30);
+		UART_put_string(UART_0, g_array_espera_1);
+
+		fichas_color(UART_4, negras);
+		fichas_mover_cursor(UART_4, 40, 30);
+		UART_put_string(UART_4, g_array_espera_1);
+
+		*modo = 1;
+	case 1:
+		if(FALSE != (g_buttons_control_1[START] | g_buttons_control_2[START]))
+		{
+			control_nintendo_clear(g_buttons_control_1);
+			control_nintendo_clear(g_buttons_control_2);
+			fichas_color(UART_0, azul);
+			fichas_color(UART_4, azul);
+			*modo = 0;
+			g_ventana = v_inicio;
+			g_reinicio = TRUE;
+		}
 		break;
 	}
 }

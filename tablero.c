@@ -27,6 +27,8 @@ static funct_mov_ficha g_funct_movimiento[] =
 		fichas_rey_mov
 };
 
+static uint8_t g_posicion_reyes[2][2] = {{},{}};
+
 static struct_ficha_t g_array_ajedrez[64];
 
 void tablero_switch_string(uint8_t* array, uint8_t old_character, uint8_t new_character)
@@ -66,6 +68,8 @@ void tablero_init(void)
 void tablero_acomodo_arreglo(void)
 {
 	uint8_t i;
+
+	fichas_config(&g_ficha_generica, ninguno, indefinido);
 	for(i = 0; i < 64; i++)
 	{
 		g_array_ajedrez[i] = g_ficha_generica;
@@ -143,7 +147,7 @@ void tablero_print_fichas(void)
 	}
 }
 
-uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button)
+uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button, uint8_t* reinicio)
 {
 	static uint8_t coordenada_x = 0;
 	static uint8_t coordenada_y = 7;
@@ -154,9 +158,17 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button)
 	uint8_t temporal;
 	uint8_t status = s_none_t;
 
+	if(TRUE == *reinicio)
+	{
+		coordenada_x = 0;
+		coordenada_y = 7;
+		*reinicio = FALSE;
+		g_modo = 1;
+	}
+
+
 	switch(g_modo)
 	{
-
 	case 0:
 		if(FALSE != *(array_button + RIGHT))
 		{
