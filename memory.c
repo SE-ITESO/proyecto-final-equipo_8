@@ -20,7 +20,7 @@ void memory_erase_page(log_struct_t* log);
 
 void log_config(uint8_t operation, uint32_t data)
 {
-	static uint8_t movimientos[255] = 0;
+	static uint8_t movimientos[255] = {0};
 	static log_struct_t current_log;
 	static uint8_t movimientos_index = 4;
 
@@ -31,8 +31,8 @@ void log_config(uint8_t operation, uint32_t data)
 		current_log.data = movimientos;
 	break;
 	case 1:
-		current_log.data[data_index] = data;
-		data_index++;
+		current_log.data[movimientos_index] = data;
+		movimientos_index++;
 	break;
 	case 2:
 		memory_write_log(&current_log);
@@ -133,10 +133,9 @@ void initial_logs(void)
 
 void memory_write_log(log_struct_t* log)
 {
+	/*
 	uint8_t tiempo_transcurrido = 0;
 	uint8_t etapa = 0;
-
-	/*
 	while(tiempo_transcurrido < TIEMPO_LIMITE)
 	{
 		if (g_PIT_memory_flag)

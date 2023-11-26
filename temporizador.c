@@ -10,7 +10,6 @@ static uint8_t g_array_color_black[] = "\033[30m";
 static uint8_t g_tiempo_restante_minutos[2] = {0, 0};
 static uint8_t g_tiempo_restante_segundos[2] = {0, 0};
 static uint8_t g_timer_flag = 0;
-static uint8_t g_turno = 0;
 
 static uint8_t renglon_index = 0;
 static uint8_t fila_index = 0;
@@ -32,11 +31,11 @@ void temporizador_puntos_print(uint8_t jugador)
 	UART_put_char(UART_0, 219);
 
 	temporizador_mover_cursor(jugador, 18, 2);
-	UART_put_char(UART_1, 219);
-	UART_put_char(UART_1, 219);
+	UART_put_char(UART_4, 219);
+	UART_put_char(UART_4, 219);
 	temporizador_mover_cursor(jugador, 18, 5);
-	UART_put_char(UART_1, 219);
-	UART_put_char(UART_1, 219);
+	UART_put_char(UART_4, 219);
+	UART_put_char(UART_4, 219);
 }
 
 void temporizador_puntos_init(void)
@@ -60,12 +59,14 @@ void temporizador_timer_encabezados_print(void)
 		g_temporizador_posicion[2] = NUM_TO_ASCII(1);
 		g_temporizador_posicion[3] = NUM_TO_ASCII(renglon_index+1);
 		UART_put_string(UART_0, g_temporizador_posicion);
+		UART_put_string(UART_4, g_temporizador_posicion);
 
 		for (fila_index = 0; fila_index < 54; fila_index++)
 		{
 			temp = *(array_player+(renglon_index*54)+(fila_index));
 			temp = (temp == 35)? 219U : temp;
 			UART_put_char(UART_0, temp);
+			UART_put_char(UART_4, temp);
 		}
 	}
 
@@ -76,12 +77,14 @@ void temporizador_timer_encabezados_print(void)
 			g_temporizador_posicion[2] = NUM_TO_ASCII(2);
 			g_temporizador_posicion[3] = NUM_TO_ASCII(renglon_index+1);
 			UART_put_string(UART_0, g_temporizador_posicion);
+			UART_put_string(UART_4, g_temporizador_posicion);
 
 			for (fila_index = 0; fila_index < 54; fila_index++)
 			{
 				temp = *(array_player+(renglon_index*54)+(fila_index));
 				temp = (temp == 35)? 219U : temp;
 				UART_put_char(UART_0, temp);
+				UART_put_char(UART_4, temp);
 			}
 		}
 }
@@ -102,36 +105,35 @@ void temporizador_init(uint8_t minuto_inicial, uint8_t segundo_inicial)
 	NVIC_enable_interrupt_and_priotity(PIT_CH2_IRQ, PRIORITY_3);
 
 	UART_put_string(UART_0, g_array_color_black);
+	UART_put_string(UART_4, g_array_color_black);
 	temporizador_timer_encabezados_print();
 	temporizador_puntos_init();
-	temporizador_update();
+	temporizador_update(2);
 
 }
 
 
-void temporizador_update(void)
+void temporizador_update(uint8_t turno)
 {
 	static uint8_t time_over = 0;
-	static uint8_t uart = 0;
 
 	if (FALSE != g_timer_flag)
 	{
-		g_tiempo_restante_segundos[g_turno]-= g_timer_flag;
+		g_tiempo_restante_segundos[turno]-= g_timer_flag;
 		g_timer_flag = 0;
 
-		if (60 < g_tiempo_restante_segundos[g_turno])
+		if (60 < g_tiempo_restante_segundos[turno])
 		{
-			g_tiempo_restante_segundos[g_turno] = 59;
-			g_tiempo_restante_minutos[g_turno]--;
+			g_tiempo_restante_segundos[turno] = 59;
+			g_tiempo_restante_minutos[turno]--;
 
-			if (0 > g_tiempo_restante_minutos[g_turno])
+			if (0 > g_tiempo_restante_minutos[turno])
 			{
 				time_over = 1;
 			}
 
 		}
 
-		uart = (g_turno == 0)? UART_0 : UART_4;
 		temporizador_new_time_print();
 
 	}
@@ -144,6 +146,7 @@ void temporizador_new_time_print(void)
 	static uint8_t data = 0;
 
 	UART_put_string(UART_0, g_array_color_black);
+	UART_put_string(UART_4, g_array_color_black);
 
 	data = g_tiempo_restante_minutos[0];
 
@@ -223,7 +226,7 @@ void temporizador_numero_print(uint8_t jugador, uint8_t posicion, uint8_t numero
 			temp = *(array_num+(renglon_index*9)+(fila_index));
 			temp = (temp == 35)? 219U : temp;
 			UART_put_char(UART_0, temp);
-			UART_put_char(UART_1, temp);
+			UART_put_char(UART_4, temp);
 		}
 	}
 }
@@ -245,5 +248,5 @@ void temporizador_mover_cursor(uint8_t jugador, uint8_t posicion, uint8_t renglo
 	g_temporizador_posicion[2] = NUM_TO_ASCII(jugador+1);
 	g_temporizador_posicion[3] = NUM_TO_ASCII(renglon);
 	UART_put_string(UART_0, g_temporizador_posicion);
-	UART_put_string(UART_1, g_temporizador_posicion);
+	UART_put_string(UART_4, g_temporizador_posicion);
 }
