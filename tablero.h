@@ -14,7 +14,8 @@
 
 typedef enum{
 	s_none_t,
-	s_change_t
+	s_change_t,
+	s_jaque_mate
 }status_player_t;
 
 void tablero_init(void);

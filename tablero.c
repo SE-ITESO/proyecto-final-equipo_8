@@ -27,7 +27,7 @@ static funct_mov_ficha g_funct_movimiento[] =
 		fichas_rey_mov
 };
 
-static uint8_t g_posicion_reyes[2][2] = {{},{}};
+static uint8_t g_posicion_reyes[2][2] = {{4, 7},{4, 0}};
 
 static struct_ficha_t g_array_ajedrez[64];
 
@@ -157,6 +157,7 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button, uint8_t* reinic
 	static uint8_t y_selec = 0;
 	uint8_t temporal;
 	uint8_t status = s_none_t;
+	static uint8_t s_jaque;
 
 	if(TRUE == *reinicio)
 	{
@@ -164,8 +165,19 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button, uint8_t* reinic
 		coordenada_y = 7;
 		*reinicio = FALSE;
 		g_modo = 1;
+		s_jaque = libre;
 	}
 
+	s_jaque = fichas_jaque_sencillo(*jugador, g_posicion_reyes[*jugador][0] , g_posicion_reyes[*jugador][1], g_array_ajedrez);
+
+	if(jaque == s_jaque)
+	{
+		s_jaque = fichas_jaque_mate(*jugador, g_posicion_reyes[*jugador][0] , g_posicion_reyes[*jugador][1], g_array_ajedrez);
+		if(jaque_mate == s_jaque)
+		{
+			g_modo = 6;
+		}
+	}
 
 	switch(g_modo)
 	{
@@ -575,6 +587,7 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button, uint8_t* reinic
 		else if(FALSE != *(array_button + A))
 		{
 			*(array_button + A) = FALSE;
+
 			if(ficha.posible_mov)
 			{
 				if(0 == *jugador)
@@ -587,7 +600,34 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button, uint8_t* reinic
 					fichas_clear_opciones(&((g_array_ajedrez + (7 - x_selec) + ((7 - y_selec) * 8))->opciones), (*jugador) * 4, g_array_ajedrez);
 					tablero_movimiento(7 - x_selec, 7 - y_selec, 7 - coordenada_x, 7 - coordenada_y);
 				}
+
+				if(rey == ficha_seleccionada.ficha_name)
+				{
+					g_posicion_reyes[*jugador][0] = coordenada_x;
+					g_posicion_reyes[*jugador][1] = coordenada_y;
+				}
 				g_modo = 5;
+			}
+
+			s_jaque = fichas_jaque_sencillo(*jugador, g_posicion_reyes[*jugador][0] , g_posicion_reyes[*jugador][1], g_array_ajedrez);
+
+			if(jaque == s_jaque)
+			{
+				if(0 == *jugador)
+				{
+					tablero_movimiento(coordenada_x, coordenada_y, x_selec, y_selec);
+				}
+				else
+				{
+					tablero_movimiento(7 - coordenada_x, 7 - coordenada_y, 7 - x_selec, 7 - y_selec);
+				}
+
+				if(rey == ficha_seleccionada.ficha_name)
+				{
+					g_posicion_reyes[*jugador][0] = x_selec;
+					g_posicion_reyes[*jugador][1] = y_selec;
+				}
+				g_modo = 1;
 			}
 		}
 		break;
@@ -625,6 +665,10 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button, uint8_t* reinic
 
 		g_modo = 1;
 		status = s_change_t;
+		break;
+
+	case 6:
+		status = s_jaque_mate;
 		break;
 	}
 

@@ -460,8 +460,8 @@ void ajedrez_v_juego(uint8_t * modo)
 		{
 			pointer_button = g_buttons_control_2;
 		}
-		temporizador_update(g_turno);
 		status = tablero_control(&g_turno, pointer_button, &g_reinicio);
+		temporizador_update(g_turno);
 		if(s_change_t == status)
 		{
 			if(jugador_1 == g_turno)
@@ -472,6 +472,14 @@ void ajedrez_v_juego(uint8_t * modo)
 			{
 				control_nintendo_clear(g_buttons_control_2);
 			}
+		}
+		else if(s_jaque_mate == status)
+		{
+			g_ventana = v_derrota;
+			*modo = 0;
+			control_nintendo_clear(g_buttons_control_1);
+			control_nintendo_clear(g_buttons_control_2);
+			g_ganador = jugador_2 - g_turno;
 		}
 		else
 		{
