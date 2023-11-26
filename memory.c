@@ -70,7 +70,7 @@ void memory_send_log(void)
 
 void memory_read_log(void* data)
 {
-	log_config(3, &data);
+	log_config(3, data);
 }
 
 /*INTERNAS---------------------------------------------------------------*/
@@ -83,6 +83,8 @@ void log_config(uint8_t operation, void* data)
 	static uint8_t movimientos[255] = {0};
 	static log_struct_t current_log;
 	static uint8_t movimientos_index = 4;
+	static uint8_t *aux_ptr;
+	static uint8_t ptr_index = 0;
 
 	switch (operation)
 	{
@@ -99,13 +101,19 @@ void log_config(uint8_t operation, void* data)
 	break;
 	case 3:
 		memory_read(&current_log);
-		data = current_log.data;
+		aux_ptr = data;
+		for (ptr_index = 0; ptr_index<255; ptr_index++)
+		{
+			*aux_ptr = current_log.data[ptr_index];
+			aux_ptr++;
+		}
 	break;
 	}
 }
 
 void memory_write_log(log_struct_t* log)
 {
+
 	uint32_t tiempo_transcurrido = 0;
 	uint8_t etapa = 0;
 
@@ -147,7 +155,7 @@ void memory_write_log(log_struct_t* log)
 			break;
 			}
 
-			if (etapa<5)
+			if (etapa<4)
 			{
 				etapa++;
 			}

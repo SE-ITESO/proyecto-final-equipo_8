@@ -34,15 +34,15 @@ int main(void) {
 	clock_init();
 	SPI_config();
 
-	memory_create_log(1);
+	memory_create_log(0);
 
-	for(uint8_t index = 0; index <125; index++)
+	for(uint8_t index = 0; index <255; index++)
 	{
-		memory_add_movimiento(index);
+		memory_add_movimiento(69);
 	}
 
 	memory_send_log();
-	memory_read_log(&data);
+	memory_read_log(data);
 
 	return 0;
 }
