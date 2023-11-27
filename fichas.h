@@ -73,6 +73,15 @@ typedef struct
 	struct_opciones_t opciones;
 }struct_ficha_t;
 
+typedef struct
+{
+	name_ficha_t ficha_name;
+	color_ficha_t color;
+	uint8_t coordenada_x;
+	uint8_t coordenada_y;
+	struct_opciones_t casillas;
+}struct_ficha_jaque_t;
+
 typedef void(*funct_mov_ficha)(uint8_t x, uint8_t y, struct_ficha_t ajedrez[64]);
 
 void fichas_mover_cursor(UART_channel_t UART_name, uint16_t x, uint8_t y);
@@ -126,5 +135,10 @@ void fichas_movimiento_horizontal(uint8_t* x_min, uint8_t x, uint8_t y, struct_f
 
 uint8_t fichas_jaque_sencillo(uint8_t jugador, uint8_t x, uint8_t y, struct_ficha_t ajedrez[64]);
 uint8_t fichas_jaque_mate(uint8_t jugador, uint8_t x, uint8_t y, struct_ficha_t ajedrez[64]);
+
+void fichas_ficha_jaque(struct_ficha_jaque_t* ficha, uint8_t x, uint8_t y, struct_ficha_t ajedrez[64]);
+
+uint8_t fichas_salvar_jaque(struct_ficha_jaque_t* ficha, uint8_t x, uint8_t y, struct_ficha_t ajedrez[64]);
+
 
 #endif /* FICHAS_H_ */
