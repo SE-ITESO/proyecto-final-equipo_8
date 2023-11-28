@@ -22,8 +22,6 @@ static uint8_t g_ganador = jugador_1;
 
 static uint8_t g_buttons_control_1[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 static uint8_t g_buttons_control_2[8] = {0, 0, 0, 0, 0, 0, 0, 0};
-//static uint8_t g_buttons_control_1_f[8] = {0, 0, 0, 0, 0, 0, 0, 0};
-//static uint8_t g_buttons_control_2_f[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 
 static uint8_t g_array_menu_1[] =
 		 //S    T    A	  R	    T	   ->	 I   N    I   C   I   A    R         J   U    E   G     O
@@ -417,12 +415,12 @@ void ajedrez_v_save(uint8_t * modo)
 		}
 		else if((FALSE != g_buttons_control_1[A]) | (FALSE != g_buttons_control_2[A]))
 		{
+			memory_create_log(coor_y);
+			tablero_assign_log_number(coor_y);
 			coor_y = (coor_y - 16) / 6;
 			if(6 > coor_y)
 			{
-				g_log = coor_y;									//tal vez innecesario
-				memory_create_log(coor_y);
-				tablero_assign_log_number(coor_y);
+				g_log = coor_y;
 				control_nintendo_clear(g_buttons_control_1);
 				control_nintendo_clear(g_buttons_control_2);
 				*modo = 0;

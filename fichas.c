@@ -1651,3 +1651,530 @@ uint8_t fichas_jaque_mate(uint8_t jugador, uint8_t x, uint8_t y, struct_ficha_t 
 
 	return status;
 }
+
+
+void fichas_ficha_jaque(struct_ficha_jaque_t* ficha, uint8_t x, uint8_t y, struct_ficha_t ajedrez[64])
+{
+	struct_ficha_t rey = ajedrez[x + (8 * y)];
+
+	uint8_t color;
+	struct_ficha_t posibilidad;
+	uint8_t y_min[2];
+	uint8_t x_min[2];
+
+	color = rey.color;
+	if(blancas == color)
+	{
+		color = negras;
+		ficha->color = negras;
+	}
+	else
+	{
+		color = blancas;
+		ficha->color = blancas;
+	}
+
+
+
+	/*---------------------------------TORRE REINA-------------------------------*/
+	fichas_movimiento_vertical(y_min, x, y, ajedrez);
+	posibilidad = ajedrez[x + (y_min[0] * 8)];
+
+	if((posibilidad.ficha_name == torre) | (posibilidad.ficha_name == reina))
+	{
+		if(color == posibilidad.color)
+		{
+			ficha->ficha_name = torre;
+			ficha->coordenada_x = x;
+			ficha->coordenada_y = y_min[0];
+		}
+	}
+
+	posibilidad = ajedrez[x + (y_min[1] * 8)];
+
+	if((posibilidad.ficha_name == torre) | (posibilidad.ficha_name == reina))
+	{
+		if(color == posibilidad.color)
+		{
+			ficha->ficha_name = torre;
+			ficha->coordenada_x = x;
+			ficha->coordenada_y = y_min[1];
+		}
+	}
+
+	fichas_movimiento_horizontal(x_min, x, y, ajedrez);
+
+	posibilidad = ajedrez[x_min[0] + (y * 8)];
+	if((posibilidad.ficha_name == torre) | (posibilidad.ficha_name == reina))
+	{
+		if(color == posibilidad.color)
+		{
+			ficha->ficha_name = torre;
+			ficha->coordenada_x = x_min[0];
+			ficha->coordenada_y = y;
+		}
+	}
+
+	posibilidad = ajedrez[x_min[1] + (y * 8)];
+	if((posibilidad.ficha_name == torre) | (posibilidad.ficha_name == reina))
+	{
+		if(color == posibilidad.color)
+		{
+			ficha->ficha_name = torre;
+			ficha->coordenada_x = x_min[1];
+			ficha->coordenada_y = y;
+		}
+	}
+	/*---------------------------------ALFIL REINA-------------------------------*/
+	uint8_t lim[4];
+	uint8_t i;
+	uint8_t limite;
+	uint8_t coordenada;
+
+	lim[limite_menos_x] = x;
+	lim[limite_menos_y] = y;
+	lim[limite_mas_x] = 7 - x;
+	lim[limite_mas_y] = 7 - y;
+
+	/*Caso [-k,-k]*/
+	if(lim[limite_menos_x] < lim[limite_menos_y])
+	{
+		limite = lim[limite_menos_x];
+	}
+	else
+	{
+		limite = lim[limite_menos_y];
+	}
+	coordenada = limite;
+	for(i = 0; i < limite; i++)
+	{
+		if(ninguno != ajedrez[(x - limite + i) + ((y - limite + i) * 8)].ficha_name)
+		{
+			coordenada = (limite - i);
+		}
+	}
+	posibilidad = *(ajedrez + (x - coordenada) + ((y - coordenada) * 8));
+	if((posibilidad.ficha_name == alfil) | (posibilidad.ficha_name == reina))
+	{
+		if(color == posibilidad.color)
+		{
+			ficha->ficha_name = alfil;
+			ficha->coordenada_x = x - coordenada;
+			ficha->coordenada_y = y - coordenada;
+		}
+	}
+
+	/*Caso [+k,-k]*/
+	if(lim[limite_mas_x] < lim[limite_menos_y])
+	{
+		limite = lim[limite_mas_x];
+	}
+	else
+	{
+		limite = lim[limite_menos_y];
+	}
+	coordenada = limite;
+	for(i = 0; i < limite; i++)
+	{
+		if(ninguno != ajedrez[(x + limite - i) + ((y - limite + i) * 8)].ficha_name)
+		{
+			coordenada = (limite - i);
+		}
+	}
+	posibilidad = *(ajedrez + (x + coordenada) + ((y - coordenada) * 8));
+	if((posibilidad.ficha_name == alfil) | (posibilidad.ficha_name == reina))
+	{
+		if(color == posibilidad.color)
+		{
+			ficha->ficha_name = alfil;
+			ficha->coordenada_x = x + coordenada;
+			ficha->coordenada_y = y - coordenada;
+		}
+	}
+
+	/*Caso [-k,+k]*/
+	if(lim[limite_menos_x] < lim[limite_mas_y])
+	{
+		limite = lim[limite_menos_x];
+	}
+	else
+	{
+		limite = lim[limite_mas_y];
+	}
+	coordenada = limite;
+	for(i = 0; i < limite; i++)
+	{
+		if(ninguno != ajedrez[(x - limite + i) + ((y + limite - i) * 8)].ficha_name)
+		{
+			coordenada = (limite - i);
+		}
+	}
+	posibilidad = *(ajedrez + (x - coordenada) + ((y + coordenada) * 8));
+	if((posibilidad.ficha_name == alfil) | (posibilidad.ficha_name == reina))
+	{
+		if(color == posibilidad.color)
+		{
+			ficha->ficha_name = alfil;
+			ficha->coordenada_x = x - coordenada;
+			ficha->coordenada_y = y + coordenada;
+		}
+	}
+
+	/*Caso [+k,+k]*/
+	if(lim[limite_mas_x] < lim[limite_mas_y])
+	{
+		limite = lim[limite_mas_x];
+	}
+	else
+	{
+		limite = lim[limite_mas_y];
+	}
+	coordenada = limite;
+	for(i = 0; i < limite; i++)
+	{
+		if(ninguno != ajedrez[(x + limite - i) + ((y + limite - i) * 8)].ficha_name)
+		{
+			coordenada = (limite - i);
+		}
+	}
+	posibilidad = *(ajedrez + (x + coordenada) + ((y + coordenada) * 8));
+	if((posibilidad.ficha_name == alfil) | (posibilidad.ficha_name == reina))
+	{
+		if(color == posibilidad.color)
+		{
+			ficha->ficha_name = alfil;
+			ficha->coordenada_x = x + coordenada;
+			ficha->coordenada_y = y + coordenada;
+		}
+	}
+
+
+	/*-----------------------------CABALLO----------------------------------*/
+	uint8_t coordenada_y;
+	uint8_t coordenada_x;
+
+	coordenada_x = x + 1;
+	coordenada_y = y + 2;
+	if((coordenada_y < 8) & (coordenada_x < 8))
+	{
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		if(caballo == posibilidad.ficha_name)
+		{
+			if(color == posibilidad.color)
+			{
+				ficha->ficha_name = caballo;
+				ficha->coordenada_x = coordenada_x;
+				ficha->coordenada_y = coordenada_y;
+			}
+		}
+	}
+
+	coordenada_x = x + 1;
+	coordenada_y = y - 2;
+	if((coordenada_y < 8) & (coordenada_x < 8))
+	{
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		if(caballo == posibilidad.ficha_name)
+		{
+			if(color == posibilidad.color)
+			{
+				ficha->ficha_name = caballo;
+				ficha->coordenada_x = coordenada_x;
+				ficha->coordenada_y = coordenada_y;
+			}
+		}
+	}
+
+	coordenada_x = x + 2;
+	coordenada_y = y + 1;
+	if((coordenada_y < 8) & (coordenada_x < 8))
+	{
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		if(caballo == posibilidad.ficha_name)
+		{
+			if(color == posibilidad.color)
+			{
+				ficha->ficha_name = caballo;
+				ficha->coordenada_x = coordenada_x;
+				ficha->coordenada_y = coordenada_y;
+			}
+		}
+	}
+
+	coordenada_x = x + 2;
+	coordenada_y = y - 1;
+	if((coordenada_y < 8) & (coordenada_x < 8))
+	{
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		if(caballo == posibilidad.ficha_name)
+		{
+			if(color == posibilidad.color)
+			{
+				ficha->ficha_name = caballo;
+				ficha->coordenada_x = coordenada_x;
+				ficha->coordenada_y = coordenada_y;
+			}
+		}
+	}
+
+	coordenada_x = x - 1;
+	coordenada_y = y + 2;
+	if((coordenada_y < 8) & (coordenada_x < 8))
+	{
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		if(caballo == posibilidad.ficha_name)
+		{
+			if(color == posibilidad.color)
+			{
+				ficha->ficha_name = caballo;
+				ficha->coordenada_x = coordenada_x;
+				ficha->coordenada_y = coordenada_y;
+			}
+		}
+	}
+
+	coordenada_x = x - 1;
+	coordenada_y = y - 2;
+	if((coordenada_y < 8) & (coordenada_x < 8))
+	{
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		if(caballo == posibilidad.ficha_name)
+		{
+			if(color == posibilidad.color)
+			{
+				ficha->ficha_name = caballo;
+				ficha->coordenada_x = coordenada_x;
+				ficha->coordenada_y = coordenada_y;
+			}
+		}
+	}
+
+	coordenada_x = x - 2;
+	coordenada_y = y + 1;
+	if((coordenada_y < 8) & (coordenada_x < 8))
+	{
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		if(caballo == posibilidad.ficha_name)
+		{
+			if(color == posibilidad.color)
+			{
+				ficha->ficha_name = caballo;
+				ficha->coordenada_x = coordenada_x;
+				ficha->coordenada_y = coordenada_y;
+			}
+		}
+	}
+
+	coordenada_x = x - 2;
+	coordenada_y = y - 1;
+	if((coordenada_y < 8) & (coordenada_x < 8))
+	{
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		if(caballo == posibilidad.ficha_name)
+		{
+			if(color == posibilidad.color)
+			{
+				ficha->ficha_name = caballo;
+				ficha->coordenada_x = coordenada_x;
+				ficha->coordenada_y = coordenada_y;
+			}
+		}
+	}
+
+
+	/*------------------------------Peon----------------------------------*/
+	if(blancas == color)
+	{
+		coordenada_y = y - 1;
+	}
+	else
+	{
+		coordenada_y = y + 1;
+	}
+
+	coordenada_x = x + 1;
+	if((coordenada_y < 8) & (coordenada_x < 8))
+	{
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		if(peon == posibilidad.ficha_name)
+		{
+			if(color == posibilidad.color)
+			{
+				ficha->ficha_name = peon;
+				ficha->coordenada_x = coordenada_x;
+				ficha->coordenada_y = coordenada_y;
+			}
+		}
+	}
+
+	coordenada_x = x - 1;
+	if((coordenada_y < 8) & (coordenada_x < 8))
+	{
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		if(peon == posibilidad.ficha_name)
+		{
+			if(color == posibilidad.color)
+			{
+				ficha->ficha_name = peon;
+				ficha->coordenada_x = coordenada_x;
+				ficha->coordenada_y = coordenada_y;
+			}
+		}
+	}
+}
+
+uint8_t fichas_salvar_jaque(struct_ficha_jaque_t* ficha, uint8_t x, uint8_t y, struct_ficha_t ajedrez[64])
+{
+	uint8_t status = jaque_mate;
+	uint8_t i;
+	uint8_t l;
+	uint8_t m;
+	uint8_t name_ficha = ficha->ficha_name;
+	uint8_t x_ficha = ficha->coordenada_x;
+	uint8_t y_ficha = ficha->coordenada_y;
+
+	ficha->casillas.number_opciones = 0;
+	uint8_t color = ajedrez[x + (8 * y)].color;
+	uint8_t y_aux;
+	uint8_t x_aux;
+	uint8_t aux;
+
+	struct_ficha_t* ficha_aux;
+
+	switch(name_ficha)
+	{
+	/*-----------------------------------------Rescate de un peón-----------------------------------------------*/
+	case peon:
+		ficha->casillas.number_opciones = 1;
+		ficha->casillas.valor_opciones[0] = x_ficha + (y_ficha * 8);
+		break;
+	/*-----------------------------------------Rescate de una caballo-------------------------------------------*/
+	case caballo:
+		ficha->casillas.number_opciones = 1;
+		ficha->casillas.valor_opciones[0] = x_ficha + (y_ficha * 8);
+		break;
+	/*-----------------------------------------Rescate de un alfil----------------------------------------------*/
+	case alfil:
+		aux = (y_ficha > y) | ((x_ficha > x) << 1);
+		switch(aux)
+		{
+		case 0:
+			for(i = 0; i < (y - y_ficha); i++)
+			{
+				ficha->casillas.valor_opciones[ficha->casillas.number_opciones] = (x_ficha + i) + ((y_ficha + i) * 8);
+				ficha->casillas.number_opciones++;
+			}
+			break;
+		case 1:
+			for(i = 0; i < (y - y_ficha); i++)
+			{
+				ficha->casillas.valor_opciones[ficha->casillas.number_opciones] = (x_ficha - i) + ((y_ficha + i) * 8);
+				ficha->casillas.number_opciones++;
+			}
+			break;
+		case 2:
+			for(i = 0; i < (y_ficha - y); i++)
+			{
+				ficha->casillas.valor_opciones[ficha->casillas.number_opciones] = (x_ficha + i) + ((y_ficha - i) * 8);
+				ficha->casillas.number_opciones++;
+			}
+			break;
+		case 3:
+			for(i = 0; i < (y_ficha - y); i++)
+			{
+				ficha->casillas.valor_opciones[ficha->casillas.number_opciones] = (x_ficha - i) + ((y_ficha - i) * 8);
+				ficha->casillas.number_opciones++;
+			}
+			break;
+		}
+		break;
+	/*-----------------------------------------Rescate de una torre---------------------------------------------*/
+	case torre:
+		if(x_ficha == x)
+		{
+			if(y_ficha < y)
+			{
+				for(y_aux = y_ficha; y_aux < y; y_aux++)
+				{
+					ficha->casillas.valor_opciones[ficha->casillas.number_opciones] = x_ficha + (y_ficha * 8);
+					ficha->casillas.number_opciones++;
+				}
+			}
+			else
+			{
+				for(y_aux = y_ficha; y_aux > y; y_aux--)
+				{
+					ficha->casillas.valor_opciones[ficha->casillas.number_opciones] = x_ficha + (y_ficha * 8);
+					ficha->casillas.number_opciones++;
+				}
+			}
+		}
+		else
+		{
+			if(x_ficha < x)
+			{
+				for(x_aux = x_ficha; x_aux < x; x_aux++)
+				{
+					ficha->casillas.valor_opciones[ficha->casillas.number_opciones] = x_ficha + (y_ficha * 8);
+					ficha->casillas.number_opciones++;
+				}
+			}
+			else
+			{
+				for(x_aux = x_ficha; x_aux > x; x_aux--)
+				{
+					ficha->casillas.valor_opciones[ficha->casillas.number_opciones] = x_ficha + (y_ficha * 8);
+					ficha->casillas.number_opciones++;
+				}
+			}
+		}
+		break;
+	default:
+		break;
+	}
+
+	for(l = 0; l < 64; l++)
+	{
+		ficha_aux = (ajedrez + l);
+		if(color == ficha_aux->color)
+		{
+			name_ficha = ficha_aux->ficha_name;
+			switch(name_ficha)
+			{
+			case peon:
+				fichas_peon_mov((l % 8), (l / 8), ajedrez);
+				break;
+			case caballo:
+				fichas_caballo_mov((l % 8), (l / 8), ajedrez);
+				break;
+			case alfil:
+				fichas_alfil_mov((l % 8), (l / 8), ajedrez);
+				break;
+			case torre:
+				fichas_torre_mov((l % 8), (l / 8), ajedrez);
+				break;
+			default:
+				break;
+
+			for(m = 0; m < ficha_aux->opciones.number_opciones; m++)
+			{
+				for(i = 0; i < ficha->casillas.number_opciones; i++)
+				{
+					if(ficha->casillas.valor_opciones[i] == ficha_aux->opciones.valor_opciones[m])
+					{
+						status = jaque;
+					}
+				}
+			}
+
+			for(m = 0; m < ficha_aux->opciones.number_opciones; m++)
+			{
+				ajedrez[ficha_aux->opciones.valor_opciones[i]].posible_mov = FALSE;
+			}
+			ficha_aux->opciones.number_opciones = 0;
+			}
+		}
+	}
+
+	return status;
+}

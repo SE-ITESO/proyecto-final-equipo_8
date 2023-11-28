@@ -119,7 +119,7 @@ void control_nintendo_control(control_num_t control, uint8_t array_buttons[8])
 		case 0:
 			counter_to_latch[control]++;
 
-			if (150 < counter_to_latch[control])	//12u * 1500 = 18milis
+			if (600 < counter_to_latch[control])	//12u * 1500 = 18milis
 			{
 				counter_to_latch[control]=0;
 				state[control] = 1;
