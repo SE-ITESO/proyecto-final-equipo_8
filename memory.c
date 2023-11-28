@@ -35,32 +35,44 @@ void memory_create_log(uint8_t log_number)
 
 	switch (log_number)
 	{
-	case 0:
+	case 1:
 		address = 0x040000;
 	break;
-	case 1:
+	case 2:
 		address = 0x041000;
 	break;
-	case 2:
+	case 3:
 		address = 0x042000;
 	break;
-	case 3:
+	case 4:
 		address = 0x043000;
 	break;
-	case 4:
+	case 5:
 		address = 0x044000;
 	break;
+
 	default:
-		address = 0x044000;
+		address = 0x0;
 	break;
 	}
 
-	log_config(0, &address);
+	if (0x0 != address)
+	{
+		log_config(0, &address);
+	}
+
 }
 
-void memory_add_movimiento(uint8_t movimiento)
+void memory_add_movimiento(uint8_t x_old, uint8_t y_old, uint8_t x_new, uint8_t y_new)
 {
-	log_config(1, &movimiento);
+	uint8_t origen = 0;
+	uint8_t destino = 0;
+
+	origen  = (x_old << 4) | (y_old);
+	destino = (x_new << 4) | (y_new);
+
+	log_config(1, &origen);
+	log_config(1, &destino);
 }
 
 void memory_send_log(void)

@@ -31,6 +31,13 @@ static uint8_t g_posicion_reyes[2][2] = {{4, 7},{4, 0}};
 
 static struct_ficha_t g_array_ajedrez[64];
 
+static uint8_t log_number = 0;
+
+void tablero_assign_log_number(uint8_t number)
+{
+	log_number = number;
+}
+
 void tablero_switch_string(uint8_t* array, uint8_t old_character, uint8_t new_character)
 {
 	int i = 0;
@@ -678,6 +685,12 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button, uint8_t* reinic
 void tablero_movimiento(uint8_t x_old, uint8_t y_old, uint8_t x_new, uint8_t y_new)
 {
 	struct_ficha_t ficha;
+
+	if (0 != log_number)
+	{
+		memory_add_movimiento(x_old, y_old, x_new, y_new);
+	}
+
 	ficha = *(g_array_ajedrez + x_old + (y_old * 8));
 	*(g_array_ajedrez + x_new + (y_new * 8)) = ficha;
 

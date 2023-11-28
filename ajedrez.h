@@ -10,6 +10,8 @@
 
 #include "tablero.h"
 #include "control_nintendo.h"
+#include "memory.h"
+#include "temporizador.h"
 
 typedef void(*ventana_function)(uint8_t* modo);
 typedef enum{v_inicio, v_save, v_juego, v_pausa, v_tablas, v_espera, v_derrota} state_ventana_t;

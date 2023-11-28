@@ -46,7 +46,7 @@ typedef struct{
  */
 void memory_create_log(uint8_t log_number);
 
-void memory_add_movimiento(uint8_t movimiento);
+void memory_add_movimiento(uint8_t x_old, uint8_t y_old, uint8_t x_new, uint8_t y_new);
 
 void memory_send_log(void);
 
