@@ -2037,6 +2037,7 @@ uint8_t fichas_salvar_jaque(struct_ficha_jaque_t* ficha, uint8_t x, uint8_t y, s
 	uint8_t color = ajedrez[x + (8 * y)].color;
 	uint8_t y_aux;
 	uint8_t x_aux;
+	uint8_t aux;
 
 	struct_ficha_t* ficha_aux;
 
@@ -2054,7 +2055,38 @@ uint8_t fichas_salvar_jaque(struct_ficha_jaque_t* ficha, uint8_t x, uint8_t y, s
 		break;
 	/*-----------------------------------------Rescate de un alfil----------------------------------------------*/
 	case alfil:
-
+		aux = (y_ficha > y) | ((x_ficha > x) << 1);
+		switch(aux)
+		{
+		case 0:
+			for(i = 0; i < (y - y_ficha); i++)
+			{
+				ficha->casillas.valor_opciones[ficha->casillas.number_opciones] = (x_ficha + i) + ((y_ficha + i) * 8);
+				ficha->casillas.number_opciones++;
+			}
+			break;
+		case 1:
+			for(i = 0; i < (y - y_ficha); i++)
+			{
+				ficha->casillas.valor_opciones[ficha->casillas.number_opciones] = (x_ficha - i) + ((y_ficha + i) * 8);
+				ficha->casillas.number_opciones++;
+			}
+			break;
+		case 2:
+			for(i = 0; i < (y_ficha - y); i++)
+			{
+				ficha->casillas.valor_opciones[ficha->casillas.number_opciones] = (x_ficha + i) + ((y_ficha - i) * 8);
+				ficha->casillas.number_opciones++;
+			}
+			break;
+		case 3:
+			for(i = 0; i < (y_ficha - y); i++)
+			{
+				ficha->casillas.valor_opciones[ficha->casillas.number_opciones] = (x_ficha - i) + ((y_ficha - i) * 8);
+				ficha->casillas.number_opciones++;
+			}
+			break;
+		}
 		break;
 	/*-----------------------------------------Rescate de una torre---------------------------------------------*/
 	case torre:

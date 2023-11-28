@@ -153,6 +153,7 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button, uint8_t* reinic
 	static uint8_t coordenada_y = 7;
 	static struct_ficha_t ficha;
 	static struct_ficha_t ficha_seleccionada;
+	struct_ficha_jaque_t ficha_jaque;
 	static uint8_t x_selec = 0;
 	static uint8_t y_selec = 0;
 	uint8_t temporal;
@@ -175,7 +176,12 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button, uint8_t* reinic
 		s_jaque = fichas_jaque_mate(*jugador, g_posicion_reyes[*jugador][0] , g_posicion_reyes[*jugador][1], g_array_ajedrez);
 		if(jaque_mate == s_jaque)
 		{
-			g_modo = 6;
+			fichas_ficha_jaque(&ficha_jaque, g_posicion_reyes[*jugador][0], g_posicion_reyes[*jugador][1], g_array_ajedrez);
+			s_jaque =  fichas_salvar_jaque(&ficha_jaque, g_posicion_reyes[*jugador][0], g_posicion_reyes[*jugador][1], g_array_ajedrez);
+			if(jaque_mate == s_jaque)
+			{
+				g_modo = 6;
+			}
 		}
 	}
 
@@ -603,8 +609,16 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button, uint8_t* reinic
 
 				if(rey == ficha_seleccionada.ficha_name)
 				{
-					g_posicion_reyes[*jugador][0] = coordenada_x;
-					g_posicion_reyes[*jugador][1] = coordenada_y;
+					if(0 == *jugador)
+					{
+						g_posicion_reyes[*jugador][0] = coordenada_x;
+						g_posicion_reyes[*jugador][1] = coordenada_y;
+					}
+					else
+					{
+						g_posicion_reyes[*jugador][0] = 7 - coordenada_x;
+						g_posicion_reyes[*jugador][1] = 7 - coordenada_y;
+					}
 				}
 				g_modo = 5;
 			}
@@ -624,8 +638,17 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button, uint8_t* reinic
 
 				if(rey == ficha_seleccionada.ficha_name)
 				{
-					g_posicion_reyes[*jugador][0] = x_selec;
-					g_posicion_reyes[*jugador][1] = y_selec;
+					if(0 == *jugador)
+					{
+						g_posicion_reyes[*jugador][0] = x_selec;
+						g_posicion_reyes[*jugador][1] = y_selec;
+					}
+					else
+					{
+						g_posicion_reyes[*jugador][0] = 7 - x_selec;
+						g_posicion_reyes[*jugador][1] = 7 - y_selec;
+					}
+
 				}
 				g_modo = 1;
 			}

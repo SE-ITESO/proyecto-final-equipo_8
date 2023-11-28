@@ -23,7 +23,8 @@
 #include "ajedrez.h"
 #include "NVIC.h"
 
-int main(void) {
+int main(void)
+{
 	CLOCK_SetSimSafeDivs();
 	UART_init (UART_0,  21000000, BD_115200, kUART_ParityDisabled, kUART_OneStopBit);
 	UART_init (UART_4,  10500000, BD_115200, kUART_ParityDisabled, kUART_OneStopBit);
