@@ -747,22 +747,51 @@ void tablero_print_tablero(void)
 
 static uint8_t data_for_log[255] = {0};
 static uint8_t size_of_log = 0;
+static uint8_t movimientos_log_index = 0;
 
 void tablero_repeticion_init(uint8_t log_number)
 {
 	memory_create_log(log_number);
 	memory_read_log(data_for_log);
 	size_of_log = data_for_log[0];
+	movimientos_log_index = 1;
 }
 
 void tablero_avanza_movimiento()
 {
+	uint8_t x_origen_a = 0;
+	uint8_t y_origen_a = 0;
+	uint8_t x_destino_a = 0;
+	uint8_t y_destino_a = 0;
+
+	if(movimientos_log_index < size_of_log)
+	{
+		x_origen_a = (data_for_log[movimientos_log_index]>>4) & 0x0F;
+		y_origen_a = (data_for_log[movimientos_log_index]) & (0x0F);
+		x_destino_a = (data_for_log[movimientos_log_index+1]>>4) & 0x0F;
+		y_destino_a = (data_for_log[movimientos_log_index+1]) & (0x0F);
+		tablero_movimiento(x_origen_a, y_origen_a, x_destino_a, y_destino_a);
+		movimientos_log_index+=2;
+	}
 
 }
 
 void tablero_retrocede_movimiento()
 {
+	uint8_t x_origen_r = 0;
+	uint8_t y_origen_r = 0;
+	uint8_t x_destino_r = 0;
+	uint8_t y_destino_r = 0;
 
+	if(movimientos_log_index > 1)
+	{
+		movimientos_log_index-=2;
+		x_destino_r = (data_for_log[movimientos_log_index]>>4) & 0x0F;
+		y_destino_r = (data_for_log[movimientos_log_index]) & (0x0F);
+		x_origen_r = (data_for_log[movimientos_log_index+1]>>4) & 0x0F;
+		y_origen_r = (data_for_log[movimientos_log_index+1]) & (0x0F);
+		tablero_movimiento(x_origen_r, y_origen_r, x_destino_r, y_destino_r);
+	}
 }
 
 

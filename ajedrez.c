@@ -455,13 +455,15 @@ void ajedrez_v_juego(uint8_t * modo)
 {
 	uint8_t status;
 	static uint8_t* pointer_button;
+	static uint8_t time_over;
+
 	switch(*modo)
 	{
 	case 0:
 		UART_put_string(UART_0, g_array_clear);
 		UART_put_string(UART_4, g_array_clear);
 		tablero_init();
-		temporizador_init(15, 0);
+		temporizador_init(1, 0);
 		g_turno   = jugador_1;
 		*modo = 1;
 	case 1:
@@ -474,7 +476,15 @@ void ajedrez_v_juego(uint8_t * modo)
 			pointer_button = g_buttons_control_2;
 		}
 		status = tablero_control(&g_turno, pointer_button, &g_reinicio);
-		temporizador_update(g_turno);
+
+		time_over = temporizador_update(g_turno);
+		if (1 == time_over)
+		{
+			g_ventana = v_derrota;
+			*modo = 0;
+			g_ganador = jugador_2 - g_turno;
+		}
+
 		if(s_change_t == status)
 		{
 			if(jugador_1 == g_turno)
@@ -768,7 +778,6 @@ void ajedrez_v_espera(uint8_t * modo)
 void ajedrez_v_leer_log(uint8_t * modo)
 {
 	static uint8_t coor_y;
-	uint8_t data[255] = {0};
 
 	switch(*modo)
 	{
@@ -905,14 +914,22 @@ void ajedrez_v_repeticion(uint8_t * modo)
 	case 1:
 		if ((FALSE != g_buttons_control_1[A]) | (FALSE != g_buttons_control_2[A]))
 		{
+			control_nintendo_clear(g_buttons_control_1);
+			control_nintendo_clear(g_buttons_control_2);
 			tablero_avanza_movimiento();
 		}else if ((FALSE != g_buttons_control_1[B]) | (FALSE != g_buttons_control_2[B]))
 		{
+			control_nintendo_clear(g_buttons_control_1);
+			control_nintendo_clear(g_buttons_control_2);
 			tablero_retrocede_movimiento();
 		}else if ((FALSE != g_buttons_control_1[SELECT]) | (FALSE != g_buttons_control_2[SELECT]))
 		{
+			control_nintendo_clear(g_buttons_control_1);
+			control_nintendo_clear(g_buttons_control_2);
 			g_ventana = v_leer;
 			*modo = 0;
+			fichas_color(UART_0, azul);
+			fichas_color(UART_4, azul);
 		}
 
 	}

@@ -113,7 +113,7 @@ void temporizador_init(uint8_t minuto_inicial, uint8_t segundo_inicial)
 }
 
 
-void temporizador_update(uint8_t turno)
+uint8_t temporizador_update(uint8_t turno)
 {
 	static uint8_t time_over = 0;
 
@@ -124,12 +124,14 @@ void temporizador_update(uint8_t turno)
 
 		if (60 < g_tiempo_restante_segundos[turno])
 		{
+			if (0 == g_tiempo_restante_minutos[turno])
+			{
+				time_over = 1;
+			}else{
+
 			g_tiempo_restante_segundos[turno] = 59;
 			g_tiempo_restante_minutos[turno]--;
 
-			if (0 > g_tiempo_restante_minutos[turno])
-			{
-				time_over = 1;
 			}
 
 		}
@@ -137,6 +139,8 @@ void temporizador_update(uint8_t turno)
 		temporizador_new_time_print();
 
 	}
+
+	return time_over;
 
 }
 
