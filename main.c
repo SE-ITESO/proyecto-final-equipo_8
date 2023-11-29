@@ -46,4 +46,11 @@ int main(void)
     }
 
     return 0;
+
 }
+
+/*
+ *   uint8_t data[250] = {0};
+    memory_create_log(5);
+    memory_read_log(data);*/
+

@@ -871,8 +871,6 @@ void ajedrez_v_leer_log(uint8_t * modo)
 			if(5 > coor_y)
 			{
 				g_log = coor_y;
-				memory_create_log(coor_y);
-				memory_read_log(data);
 				tablero_assign_log_number(coor_y);
 				control_nintendo_clear(g_buttons_control_1);
 				control_nintendo_clear(g_buttons_control_2);

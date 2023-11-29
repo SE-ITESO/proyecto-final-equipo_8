@@ -90,13 +90,14 @@ void memory_read_log(void* data)
 void memory_write_log(log_struct_t* log);
 void memory_read(log_struct_t* log);
 
+static uint8_t movimientos[250] = {0};
+static log_struct_t current_log;
+static uint8_t movimientos_index = 5;
+static uint8_t *aux_ptr;
+static uint8_t ptr_index = 0;
+
 void log_config(uint8_t operation, void* data)
 {
-	static uint8_t movimientos[255] = {0};
-	static log_struct_t current_log;
-	static uint8_t movimientos_index = 5;
-	static uint8_t *aux_ptr;
-	static uint8_t ptr_index = 0;
 
 	switch (operation)
 	{
@@ -109,13 +110,13 @@ void log_config(uint8_t operation, void* data)
 		movimientos_index++;
 	break;
 	case 2:
-		current_log.data[4] = (movimientos_index-5)/2;
+		current_log.data[4] = (movimientos_index-5);
 		memory_write_log(&current_log);
 	break;
 	case 3:
 		memory_read(&current_log);
 		aux_ptr = data;
-		for (ptr_index = 0; ptr_index<255; ptr_index++)
+		for (ptr_index = 0; ptr_index<250; ptr_index++)
 		{
 			*aux_ptr = current_log.data[ptr_index];
 			aux_ptr++;
@@ -137,7 +138,7 @@ void memory_write_log(log_struct_t* log)
 	PIT_start_channel(PIT_CH1);
 	NVIC_enable_interrupt_and_priotity(PIT_CH1_IRQ, PRIORITY_3);
 
-	while(tiempo_transcurrido < TIEMPO_LIMITE)
+	while(etapa < 5)
 	{
 		tiempo_transcurrido++;
 
@@ -162,13 +163,15 @@ void memory_write_log(log_struct_t* log)
 			case 4:
 				memory_write_disable();
 			break;
+			case 5:
+			break;
 
 			default:
 				memory_write_disable();
 			break;
 			}
 
-			if (etapa<4)
+			if (etapa<5)
 			{
 				etapa++;
 			}

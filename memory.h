@@ -31,8 +31,8 @@
 #define WD_COMMAND		(0x04)
 #define WRITE_COMMAND	(0x02)
 
-#define TIEMPO_LIMITE	(10000000U)
-#define TIEMPO_CH1		(10000000U)
+#define TIEMPO_LIMITE	(20000000U)
+#define TIEMPO_CH1		(100000000U)
 
 typedef struct{
 	uint32_t address;
