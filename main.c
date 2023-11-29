@@ -44,4 +44,6 @@ int main(void)
     {
     	ajedrez_control();
     }
+
+    return 0;
 }

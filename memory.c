@@ -94,7 +94,7 @@ void log_config(uint8_t operation, void* data)
 {
 	static uint8_t movimientos[255] = {0};
 	static log_struct_t current_log;
-	static uint8_t movimientos_index = 4;
+	static uint8_t movimientos_index = 5;
 	static uint8_t *aux_ptr;
 	static uint8_t ptr_index = 0;
 
@@ -109,6 +109,7 @@ void log_config(uint8_t operation, void* data)
 		movimientos_index++;
 	break;
 	case 2:
+		current_log.data[4] = (movimientos_index-5)/2;
 		memory_write_log(&current_log);
 	break;
 	case 3:

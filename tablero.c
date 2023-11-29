@@ -744,3 +744,25 @@ void tablero_print_tablero(void)
 		}
 	}
 }
+
+static uint8_t data_for_log[255] = {0};
+static uint8_t size_of_log = 0;
+
+void tablero_repeticion_init(uint8_t log_number)
+{
+	memory_create_log(log_number);
+	memory_read_log(data_for_log);
+	size_of_log = data_for_log[0];
+}
+
+void tablero_avanza_movimiento()
+{
+
+}
+
+void tablero_retrocede_movimiento()
+{
+
+}
+
+

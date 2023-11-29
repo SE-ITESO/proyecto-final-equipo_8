@@ -32,4 +32,8 @@ void tablero_print_tablero(void);
 
 void tablero_assign_log_number(uint8_t number);
 
+void tablero_repeticion_init(uint8_t log_number);
+void tablero_avanza_movimiento();
+void tablero_retrocede_movimiento();
+
 #endif /* TABLERO_H_ */
