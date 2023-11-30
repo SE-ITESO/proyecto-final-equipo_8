@@ -67,7 +67,7 @@ void tablero_init(void)
 			fichas_vacio_print(ninguno, temp_x, temp_y);
 		}
 	}
-
+	alarma_init();
 	tablero_acomodo_arreglo();
 	tablero_print_fichas();
 }
@@ -180,6 +180,7 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button, uint8_t* reinic
 
 	if(jaque == s_jaque)
 	{
+		alarma_sonido();
 		s_jaque = fichas_jaque_mate(*jugador, g_posicion_reyes[*jugador][0] , g_posicion_reyes[*jugador][1], g_array_ajedrez);
 		if(jaque_mate == s_jaque)
 		{

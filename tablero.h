@@ -12,6 +12,7 @@
 #include "fichas.h"
 #include "control_nintendo.h"
 #include "memory.h"
+#include "alarma.h"
 
 typedef enum{
 	s_none_t,
