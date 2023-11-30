@@ -11,6 +11,7 @@
 #include "UART.h"
 #include "fichas.h"
 #include "control_nintendo.h"
+#include "memory.h"
 
 typedef enum{
 	s_none_t,
@@ -28,5 +29,11 @@ void tablero_movimiento(uint8_t x_old, uint8_t y_old, uint8_t x_new, uint8_t y_n
 uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button, uint8_t* reinicio);
 
 void tablero_print_tablero(void);
+
+void tablero_assign_log_number(uint8_t number);
+
+void tablero_repeticion_init(uint8_t log_number);
+void tablero_avanza_movimiento();
+void tablero_retrocede_movimiento();
 
 #endif /* TABLERO_H_ */

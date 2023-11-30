@@ -31,6 +31,15 @@ static uint8_t g_posicion_reyes[2][2] = {{4, 7},{4, 0}};
 
 static struct_ficha_t g_array_ajedrez[64];
 
+static uint8_t log_number = 0;
+
+static uint8_t g_posible_roque[2][2] = {{TRUE, TRUE}, {TRUE, TRUE}};
+
+void tablero_assign_log_number(uint8_t number)
+{
+	log_number = number;
+}
+
 void tablero_switch_string(uint8_t* array, uint8_t old_character, uint8_t new_character)
 {
 	int i = 0;
@@ -63,6 +72,11 @@ void tablero_init(void)
 
 	tablero_acomodo_arreglo();
 	tablero_print_fichas();
+
+	g_posible_roque[0][0] = TRUE;
+	g_posible_roque[0][1] = TRUE;
+	g_posible_roque[1][0] = TRUE;
+	g_posible_roque[1][1] = TRUE;
 }
 
 void tablero_acomodo_arreglo(void)
@@ -389,10 +403,34 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button, uint8_t* reinic
 		if(0 == *jugador)
 		{
 			g_funct_movimiento[ficha.ficha_name - 1](coordenada_x, coordenada_y, g_array_ajedrez);
+			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			if(rey == ficha.ficha_name)
+			{
+				if(TRUE == g_posible_roque[*jugador][roque_corto])
+				{
+					fichas_roque(coordenada_x, coordenada_y, g_array_ajedrez, roque_corto);
+				}
+				if (TRUE == g_posible_roque[*jugador][roque_largo])
+				{
+					fichas_roque(coordenada_x, coordenada_y, g_array_ajedrez, roque_largo);
+				}
+			}
 		}
 		else
 		{
 			g_funct_movimiento[ficha.ficha_name - 1](7 - coordenada_x, 7 - coordenada_y, g_array_ajedrez);
+			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			if(rey == ficha.ficha_name)
+			{
+				if(TRUE == g_posible_roque[*jugador][roque_corto])
+				{
+					fichas_roque(7 - coordenada_x, 7 - coordenada_y, g_array_ajedrez, roque_corto);
+				}
+				if (TRUE == g_posible_roque[*jugador][roque_largo])
+				{
+					fichas_roque(7 - coordenada_x, 7 - coordenada_y, g_array_ajedrez, roque_largo);
+				}
+			}
 		}
 
 		if(0 == *jugador)
@@ -613,11 +651,27 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button, uint8_t* reinic
 					{
 						g_posicion_reyes[*jugador][0] = coordenada_x;
 						g_posicion_reyes[*jugador][1] = coordenada_y;
+						if((2 == coordenada_x) & (TRUE == g_posible_roque[*jugador][roque_corto]))
+						{
+							tablero_movimiento(0, 7, 3, 7);
+						}
+						else if((6 == coordenada_x) & (TRUE == g_posible_roque[*jugador][roque_largo]))
+						{
+							tablero_movimiento(7, 7, 5, 7);
+						}
 					}
 					else
 					{
 						g_posicion_reyes[*jugador][0] = 7 - coordenada_x;
 						g_posicion_reyes[*jugador][1] = 7 - coordenada_y;
+						if((2 == coordenada_x) & (TRUE == g_posible_roque[*jugador][roque_corto]))
+						{
+							tablero_movimiento(0, 0, 3, 0);
+						}
+						else if((6 == coordenada_x) & (TRUE == g_posible_roque[*jugador][roque_largo]))
+						{
+							tablero_movimiento(7, 0, 5, 0);
+						}
 					}
 				}
 				g_modo = 5;
@@ -652,6 +706,37 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button, uint8_t* reinic
 				}
 				g_modo = 1;
 			}
+
+			if((rey == ficha_seleccionada.ficha_name) & (5 == g_modo))
+			{
+				g_posible_roque[*jugador][roque_corto] = FALSE;
+				g_posible_roque[*jugador][roque_largo] = FALSE;
+			}
+
+			if(0 == *jugador)
+			{
+				if((torre == ficha_seleccionada.ficha_name) & (5 == g_modo) & (0 == x_selec))
+				{
+					g_posible_roque[*jugador][roque_largo] = FALSE;
+				}
+				else if((torre == ficha_seleccionada.ficha_name) & (5 == g_modo) & (7 == x_selec))
+				{
+					g_posible_roque[*jugador][roque_corto] = FALSE;
+				}
+			}
+			else
+			{
+				if((torre == ficha_seleccionada.ficha_name) & (5 == g_modo) & (0 == (7 - x_selec)))
+				{
+					g_posible_roque[*jugador][roque_largo] = FALSE;
+				}
+				else if((torre == ficha_seleccionada.ficha_name) & (5 == g_modo) & (7 == (7 - x_selec)))
+				{
+					g_posible_roque[*jugador][roque_corto] = FALSE;
+				}
+			}
+
+
 		}
 		break;
 
@@ -701,6 +786,12 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button, uint8_t* reinic
 void tablero_movimiento(uint8_t x_old, uint8_t y_old, uint8_t x_new, uint8_t y_new)
 {
 	struct_ficha_t ficha;
+
+	if (0 != log_number)
+	{
+		memory_add_movimiento(x_old, y_old, x_new, y_new);
+	}
+
 	ficha = *(g_array_ajedrez + x_old + (y_old * 8));
 	*(g_array_ajedrez + x_new + (y_new * 8)) = ficha;
 
@@ -731,3 +822,65 @@ void tablero_print_tablero(void)
 		}
 	}
 }
+
+static uint8_t data_for_log[255] = {0};
+static uint8_t size_of_log = 0;
+static uint8_t movimientos_log_index = 0;
+
+void tablero_repeticion_init(uint8_t log_number_here)
+{
+	uint8_t data_correcta = 0;
+	uint8_t errores = 0;
+	memory_create_log(log_number_here);
+	while(0 == data_correcta && errores<10)
+	{
+		memory_read_log(data_for_log);
+		size_of_log = data_for_log[0];
+		if(data_for_log[size_of_log+1] == 0)
+		{
+			data_correcta = 1;
+		}else{
+			errores++;
+		}
+	}
+	movimientos_log_index = 1;
+}
+
+void tablero_avanza_movimiento()
+{
+	uint8_t x_origen_a = 0;
+	uint8_t y_origen_a = 0;
+	uint8_t x_destino_a = 0;
+	uint8_t y_destino_a = 0;
+
+	if(movimientos_log_index < size_of_log)
+	{
+		x_origen_a = (data_for_log[movimientos_log_index]>>4) & 0x0F;
+		y_origen_a = (data_for_log[movimientos_log_index]) & (0x0F);
+		x_destino_a = (data_for_log[movimientos_log_index+1]>>4) & 0x0F;
+		y_destino_a = (data_for_log[movimientos_log_index+1]) & (0x0F);
+		tablero_movimiento(x_origen_a, y_origen_a, x_destino_a, y_destino_a);
+		movimientos_log_index+=2;
+	}
+
+}
+
+void tablero_retrocede_movimiento()
+{
+	uint8_t x_origen_r = 0;
+	uint8_t y_origen_r = 0;
+	uint8_t x_destino_r = 0;
+	uint8_t y_destino_r = 0;
+
+	if(movimientos_log_index > 1)
+	{
+		movimientos_log_index-=2;
+		x_destino_r = (data_for_log[movimientos_log_index]>>4) & 0x0F;
+		y_destino_r = (data_for_log[movimientos_log_index]) & (0x0F);
+		x_origen_r = (data_for_log[movimientos_log_index+1]>>4) & 0x0F;
+		y_origen_r = (data_for_log[movimientos_log_index+1]) & (0x0F);
+		tablero_movimiento(x_origen_r, y_origen_r, x_destino_r, y_destino_r);
+	}
+}
+
+

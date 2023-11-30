@@ -45,6 +45,11 @@ typedef enum{
 }name_ficha_t;
 
 typedef enum{
+	roque_corto,
+	roque_largo
+}type_roque_t;
+
+typedef enum{
 	offset_x,
 	offset_y
 }offset_t;
@@ -140,5 +145,6 @@ void fichas_ficha_jaque(struct_ficha_jaque_t* ficha, uint8_t x, uint8_t y, struc
 
 uint8_t fichas_salvar_jaque(struct_ficha_jaque_t* ficha, uint8_t x, uint8_t y, struct_ficha_t ajedrez[64]);
 
+void fichas_roque(uint8_t x, uint8_t y, struct_ficha_t ajedrez[64], type_roque_t opcion);
 
 #endif /* FICHAS_H_ */
