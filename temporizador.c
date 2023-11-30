@@ -115,7 +115,7 @@ void temporizador_init(uint8_t minuto_inicial, uint8_t segundo_inicial)
 
 uint8_t temporizador_update(uint8_t turno)
 {
-	static uint8_t time_over = 0;
+	uint8_t time_over = 0;
 
 	if (FALSE != g_timer_flag)
 	{

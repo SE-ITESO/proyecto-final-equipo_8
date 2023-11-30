@@ -32,7 +32,7 @@
 #define WRITE_COMMAND	(0x02)
 
 #define TIEMPO_LIMITE	(20000000U)
-#define TIEMPO_CH1		(100000000U)
+#define TIEMPO_CH1		(20000000U)
 
 typedef struct{
 	uint32_t address;

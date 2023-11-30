@@ -60,6 +60,18 @@ static uint8_t g_array_guardado_1[] =
 		"\e[1B\e[48D"
 		"---- ---- - -  -  - ---- - -  -  -     --- -   -";
 
+static uint8_t g_array_repeticion_1[] =
+	    // V   E   R          L   O    G
+		"-  - --- ----      -    ---- ----- "
+		"\e[1B\e[35D"
+		"-  - -   -  -      -    -  - -     "
+		"\e[1B\e[35D"
+		"-  - --- ----      -    -  - -  -- "
+		"\e[1B\e[35D"
+		"-  - -   - -       -    -  - -   - "
+		"\e[1B\e[35D"
+		" --  --- -  -      ---- ---- ----- ";
+
 static uint8_t g_array_guardado_2[] =
 		// N    O        G    U   A    R    D    A    R
 		"-   - ----     ---- -  - --- ----- ---- --- -----"
@@ -260,6 +272,8 @@ void ajedrez_init(void)
 
 	tablero_switch_string(g_array_menu_1, '-', 219);
 	tablero_switch_string(g_array_menu_2, '-', 219);
+
+	tablero_switch_string(g_array_repeticion_1, '-', 219);
 
 	tablero_switch_string(g_array_guardado_1, '-', 219);
 	tablero_switch_string(g_array_guardado_2, '-', 219);
@@ -784,7 +798,7 @@ void ajedrez_v_leer_log(uint8_t * modo)
 	case 0:
 		UART_put_string(UART_0, g_array_clear);
 		fichas_mover_cursor(UART_0, 10, 10);
-		UART_put_string(UART_0, g_array_guardado_1);
+		UART_put_string(UART_0, g_array_repeticion_1);
 		fichas_mover_cursor(UART_0, 25, 16);
 		UART_put_string(UART_0, g_array_guardado_3);
 		fichas_mover_cursor(UART_0, 25, 22);
@@ -805,7 +819,7 @@ void ajedrez_v_leer_log(uint8_t * modo)
 
 		UART_put_string(UART_4, g_array_clear);
 		fichas_mover_cursor(UART_4, 10, 10);
-		UART_put_string(UART_4, g_array_guardado_1);
+		UART_put_string(UART_4, g_array_repeticion_1);
 		fichas_mover_cursor(UART_4, 25, 16);
 		UART_put_string(UART_4, g_array_guardado_3);
 		fichas_mover_cursor(UART_4, 25, 22);
@@ -931,6 +945,7 @@ void ajedrez_v_repeticion(uint8_t * modo)
 			fichas_color(UART_0, azul);
 			fichas_color(UART_4, azul);
 		}
+		break;
 
 	}
 }

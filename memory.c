@@ -128,10 +128,8 @@ void log_config(uint8_t operation, void* data)
 void memory_write_log(log_struct_t* log)
 {
 
-	uint32_t tiempo_transcurrido = 0;
 	uint8_t etapa = 0;
 
-	PIT_enable();
 	PIT_set_time(PIT_CH1, TIEMPO_CH1);
 	PIT_enable_channel_interrupt(PIT_CH1);
 	PIT_callback_init(channel_1, PIT_set_flag_memory);
@@ -140,7 +138,6 @@ void memory_write_log(log_struct_t* log)
 
 	while(etapa < 5)
 	{
-		tiempo_transcurrido++;
 
 		if (g_PIT_memory_flag)
 		{

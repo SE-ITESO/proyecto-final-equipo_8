@@ -749,11 +749,22 @@ static uint8_t data_for_log[255] = {0};
 static uint8_t size_of_log = 0;
 static uint8_t movimientos_log_index = 0;
 
-void tablero_repeticion_init(uint8_t log_number)
+void tablero_repeticion_init(uint8_t log_number_here)
 {
-	memory_create_log(log_number);
-	memory_read_log(data_for_log);
-	size_of_log = data_for_log[0];
+	uint8_t data_correcta = 0;
+	uint8_t errores = 0;
+	memory_create_log(log_number_here);
+	while(0 == data_correcta && errores<10)
+	{
+		memory_read_log(data_for_log);
+		size_of_log = data_for_log[0];
+		if(data_for_log[size_of_log+1] == 0)
+		{
+			data_correcta = 1;
+		}else{
+			errores++;
+		}
+	}
 	movimientos_log_index = 1;
 }
 
