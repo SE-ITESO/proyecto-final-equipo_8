@@ -632,6 +632,9 @@ void ajedrez_v_pausa(uint8_t * modo)
 		control_nintendo_clear(g_buttons_control_1);
 		control_nintendo_clear(g_buttons_control_2);
 		tablero_print_tablero();
+		fichas_color(UART_4, negras);
+		fichas_color(UART_0, negras);
+		temporizador_timer_encabezados_print();
 		*modo = 1;
 		g_ventana = v_juego;
 		break;

@@ -27,6 +27,56 @@ static funct_mov_ficha g_funct_movimiento[] =
 		fichas_rey_mov
 };
 
+static uint8_t g_array_clear[] = "\033[2J";
+
+static uint8_t g_array_reina[] =
+		//  T   A    B   L   A   S
+		"----- --- ---- -   --- ----"
+		"\e[1B\e[27D"
+		"  -   - -  - - -   - - -   "
+		"\e[1B\e[27D"
+		"  -   ---  --- -   --- ----"
+		"\e[1B\e[27D"
+		"  -   - -  - - -   - -    -"
+		"\e[1B\e[27D"
+		"  -   - - ---- --- - - ----";
+
+static uint8_t g_array_torre[] =
+		//  T   A    B   L   A   S
+		"----- --- ---- -   --- ----"
+		"\e[1B\e[27D"
+		"  -   - -  - - -   - - -   "
+		"\e[1B\e[27D"
+		"  -   ---  --- -   --- ----"
+		"\e[1B\e[27D"
+		"  -   - -  - - -   - -    -"
+		"\e[1B\e[27D"
+		"  -   - - ---- --- - - ----";
+
+static uint8_t g_array_alfil[] =
+		//  T   A    B   L   A   S
+		"----- --- ---- -   --- ----"
+		"\e[1B\e[27D"
+		"  -   - -  - - -   - - -   "
+		"\e[1B\e[27D"
+		"  -   ---  --- -   --- ----"
+		"\e[1B\e[27D"
+		"  -   - -  - - -   - -    -"
+		"\e[1B\e[27D"
+		"  -   - - ---- --- - - ----";
+
+static uint8_t g_array_caballo[] =
+		//  T   A    B   L   A   S
+		"----- --- ---- -   --- ----"
+		"\e[1B\e[27D"
+		"  -   - -  - - -   - - -   "
+		"\e[1B\e[27D"
+		"  -   ---  --- -   --- ----"
+		"\e[1B\e[27D"
+		"  -   - -  - - -   - -    -"
+		"\e[1B\e[27D"
+		"  -   - - ---- --- - - ----";
+
 static uint8_t g_posicion_reyes[2][2] = {{4, 7},{4, 0}};
 
 static struct_ficha_t g_array_ajedrez[64];
@@ -34,6 +84,7 @@ static struct_ficha_t g_array_ajedrez[64];
 static uint8_t log_number = 0;
 
 static uint8_t g_posible_roque[2][2] = {{TRUE, TRUE}, {TRUE, TRUE}};
+
 
 void tablero_assign_log_number(uint8_t number)
 {
@@ -56,6 +107,10 @@ void tablero_init(void)
 {
 	fichas_color(UART_0, azul);
 	fichas_color(UART_4, azul);
+	tablero_switch_string(g_array_reina, '-', 219);
+	tablero_switch_string(g_array_torre, '-', 219);
+	tablero_switch_string(g_array_alfil, '-', 219);
+	tablero_switch_string(g_array_caballo, '-', 219);
 	uint8_t i;
 	uint8_t l;
 	uint16_t temp_x;
@@ -172,6 +227,7 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button, uint8_t* reinic
 	static uint8_t y_selec = 0;
 	uint8_t temporal;
 	uint8_t status = s_none_t;
+	static uint8_t y_aux;
 	static uint8_t s_jaque;
 
 	if(TRUE == *reinicio)
@@ -723,6 +779,10 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button, uint8_t* reinic
 				{
 					g_posible_roque[*jugador][roque_corto] = FALSE;
 				}
+				else if((peon == ficha_seleccionada.ficha_name) & (0 == coordenada_y))
+				{
+					g_modo = 7;
+				}
 			}
 			else
 			{
@@ -734,8 +794,12 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button, uint8_t* reinic
 				{
 					g_posible_roque[*jugador][roque_corto] = FALSE;
 				}
+				else if((peon == ficha_seleccionada.ficha_name) & (7 == 7 - coordenada_y))
+				{
+					g_modo = 7;
+				}
 			}
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		}
 		break;
@@ -777,6 +841,100 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button, uint8_t* reinic
 
 	case 6:
 		status = s_jaque_mate;
+		break;
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	case 7:
+		y_aux = 10;
+		UART_put_string((*jugador) * 4, g_array_clear);
+		fichas_color((*jugador) * 4, azul);
+		fichas_mover_cursor((*jugador) * 4, 25, 10);
+		UART_put_string((*jugador) * 4, g_array_reina);
+		fichas_mover_cursor((*jugador) * 4, 25, 16);
+		UART_put_string((*jugador) * 4, g_array_torre);
+		fichas_mover_cursor((*jugador) * 4, 25, 22);
+		UART_put_string((*jugador) * 4, g_array_alfil);
+		fichas_mover_cursor((*jugador) * 4, 25, 28);
+		UART_put_string((*jugador) * 4, g_array_caballo);
+		fichas_mover_cursor((*jugador) * 4, 10, y_aux);
+		fichas_seleccion_print((*jugador) * 4, rojo);
+		g_modo = 8;
+	case 8:
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		if(FALSE != *(array_button + DOWN))
+		{
+			fichas_mover_cursor((*jugador) * 4, 10, y_aux);
+			fichas_seleccion_print((*jugador) * 4, cyan);
+			if(28 == y_aux)
+			{
+				y_aux = 10;
+			}
+			else
+			{
+				y_aux += 6;
+			}
+			fichas_mover_cursor((*jugador) * 4, 10, y_aux);
+			fichas_seleccion_print((*jugador) * 4, rojo);
+
+			*(array_button + DOWN) = FALSE;
+		}
+
+		else if(FALSE != *(array_button + UP))
+		{
+			fichas_mover_cursor((*jugador) * 4, 10, y_aux);
+			fichas_seleccion_print((*jugador) * 4, cyan);
+			if(10 == y_aux)
+			{
+				y_aux = 28;
+			}
+			else
+			{
+				y_aux -= 6;
+			}
+			fichas_mover_cursor((*jugador) * 4, 10, y_aux);
+			fichas_seleccion_print((*jugador) * 4, rojo);
+
+			*(array_button + UP) = FALSE;
+		}
+
+		else if(FALSE != *(array_button + A))
+		{
+			*(array_button + A) = FALSE;
+			y_aux = (y_aux - 10) / 6;
+			temporal = ficha_seleccionada.color;
+
+			switch(y_aux)
+			{
+			case 0:
+				fichas_config(&g_ficha_generica, reina, temporal);
+				break;
+			case 1:
+				fichas_config(&g_ficha_generica, torre, temporal);
+				break;
+			case 2:
+				fichas_config(&g_ficha_generica, alfil, temporal);
+				break;
+			case 3:
+				fichas_config(&g_ficha_generica, caballo, temporal);
+				break;
+			default:
+				break;
+			}
+			if(0 == *jugador)
+			{
+				g_array_ajedrez[(coordenada_x) + (8 * (coordenada_y))] = g_ficha_generica;
+			}
+			else
+			{
+				g_array_ajedrez[(7 - coordenada_x) + (8 * (7 - coordenada_y))] = g_ficha_generica;
+			}
+			g_modo = 5;
+			tablero_print_tablero();
+			fichas_color(UART_4, negras);
+			fichas_color(UART_0, negras);
+			temporizador_timer_encabezados_print();
+		}
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		break;
 	}
 
