@@ -10,10 +10,12 @@
 
 #include "UART.h"
 
-#define LLENO		(219U)
-#define UP_LLENO	(223U)
-#define DOWN_LLENO	(220U)
-#define VACIO 		(32U)
+#define LLENO			(219U)
+#define UP_LLENO		(223U)
+#define DOWN_LLENO		(220U)
+#define VACIO 			(32U)
+#define MULT_RENGLON	(8U)
+#define LIMITE_TAB		(8U)
 
 #define NUM_TO_ASCII(a) (a + 0x30)
 

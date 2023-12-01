@@ -1,8 +1,11 @@
-/*
- * ajedrez.c
+/**
+ * @file ajedrez.c
  *
- *  Created on: 14 nov 2023
- *      Author: brand
+ * @Authors Leonardo Arechiga
+ * 			Brandon Gutiérrez
+ *
+ * 	@brief 	It controls the operation
+ * 			and initialization of the all game
  */
 
 #include "ajedrez.h"
@@ -344,57 +347,57 @@ void ajedrez_v_save(uint8_t * modo)
 	{
 	case 0:
 		UART_put_string(UART_0, g_array_clear);
-		fichas_mover_cursor(UART_0, 10, 10);
+		fichas_mover_cursor(UART_0, X_S_SANGRIA, 10);
 		UART_put_string(UART_0, g_array_guardado_1);
-		fichas_mover_cursor(UART_0, 25, 16);
+		fichas_mover_cursor(UART_0, X_C_SANGRIA, 16);
 		UART_put_string(UART_0, g_array_guardado_2);
-		fichas_mover_cursor(UART_0, 25, 22);
+		fichas_mover_cursor(UART_0, X_C_SANGRIA, 22);
 		UART_put_string(UART_0, g_array_guardado_3);
-		fichas_mover_cursor(UART_0, 25, 28);
+		fichas_mover_cursor(UART_0, X_C_SANGRIA, 28);
 		UART_put_string(UART_0, g_array_guardado_4);
-		fichas_mover_cursor(UART_0, 25, 34);
+		fichas_mover_cursor(UART_0, X_C_SANGRIA, 34);
 		UART_put_string(UART_0, g_array_guardado_5);
-		fichas_mover_cursor(UART_0, 25, 40);
+		fichas_mover_cursor(UART_0, X_C_SANGRIA, 40);
 		UART_put_string(UART_0, g_array_guardado_6);
-		fichas_mover_cursor(UART_0, 25, 46);
+		fichas_mover_cursor(UART_0, X_C_SANGRIA, 46);
 		UART_put_string(UART_0, g_array_guardado_7);
 
-		fichas_mover_cursor(UART_0, 25, 52);
+		fichas_mover_cursor(UART_0, X_C_SANGRIA, 52);
 		UART_put_string(UART_0, g_array_regresar);
 
-		fichas_mover_cursor(UART_0, 10, 16);
+		fichas_mover_cursor(UART_0, X_S_SANGRIA, 16);
 		fichas_seleccion_print(UART_0, rojo);
 
 
 		UART_put_string(UART_4, g_array_clear);
-		fichas_mover_cursor(UART_4, 10, 10);
+		fichas_mover_cursor(UART_4, X_S_SANGRIA, 10);
 		UART_put_string(UART_4, g_array_guardado_1);
-		fichas_mover_cursor(UART_4, 25, 16);
+		fichas_mover_cursor(UART_4, X_C_SANGRIA, 16);
 		UART_put_string(UART_4, g_array_guardado_2);
-		fichas_mover_cursor(UART_4, 25, 22);
+		fichas_mover_cursor(UART_4, X_C_SANGRIA, 22);
 		UART_put_string(UART_4, g_array_guardado_3);
-		fichas_mover_cursor(UART_4, 25, 28);
+		fichas_mover_cursor(UART_4, X_C_SANGRIA, 28);
 		UART_put_string(UART_4, g_array_guardado_4);
-		fichas_mover_cursor(UART_4, 25, 34);
+		fichas_mover_cursor(UART_4, X_C_SANGRIA, 34);
 		UART_put_string(UART_4, g_array_guardado_5);
-		fichas_mover_cursor(UART_4, 25, 40);
+		fichas_mover_cursor(UART_4, X_C_SANGRIA, 40);
 		UART_put_string(UART_4, g_array_guardado_6);
-		fichas_mover_cursor(UART_4, 25, 46);
+		fichas_mover_cursor(UART_4, X_C_SANGRIA, 46);
 		UART_put_string(UART_4, g_array_guardado_7);
 
-		fichas_mover_cursor(UART_4, 25, 52);
+		fichas_mover_cursor(UART_4, X_C_SANGRIA, 52);
 		UART_put_string(UART_4, g_array_regresar);
 
-		fichas_mover_cursor(UART_4, 10, 16);
+		fichas_mover_cursor(UART_4, X_S_SANGRIA, 16);
 		fichas_seleccion_print(UART_4, rojo);
 		coor_y = 16;
 		*modo = 1;
 	case 1:  		//espera a que se seleccione una opción
 		if((FALSE != g_buttons_control_1[DOWN]) | (FALSE != g_buttons_control_2[DOWN]))
 		{
-			fichas_mover_cursor(UART_0, 10, coor_y);
+			fichas_mover_cursor(UART_0, X_S_SANGRIA, coor_y);
 			fichas_seleccion_print(UART_0, cyan);
-			fichas_mover_cursor(UART_4, 10, coor_y);
+			fichas_mover_cursor(UART_4, X_S_SANGRIA, coor_y);
 			fichas_seleccion_print(UART_4, cyan);
 
 			if(52 == coor_y)
@@ -406,10 +409,10 @@ void ajedrez_v_save(uint8_t * modo)
 				coor_y += 6;
 			}
 
-			fichas_mover_cursor(UART_0, 10, coor_y);
+			fichas_mover_cursor(UART_0, X_S_SANGRIA, coor_y);
 			fichas_seleccion_print(UART_0, rojo);
 
-			fichas_mover_cursor(UART_4, 10, coor_y);
+			fichas_mover_cursor(UART_4, X_S_SANGRIA, coor_y);
 			fichas_seleccion_print(UART_4, rojo);
 
 			g_buttons_control_1[DOWN] = FALSE;
@@ -417,9 +420,9 @@ void ajedrez_v_save(uint8_t * modo)
 		}
 		else if((FALSE != g_buttons_control_1[UP]) | (FALSE != g_buttons_control_2[UP]))
 		{
-			fichas_mover_cursor(UART_0, 10, coor_y);
+			fichas_mover_cursor(UART_0, X_S_SANGRIA, coor_y);
 			fichas_seleccion_print(UART_0, cyan);
-			fichas_mover_cursor(UART_4, 10, coor_y);
+			fichas_mover_cursor(UART_4, X_S_SANGRIA, coor_y);
 			fichas_seleccion_print(UART_4, cyan);
 
 			if(16 == coor_y)
@@ -431,9 +434,9 @@ void ajedrez_v_save(uint8_t * modo)
 				coor_y -= 6;
 			}
 
-			fichas_mover_cursor(UART_0, 10, coor_y);
+			fichas_mover_cursor(UART_0, X_S_SANGRIA, coor_y);
 			fichas_seleccion_print(UART_0, rojo);
-			fichas_mover_cursor(UART_4, 10, coor_y);
+			fichas_mover_cursor(UART_4, X_S_SANGRIA, coor_y);
 			fichas_seleccion_print(UART_4, rojo);
 			g_buttons_control_1[UP] = FALSE;
 			g_buttons_control_2[UP] = FALSE;
@@ -477,7 +480,7 @@ void ajedrez_v_juego(uint8_t * modo)
 		UART_put_string(UART_0, g_array_clear);
 		UART_put_string(UART_4, g_array_clear);
 		tablero_init();
-		temporizador_init(15, 0);////////////////////////////////////////////////Linea a modificar
+		temporizador_init(TIEMPO_MINUTOS, TIEMPO_SEGUNDOS);
 		g_turno   = jugador_1;
 		*modo = 1;
 	case 1:
@@ -546,16 +549,16 @@ void ajedrez_v_pausa(uint8_t * modo)
 	switch(*modo)
 	{
 	case 0:
-		UART_put_string((g_turno * 4), g_array_clear);
-		fichas_color((g_turno * 4), negras);
-		fichas_mover_cursor((g_turno * 4), 25, 10);
-		UART_put_string((g_turno * 4), g_array_regresar);
-		fichas_mover_cursor((g_turno * 4), 25, 16);
-		UART_put_string((g_turno * 4), g_array_pausa_1);
-		fichas_mover_cursor((g_turno * 4), 25, 22);
-		UART_put_string((g_turno * 4), g_array_pausa_2);
-		fichas_mover_cursor((g_turno * 4), 10, 10);
-		fichas_seleccion_print((g_turno * 4), rojo);
+		UART_put_string((g_turno * UART_4), g_array_clear);
+		fichas_color((g_turno * UART_4), negras);
+		fichas_mover_cursor((g_turno * UART_4), X_C_SANGRIA, 10);
+		UART_put_string((g_turno * UART_4), g_array_regresar);
+		fichas_mover_cursor((g_turno * UART_4), X_C_SANGRIA, 16);
+		UART_put_string((g_turno * UART_4), g_array_pausa_1);
+		fichas_mover_cursor((g_turno * UART_4), X_C_SANGRIA, 22);
+		UART_put_string((g_turno * UART_4), g_array_pausa_2);
+		fichas_mover_cursor((g_turno * UART_4), X_S_SANGRIA, 10);
+		fichas_seleccion_print((g_turno * UART_4), rojo);
 		if(jugador_1 == g_turno)
 		{
 			pointer_button = g_buttons_control_1;
@@ -570,43 +573,43 @@ void ajedrez_v_pausa(uint8_t * modo)
 	case 1:
 		if(FALSE != *(pointer_button + DOWN))
 		{
-			fichas_mover_cursor((g_turno * 4), 10, coor_y);
-			fichas_seleccion_print((g_turno * 4), cyan);
+			fichas_mover_cursor((g_turno * UART_4), X_S_SANGRIA, coor_y);
+			fichas_seleccion_print((g_turno * UART_4), cyan);
 			if(22 == coor_y)
 			{
 				coor_y = 10;
 			}
 			else
 			{
-				coor_y += 6;
+				coor_y += DIF_SELECTOR;
 			}
-			fichas_mover_cursor((g_turno * 4), 10, coor_y);
-			fichas_seleccion_print((g_turno * 4), rojo);
+			fichas_mover_cursor((g_turno * UART_4), X_S_SANGRIA, coor_y);
+			fichas_seleccion_print((g_turno * UART_4), rojo);
 
 			*(pointer_button + DOWN) = FALSE;
 		}
 
 		else if(FALSE != *(pointer_button + UP))
 		{
-			fichas_mover_cursor((g_turno * 4), 10, coor_y);
-			fichas_seleccion_print((g_turno * 4), cyan);
+			fichas_mover_cursor((g_turno * UART_4), X_S_SANGRIA, coor_y);
+			fichas_seleccion_print((g_turno * UART_4), cyan);
 			if(10 == coor_y)
 			{
 				coor_y = 22;
 			}
 			else
 			{
-				coor_y -= 6;
+				coor_y -= DIF_SELECTOR;
 			}
-			fichas_mover_cursor((g_turno * 4), 10, coor_y);
-			fichas_seleccion_print((g_turno * 4), rojo);
+			fichas_mover_cursor((g_turno * UART_4), X_S_SANGRIA, coor_y);
+			fichas_seleccion_print((g_turno * UART_4), rojo);
 
 			*(pointer_button + UP) = FALSE;
 		}
 
 		else if(FALSE != *(pointer_button + A))
 		{
-			temp = (coor_y - 10) / 6;
+			temp = (coor_y - 10) / DIF_SELECTOR;
 			if(0 == temp)
 			{
 				*modo = 2;
@@ -644,7 +647,7 @@ void ajedrez_v_pausa(uint8_t * modo)
 void ajedrez_v_tablas(uint8_t * modo)
 {
 	static uint8_t coor_y;
-	uint8_t UART_num = UART_4 - (g_turno * 4);
+	uint8_t UART_num = UART_4 - (g_turno * UART_4);
 	static uint8_t* pointer_button;
 	uint8_t temp;
 
@@ -655,13 +658,13 @@ void ajedrez_v_tablas(uint8_t * modo)
 		UART_put_string(UART_4, g_array_clear);
 
 		fichas_color(UART_num, negras);
-		fichas_mover_cursor(UART_num, 10, 10);
+		fichas_mover_cursor(UART_num, X_S_SANGRIA, 10);
 		UART_put_string(UART_num, g_array_tablas_1);
-		fichas_mover_cursor(UART_num, 25, 16);
+		fichas_mover_cursor(UART_num, X_C_SANGRIA, 16);
 		UART_put_string(UART_num, g_array_si);
-		fichas_mover_cursor(UART_num, 25, 22);
+		fichas_mover_cursor(UART_num, X_C_SANGRIA, 22);
 		UART_put_string(UART_num, g_array_no);
-		fichas_mover_cursor(UART_num, 10, 16);
+		fichas_mover_cursor(UART_num, X_S_SANGRIA, 16);
 		fichas_seleccion_print(UART_num, rojo);
 		if(jugador_1 == g_turno)
 		{
@@ -677,12 +680,12 @@ void ajedrez_v_tablas(uint8_t * modo)
 	case 1:
 		if(FALSE != *(pointer_button + DOWN))
 		{
-			fichas_mover_cursor(UART_num, 10, coor_y);
+			fichas_mover_cursor(UART_num, X_S_SANGRIA, coor_y);
 			fichas_seleccion_print(UART_num, cyan);
 
 			coor_y = (22 - coor_y) + 16;
 
-			fichas_mover_cursor(UART_num, 10, coor_y);
+			fichas_mover_cursor(UART_num, X_S_SANGRIA, coor_y);
 			fichas_seleccion_print(UART_num, rojo);
 
 			*(pointer_button + DOWN) = FALSE;
@@ -690,29 +693,29 @@ void ajedrez_v_tablas(uint8_t * modo)
 
 		else if(FALSE != *(pointer_button + UP))
 		{
-			fichas_mover_cursor(UART_num, 10, coor_y);
+			fichas_mover_cursor(UART_num, X_S_SANGRIA, coor_y);
 			fichas_seleccion_print(UART_num, cyan);
 
 			coor_y = (22 - coor_y) + 16;
 
-			fichas_mover_cursor(UART_num, 10, coor_y);
+			fichas_mover_cursor(UART_num, X_S_SANGRIA, coor_y);
 			fichas_seleccion_print(UART_num, rojo);
 
 			*(pointer_button + UP) = FALSE;
 		}
 		else if(FALSE != *(pointer_button + A))
 		{
-			temp = (coor_y - 16) / 6;
+			temp = (coor_y - 16) / DIF_SELECTOR;
 			if(0 == temp)
 			{
 				UART_put_string(UART_0, g_array_clear);
 				fichas_color(UART_0, negras);
-				fichas_mover_cursor(UART_0, 25, 10);
+				fichas_mover_cursor(UART_0, X_C_SANGRIA, 10);
 				UART_put_string(UART_0, g_array_pausa_1);
 
 				UART_put_string(UART_4, g_array_clear);
 				fichas_color(UART_4, negras);
-				fichas_mover_cursor(UART_4, 25, 10);
+				fichas_mover_cursor(UART_4, X_C_SANGRIA, 10);
 				UART_put_string(UART_4, g_array_pausa_1);
 				*modo = 0;
 				g_ventana = v_espera;
@@ -740,12 +743,12 @@ void ajedrez_v_derrota(uint8_t * modo)
 	case 0:
 		UART_put_string(ganador, g_array_clear);
 		fichas_color(ganador, negras);
-		fichas_mover_cursor(ganador, 25, 10);
+		fichas_mover_cursor(ganador, X_C_SANGRIA, 10);
 		UART_put_string(ganador, g_array_ganaste);
 
 		UART_put_string(perdedor, g_array_clear);
 		fichas_color(perdedor, negras);
-		fichas_mover_cursor(perdedor, 25, 10);
+		fichas_mover_cursor(perdedor, X_C_SANGRIA, 10);
 		UART_put_string(perdedor, g_array_perdiste);
 
 		if (0 != g_log)
@@ -800,44 +803,44 @@ void ajedrez_v_leer_log(uint8_t * modo)
 	{
 	case 0:
 		UART_put_string(UART_0, g_array_clear);
-		fichas_mover_cursor(UART_0, 10, 10);
+		fichas_mover_cursor(UART_0, X_S_SANGRIA, 10);
 		UART_put_string(UART_0, g_array_repeticion_1);
-		fichas_mover_cursor(UART_0, 25, 16);
+		fichas_mover_cursor(UART_0, X_C_SANGRIA, 16);
 		UART_put_string(UART_0, g_array_guardado_3);
-		fichas_mover_cursor(UART_0, 25, 22);
+		fichas_mover_cursor(UART_0, X_C_SANGRIA, 22);
 		UART_put_string(UART_0, g_array_guardado_4);
-		fichas_mover_cursor(UART_0, 25, 28);
+		fichas_mover_cursor(UART_0, X_C_SANGRIA, 28);
 		UART_put_string(UART_0, g_array_guardado_5);
-		fichas_mover_cursor(UART_0, 25, 34);
+		fichas_mover_cursor(UART_0, X_C_SANGRIA, 34);
 		UART_put_string(UART_0, g_array_guardado_6);
-		fichas_mover_cursor(UART_0, 25, 40);
+		fichas_mover_cursor(UART_0, X_C_SANGRIA, 40);
 		UART_put_string(UART_0, g_array_guardado_7);
 
-		fichas_mover_cursor(UART_0, 25, 46);
+		fichas_mover_cursor(UART_0, X_C_SANGRIA, 46);
 		UART_put_string(UART_0, g_array_regresar);
 
-		fichas_mover_cursor(UART_0, 10, 16);
+		fichas_mover_cursor(UART_0, X_S_SANGRIA, 16);
 		fichas_seleccion_print(UART_0, rojo);
 
 
 		UART_put_string(UART_4, g_array_clear);
-		fichas_mover_cursor(UART_4, 10, 10);
+		fichas_mover_cursor(UART_4, X_S_SANGRIA, 10);
 		UART_put_string(UART_4, g_array_repeticion_1);
-		fichas_mover_cursor(UART_4, 25, 16);
+		fichas_mover_cursor(UART_4, X_C_SANGRIA, 16);
 		UART_put_string(UART_4, g_array_guardado_3);
-		fichas_mover_cursor(UART_4, 25, 22);
+		fichas_mover_cursor(UART_4, X_C_SANGRIA, 22);
 		UART_put_string(UART_4, g_array_guardado_4);
-		fichas_mover_cursor(UART_4, 25, 28);
+		fichas_mover_cursor(UART_4, X_C_SANGRIA, 28);
 		UART_put_string(UART_4, g_array_guardado_5);
-		fichas_mover_cursor(UART_4, 25, 34);
+		fichas_mover_cursor(UART_4, X_C_SANGRIA, 34);
 		UART_put_string(UART_4, g_array_guardado_6);
-		fichas_mover_cursor(UART_4, 25, 40);
+		fichas_mover_cursor(UART_4, X_C_SANGRIA, 40);
 		UART_put_string(UART_4, g_array_guardado_7);
 
-		fichas_mover_cursor(UART_4, 25, 46);
+		fichas_mover_cursor(UART_4, X_C_SANGRIA, 46);
 		UART_put_string(UART_4, g_array_regresar);
 
-		fichas_mover_cursor(UART_4, 10, 16);
+		fichas_mover_cursor(UART_4, X_S_SANGRIA, 16);
 		fichas_seleccion_print(UART_4, rojo);
 
 		coor_y = 16;
@@ -845,9 +848,9 @@ void ajedrez_v_leer_log(uint8_t * modo)
 	case 1:  		//espera a que se seleccione una opción
 		if((FALSE != g_buttons_control_1[DOWN]) | (FALSE != g_buttons_control_2[DOWN]))
 		{
-			fichas_mover_cursor(UART_0, 10, coor_y);
+			fichas_mover_cursor(UART_0, X_S_SANGRIA, coor_y);
 			fichas_seleccion_print(UART_0, cyan);
-			fichas_mover_cursor(UART_4, 10, coor_y);
+			fichas_mover_cursor(UART_4, X_S_SANGRIA, coor_y);
 			fichas_seleccion_print(UART_4, cyan);
 
 			if(46 == coor_y)
@@ -859,10 +862,10 @@ void ajedrez_v_leer_log(uint8_t * modo)
 				coor_y += 6;
 			}
 
-			fichas_mover_cursor(UART_0, 10, coor_y);
+			fichas_mover_cursor(UART_0, X_S_SANGRIA, coor_y);
 			fichas_seleccion_print(UART_0, rojo);
 
-			fichas_mover_cursor(UART_4, 10, coor_y);
+			fichas_mover_cursor(UART_4, X_S_SANGRIA, coor_y);
 			fichas_seleccion_print(UART_4, rojo);
 
 			g_buttons_control_1[DOWN] = FALSE;
@@ -870,9 +873,9 @@ void ajedrez_v_leer_log(uint8_t * modo)
 		}
 		else if((FALSE != g_buttons_control_1[UP]) | (FALSE != g_buttons_control_2[UP]))
 		{
-			fichas_mover_cursor(UART_0, 10, coor_y);
+			fichas_mover_cursor(UART_0, X_S_SANGRIA, coor_y);
 			fichas_seleccion_print(UART_0, cyan);
-			fichas_mover_cursor(UART_4, 10, coor_y);
+			fichas_mover_cursor(UART_4, X_S_SANGRIA, coor_y);
 			fichas_seleccion_print(UART_4, cyan);
 
 			if(16 == coor_y)
@@ -884,9 +887,9 @@ void ajedrez_v_leer_log(uint8_t * modo)
 				coor_y -= 6;
 			}
 
-			fichas_mover_cursor(UART_0, 10, coor_y);
+			fichas_mover_cursor(UART_0, X_S_SANGRIA, coor_y);
 			fichas_seleccion_print(UART_0, rojo);
-			fichas_mover_cursor(UART_4, 10, coor_y);
+			fichas_mover_cursor(UART_4, X_S_SANGRIA, coor_y);
 			fichas_seleccion_print(UART_4, rojo);
 			g_buttons_control_1[UP] = FALSE;
 			g_buttons_control_2[UP] = FALSE;
@@ -925,7 +928,7 @@ void ajedrez_v_repeticion(uint8_t * modo)
 	case 0:
 		UART_put_string(UART_0, g_array_clear);
 		UART_put_string(UART_4, g_array_clear);
-		tablero_repeticion_init(g_log+1);
+		tablero_repeticion_init(g_log + 1);
 		tablero_init();
 		*modo = 1;
 	case 1:
@@ -934,7 +937,8 @@ void ajedrez_v_repeticion(uint8_t * modo)
 			control_nintendo_clear(g_buttons_control_1);
 			control_nintendo_clear(g_buttons_control_2);
 			tablero_avanza_movimiento();
-		}else if ((FALSE != g_buttons_control_1[SELECT]) | (FALSE != g_buttons_control_2[SELECT]))
+		}
+		else if ((FALSE != g_buttons_control_1[SELECT]) | (FALSE != g_buttons_control_2[SELECT]))
 		{
 			control_nintendo_clear(g_buttons_control_1);
 			control_nintendo_clear(g_buttons_control_2);

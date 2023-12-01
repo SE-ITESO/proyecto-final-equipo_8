@@ -4,7 +4,8 @@
  * @Authors Leonardo Arechiga
  * 			Brandon Gutiérrez
  *
- * 	@brief
+ * 	@brief  It controls the operation
+ * 			of controls of nintendo
  *
  */
 

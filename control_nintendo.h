@@ -4,7 +4,8 @@
  * @Authors Leonardo Arechiga
  * 			Brandon Gutiérrez
  *
- * 	@brief
+ * 	@brief  It controls the operation
+ * 			of controls of nintendo
  *
  */
 
@@ -42,10 +43,24 @@ typedef enum{
 	RIGHT
 }control_button_t;
 
+/*!
+ * @brief Function of initialization of controls nintendo
+ */
 void control_nintendo_init(void);
 
+/*!
+ * @brief Function of clear the status of buttons
+ *
+ * @param uint8_t array_buttons[8] Clear the status of buttons
+ */
 void control_nintendo_clear(uint8_t array_buttons[8]);
 
+/*!
+ * @brief Function of control the buttons
+ *
+ * @param uint8_t array_control[8] Status of buttons
+ * @param control_num_t control number of control
+ */
 void control_nintendo_control(control_num_t control, uint8_t array_control[8]);
 
 

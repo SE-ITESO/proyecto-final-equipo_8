@@ -1,9 +1,14 @@
-/*
- * fichas.c
+/**
+ * @file fichas.c
  *
- *  Created on: 11 nov 2023
- *      Author: brand
+ * @Authors Leonardo Arechiga
+ * 			Brandon Gutiérrez
+ *
+ * 	@brief  It controls the operation
+ * 			of fichas
+ *
  */
+
 #include "fichas.h"
 
 static uint8_t g_salto[] = {'\e','[','1','B','\e','[','0','D','\0'};
@@ -167,18 +172,18 @@ void fichas_peon_mov(uint8_t x, uint8_t y, struct_ficha_t ajedrez[64])
 	struct_ficha_t* peon;
 	struct_ficha_t* alt;
 	uint8_t index;
-	peon = ajedrez + x + (y * 8);
+	peon = ajedrez + x + (y * MULT_RENGLON);
 	if(blancas == peon->color)
 	{
 		if(ninguno == (peon - 8)->ficha_name)
 		{
-			peon->opciones.valor_opciones[peon->opciones.number_opciones] = x + ((y - 1) * 8);
-			ajedrez[x + ((y - 1) * 8)].posible_mov = TRUE;
+			peon->opciones.valor_opciones[peon->opciones.number_opciones] = x + ((y - 1) * MULT_RENGLON);
+			ajedrez[x + ((y - 1) * MULT_RENGLON)].posible_mov = TRUE;
 			peon->opciones.number_opciones++;
 			if((ninguno == (peon - 16)->ficha_name) & (6 == y))
 			{
-				peon->opciones.valor_opciones[peon->opciones.number_opciones] = x + ((y - 2) * 8);
-				ajedrez[x + ((y - 2) * 8)].posible_mov = TRUE;
+				peon->opciones.valor_opciones[peon->opciones.number_opciones] = x + ((y - 2) * MULT_RENGLON);
+				ajedrez[x + ((y - 2) * MULT_RENGLON)].posible_mov = TRUE;
 				peon->opciones.number_opciones++;
 			}
 		}
@@ -186,22 +191,22 @@ void fichas_peon_mov(uint8_t x, uint8_t y, struct_ficha_t ajedrez[64])
 		index = x - 1;
 		if(index < 8)
 		{
-			alt = ajedrez + index + ((y - 1) * 8);
+			alt = ajedrez + index + ((y - 1) * MULT_RENGLON);
 			if((ninguno != alt->ficha_name) & (negras == alt->color))
 			{
-				peon->opciones.valor_opciones[peon->opciones.number_opciones] = index + ((y - 1) * 8);
-				ajedrez[index + ((y - 1) * 8)].posible_mov = TRUE;
+				peon->opciones.valor_opciones[peon->opciones.number_opciones] = index + ((y - 1) * MULT_RENGLON);
+				ajedrez[index + ((y - 1) * MULT_RENGLON)].posible_mov = TRUE;
 				peon->opciones.number_opciones++;
 			}
 		}
 		index = x + 1;
 		if(index < 8)
 		{
-			alt = ajedrez + index + ((y - 1) * 8);
+			alt = ajedrez + index + ((y - 1) * MULT_RENGLON);
 			if((ninguno != alt->ficha_name) & (negras == alt->color))
 			{
-				peon->opciones.valor_opciones[peon->opciones.number_opciones] = index + ((y - 1) * 8);
-				ajedrez[index + ((y - 1) * 8)].posible_mov = TRUE;
+				peon->opciones.valor_opciones[peon->opciones.number_opciones] = index + ((y - 1) * MULT_RENGLON);
+				ajedrez[index + ((y - 1) * MULT_RENGLON)].posible_mov = TRUE;
 				peon->opciones.number_opciones++;
 			}
 		}
@@ -211,13 +216,13 @@ void fichas_peon_mov(uint8_t x, uint8_t y, struct_ficha_t ajedrez[64])
 	{
 		if(ninguno == (peon + 8)->ficha_name)
 		{
-			peon->opciones.valor_opciones[peon->opciones.number_opciones] = x + ((y + 1) * 8);
-			ajedrez[x + ((y + 1) * 8)].posible_mov = TRUE;
+			peon->opciones.valor_opciones[peon->opciones.number_opciones] = x + ((y + 1) * MULT_RENGLON);
+			ajedrez[x + ((y + 1) * MULT_RENGLON)].posible_mov = TRUE;
 			peon->opciones.number_opciones++;
 			if((ninguno == (peon + 16)->ficha_name) & (1 == y))
 			{
-				peon->opciones.valor_opciones[peon->opciones.number_opciones] = x + ((y + 2) * 8);
-				ajedrez[x + ((y + 2) * 8)].posible_mov = TRUE;
+				peon->opciones.valor_opciones[peon->opciones.number_opciones] = x + ((y + 2) * MULT_RENGLON);
+				ajedrez[x + ((y + 2) * MULT_RENGLON)].posible_mov = TRUE;
 				peon->opciones.number_opciones++;
 			}
 		}
@@ -226,22 +231,22 @@ void fichas_peon_mov(uint8_t x, uint8_t y, struct_ficha_t ajedrez[64])
 		index = x - 1;
 		if(index < 8)
 		{
-			alt = ajedrez + index + ((y + 1) * 8);
+			alt = ajedrez + index + ((y + 1) * MULT_RENGLON);
 			if((ninguno != alt->ficha_name) & (blancas == alt->color))
 			{
-				peon->opciones.valor_opciones[peon->opciones.number_opciones] = index + ((y + 1) * 8);
-				ajedrez[index + ((y + 1) * 8)].posible_mov = TRUE;
+				peon->opciones.valor_opciones[peon->opciones.number_opciones] = index + ((y + 1) * MULT_RENGLON);
+				ajedrez[index + ((y + 1) * MULT_RENGLON)].posible_mov = TRUE;
 				peon->opciones.number_opciones++;
 			}
 		}
 		index = x + 1;
 		if(index < 8)
 		{
-			alt = ajedrez + index + ((y + 1) * 8);
+			alt = ajedrez + index + ((y + 1) * MULT_RENGLON);
 			if((ninguno != alt->ficha_name) & (blancas == alt->color))
 			{
-				peon->opciones.valor_opciones[peon->opciones.number_opciones] = index + ((y + 1) * 8);
-				ajedrez[index + ((y + 1) * 8)].posible_mov = TRUE;
+				peon->opciones.valor_opciones[peon->opciones.number_opciones] = index + ((y + 1) * MULT_RENGLON);
+				ajedrez[index + ((y + 1) * MULT_RENGLON)].posible_mov = TRUE;
 				peon->opciones.number_opciones++;
 			}
 		}
@@ -318,7 +323,7 @@ void fichas_movimiento_vertical(uint8_t* y_min, uint8_t x, uint8_t y, struct_fic
 
 	for(i = 0; i < y; i++)
 	{
-		if(ninguno != ajedrez[x + (8 * (i))].ficha_name)
+		if(ninguno != ajedrez[x + (MULT_RENGLON * (i))].ficha_name)
 		{
 			(*y_min) = i;
 		}
@@ -327,7 +332,7 @@ void fichas_movimiento_vertical(uint8_t* y_min, uint8_t x, uint8_t y, struct_fic
 	*(y_min + 1) = 7;
 	for(i = 0; i < (7 - y); i++)
 	{
-		if(ninguno != ajedrez[x + (8 * (7 - i))].ficha_name)
+		if(ninguno != ajedrez[x + (MULT_RENGLON * (7 - i))].ficha_name)
 		{
 			*(y_min + 1) = 7 - i;
 		}
@@ -342,7 +347,7 @@ void fichas_movimiento_horizontal(uint8_t* x_min, uint8_t x, uint8_t y, struct_f
 	(*x_min) = 0;
 	for(i = 0; i < x; i++)
 	{
-		if(ninguno != ajedrez[i + (8 * y)].ficha_name)
+		if(ninguno != ajedrez[i + (MULT_RENGLON * y)].ficha_name)
 		{
 			(*x_min) = i;
 		}
@@ -351,7 +356,7 @@ void fichas_movimiento_horizontal(uint8_t* x_min, uint8_t x, uint8_t y, struct_f
 	*(x_min + 1) = 7;
 	for(i = 0; i < (7 - x); i++)
 	{
-		if(ninguno != ajedrez[(7 - i) + (8 * y)].ficha_name)
+		if(ninguno != ajedrez[(7 - i) + (MULT_RENGLON * y)].ficha_name)
 		{
 			*(x_min + 1) = 7 - i;
 		}
@@ -367,37 +372,37 @@ void fichas_torre_mov(uint8_t x, uint8_t y, struct_ficha_t ajedrez[64])
 	uint8_t y_min[2];
 	uint8_t x_min[2];
 
-	torre = ajedrez + x + (y * 8);
+	torre = ajedrez + x + (y * MULT_RENGLON);
 
 	fichas_movimiento_vertical(y_min, x, y, ajedrez);
 
 	temp = y - *(y_min);
 	for(i = 0; i < (temp - 1); i++)
 	{
-		torre->opciones.valor_opciones[torre->opciones.number_opciones] = x + ((y - i - 1) * 8);
-		ajedrez[x + ((y - i - 1) * 8)].posible_mov = TRUE;
+		torre->opciones.valor_opciones[torre->opciones.number_opciones] = x + ((y - i - 1) * MULT_RENGLON);
+		ajedrez[x + ((y - i - 1) * MULT_RENGLON)].posible_mov = TRUE;
 		torre->opciones.number_opciones++;
 	}
 
-	if(ajedrez[x + ((y - temp) * 8)].color != torre->color)
+	if(ajedrez[x + ((y - temp) * MULT_RENGLON)].color != torre->color)
 	{
-		torre->opciones.valor_opciones[torre->opciones.number_opciones] = x + ((y - temp) * 8);
-		ajedrez[x + ((y - temp) * 8)].posible_mov = TRUE;
+		torre->opciones.valor_opciones[torre->opciones.number_opciones] = x + ((y - temp) * MULT_RENGLON);
+		ajedrez[x + ((y - temp) * MULT_RENGLON)].posible_mov = TRUE;
 		torre->opciones.number_opciones++;
 	}
 
 	temp = *(y_min + 1) - y;
 	for(i = 0; i < (temp - 1); i++)
 	{
-		torre->opciones.valor_opciones[torre->opciones.number_opciones] = x + ((y + i + 1) * 8);
-		ajedrez[x + ((y + i + 1) * 8)].posible_mov = TRUE;
+		torre->opciones.valor_opciones[torre->opciones.number_opciones] = x + ((y + i + 1) * MULT_RENGLON);
+		ajedrez[x + ((y + i + 1) * MULT_RENGLON)].posible_mov = TRUE;
 		torre->opciones.number_opciones++;
 	}
 
-	if(ajedrez[x + ((y + temp) * 8)].color != torre->color)
+	if(ajedrez[x + ((y + temp) * MULT_RENGLON)].color != torre->color)
 	{
-		torre->opciones.valor_opciones[torre->opciones.number_opciones] = x + ((y + temp) * 8);
-		ajedrez[x + ((y + temp) * 8)].posible_mov = TRUE;
+		torre->opciones.valor_opciones[torre->opciones.number_opciones] = x + ((y + temp) * MULT_RENGLON);
+		ajedrez[x + ((y + temp) * MULT_RENGLON)].posible_mov = TRUE;
 		torre->opciones.number_opciones++;
 	}
 
@@ -406,30 +411,30 @@ void fichas_torre_mov(uint8_t x, uint8_t y, struct_ficha_t ajedrez[64])
 	temp = x - *(x_min);
 	for(i = 0; i < (temp - 1); i++)
 	{
-		torre->opciones.valor_opciones[torre->opciones.number_opciones] = (x - i - 1) + (y * 8);
-		ajedrez[(x - i - 1) + (y * 8)].posible_mov = TRUE;
+		torre->opciones.valor_opciones[torre->opciones.number_opciones] = (x - i - 1) + (y * MULT_RENGLON);
+		ajedrez[(x - i - 1) + (y * MULT_RENGLON)].posible_mov = TRUE;
 		torre->opciones.number_opciones++;
 	}
 
-	if(ajedrez[(x - temp) + (y  * 8)].color != torre->color)
+	if(ajedrez[(x - temp) + (y  * MULT_RENGLON)].color != torre->color)
 	{
-		torre->opciones.valor_opciones[torre->opciones.number_opciones] = (x - temp) + (y  * 8);
-		ajedrez[(x - temp) + (y  * 8)].posible_mov = TRUE;
+		torre->opciones.valor_opciones[torre->opciones.number_opciones] = (x - temp) + (y  * MULT_RENGLON);
+		ajedrez[(x - temp) + (y  * MULT_RENGLON)].posible_mov = TRUE;
 		torre->opciones.number_opciones++;
 	}
 
 	temp = *(x_min + 1) - x;
 	for(i = 0; i < (temp - 1); i++)
 	{
-		torre->opciones.valor_opciones[torre->opciones.number_opciones] = (x + i + 1) + (y * 8);
-		ajedrez[(x + i + 1) + (y * 8)].posible_mov = TRUE;
+		torre->opciones.valor_opciones[torre->opciones.number_opciones] = (x + i + 1) + (y * MULT_RENGLON);
+		ajedrez[(x + i + 1) + (y * MULT_RENGLON)].posible_mov = TRUE;
 		torre->opciones.number_opciones++;
 	}
 
-	if(ajedrez[(x + temp) + (y * 8)].color != torre->color)
+	if(ajedrez[(x + temp) + (y * MULT_RENGLON)].color != torre->color)
 	{
-		torre->opciones.valor_opciones[torre->opciones.number_opciones] = (x + temp) + (y * 8);
-		ajedrez[(x + temp) + (y * 8)].posible_mov = TRUE;
+		torre->opciones.valor_opciones[torre->opciones.number_opciones] = (x + temp) + (y * MULT_RENGLON);
+		ajedrez[(x + temp) + (y * MULT_RENGLON)].posible_mov = TRUE;
 		torre->opciones.number_opciones++;
 	}
 
@@ -443,7 +448,7 @@ void fichas_alfil_mov(uint8_t x, uint8_t y, struct_ficha_t ajedrez[64])
 	uint8_t coordenada;
 	struct_ficha_t* alfil;
 
-	alfil = ajedrez + x + (y * 8);
+	alfil = ajedrez + x + (y * MULT_RENGLON);
 	lim[limite_menos_x] = x;
 	lim[limite_menos_y] = y;
 	lim[limite_mas_x] = 7 - x;
@@ -461,7 +466,7 @@ void fichas_alfil_mov(uint8_t x, uint8_t y, struct_ficha_t ajedrez[64])
 	coordenada = limite;
 	for(i = 0; i < limite; i++)
 	{
-		if(ninguno != ajedrez[(x - limite + i) + ((y - limite + i) * 8)].ficha_name)
+		if(ninguno != ajedrez[(x - limite + i) + ((y - limite + i) * MULT_RENGLON)].ficha_name)
 		{
 			coordenada = (limite - i);
 		}
@@ -469,14 +474,14 @@ void fichas_alfil_mov(uint8_t x, uint8_t y, struct_ficha_t ajedrez[64])
 
 	for(i = 0; i < (coordenada - 1); i++)
 	{
-		alfil->opciones.valor_opciones[alfil->opciones.number_opciones] = (x - i - 1) + ((y - i - 1) * 8);
-		ajedrez[(x - i - 1) + ((y - i - 1) * 8)].posible_mov = TRUE;
+		alfil->opciones.valor_opciones[alfil->opciones.number_opciones] = (x - i - 1) + ((y - i - 1) * MULT_RENGLON);
+		ajedrez[(x - i - 1) + ((y - i - 1) * MULT_RENGLON)].posible_mov = TRUE;
 		alfil->opciones.number_opciones++;
 	}
-	if(ajedrez[(x - coordenada) + ((y - coordenada) * 8)].color != alfil->color)
+	if(ajedrez[(x - coordenada) + ((y - coordenada) * MULT_RENGLON)].color != alfil->color)
 	{
-		alfil->opciones.valor_opciones[alfil->opciones.number_opciones] = (x - coordenada) + ((y - coordenada) * 8);
-		ajedrez[(x - coordenada) + ((y - coordenada) * 8)].posible_mov = TRUE;
+		alfil->opciones.valor_opciones[alfil->opciones.number_opciones] = (x - coordenada) + ((y - coordenada) * MULT_RENGLON);
+		ajedrez[(x - coordenada) + ((y - coordenada) * MULT_RENGLON)].posible_mov = TRUE;
 		alfil->opciones.number_opciones++;
 	}
 
@@ -492,7 +497,7 @@ void fichas_alfil_mov(uint8_t x, uint8_t y, struct_ficha_t ajedrez[64])
 	coordenada = limite;
 	for(i = 0; i < limite; i++)
 	{
-		if(ninguno != ajedrez[(x + limite - i) + ((y - limite + i) * 8)].ficha_name)
+		if(ninguno != ajedrez[(x + limite - i) + ((y - limite + i) * MULT_RENGLON)].ficha_name)
 		{
 			coordenada = (limite - i);
 		}
@@ -500,14 +505,14 @@ void fichas_alfil_mov(uint8_t x, uint8_t y, struct_ficha_t ajedrez[64])
 
 	for(i = 0; i < (coordenada - 1); i++)
 	{
-		alfil->opciones.valor_opciones[alfil->opciones.number_opciones] = (x + i + 1) + ((y - i - 1) * 8);
-		ajedrez[(x + i + 1) + ((y - i - 1) * 8)].posible_mov = TRUE;
+		alfil->opciones.valor_opciones[alfil->opciones.number_opciones] = (x + i + 1) + ((y - i - 1) * MULT_RENGLON);
+		ajedrez[(x + i + 1) + ((y - i - 1) * MULT_RENGLON)].posible_mov = TRUE;
 		alfil->opciones.number_opciones++;
 	}
-	if(ajedrez[(x + coordenada) + ((y - coordenada) * 8)].color != alfil->color)
+	if(ajedrez[(x + coordenada) + ((y - coordenada) * MULT_RENGLON)].color != alfil->color)
 	{
-		alfil->opciones.valor_opciones[alfil->opciones.number_opciones] = (x + coordenada) + ((y - coordenada) * 8);
-		ajedrez[(x + coordenada) + ((y - coordenada) * 8)].posible_mov = TRUE;
+		alfil->opciones.valor_opciones[alfil->opciones.number_opciones] = (x + coordenada) + ((y - coordenada) * MULT_RENGLON);
+		ajedrez[(x + coordenada) + ((y - coordenada) * MULT_RENGLON)].posible_mov = TRUE;
 		alfil->opciones.number_opciones++;
 	}
 
@@ -523,7 +528,7 @@ void fichas_alfil_mov(uint8_t x, uint8_t y, struct_ficha_t ajedrez[64])
 	coordenada = limite;
 	for(i = 0; i < limite; i++)
 	{
-		if(ninguno != ajedrez[(x - limite + i) + ((y + limite - i) * 8)].ficha_name)
+		if(ninguno != ajedrez[(x - limite + i) + ((y + limite - i) * MULT_RENGLON)].ficha_name)
 		{
 			coordenada = (limite - i);
 		}
@@ -531,14 +536,14 @@ void fichas_alfil_mov(uint8_t x, uint8_t y, struct_ficha_t ajedrez[64])
 
 	for(i = 0; i < (coordenada - 1); i++)
 	{
-		alfil->opciones.valor_opciones[alfil->opciones.number_opciones] = (x - i - 1) + ((y + i + 1) * 8);
-		ajedrez[(x - i - 1) + ((y + i + 1) * 8)].posible_mov = TRUE;
+		alfil->opciones.valor_opciones[alfil->opciones.number_opciones] = (x - i - 1) + ((y + i + 1) * MULT_RENGLON);
+		ajedrez[(x - i - 1) + ((y + i + 1) * MULT_RENGLON)].posible_mov = TRUE;
 		alfil->opciones.number_opciones++;
 	}
-	if(ajedrez[(x - coordenada) + ((y + coordenada) * 8)].color != alfil->color)
+	if(ajedrez[(x - coordenada) + ((y + coordenada) * MULT_RENGLON)].color != alfil->color)
 	{
-		alfil->opciones.valor_opciones[alfil->opciones.number_opciones] = (x - coordenada) + ((y + coordenada) * 8);
-		ajedrez[(x - coordenada) + ((y + coordenada) * 8)].posible_mov = TRUE;
+		alfil->opciones.valor_opciones[alfil->opciones.number_opciones] = (x - coordenada) + ((y + coordenada) * MULT_RENGLON);
+		ajedrez[(x - coordenada) + ((y + coordenada) * MULT_RENGLON)].posible_mov = TRUE;
 		alfil->opciones.number_opciones++;
 	}
 
@@ -554,7 +559,7 @@ void fichas_alfil_mov(uint8_t x, uint8_t y, struct_ficha_t ajedrez[64])
 	coordenada = limite;
 	for(i = 0; i < limite; i++)
 	{
-		if(ninguno != ajedrez[(x + limite - i) + ((y + limite - i) * 8)].ficha_name)
+		if(ninguno != ajedrez[(x + limite - i) + ((y + limite - i) * MULT_RENGLON)].ficha_name)
 		{
 			coordenada = (limite - i);
 		}
@@ -562,14 +567,14 @@ void fichas_alfil_mov(uint8_t x, uint8_t y, struct_ficha_t ajedrez[64])
 
 	for(i = 0; i < (coordenada - 1); i++)
 	{
-		alfil->opciones.valor_opciones[alfil->opciones.number_opciones] = (x + i + 1) + ((y + i + 1) * 8);
-		ajedrez[(x + i + 1) + ((y + i + 1) * 8)].posible_mov = TRUE;
+		alfil->opciones.valor_opciones[alfil->opciones.number_opciones] = (x + i + 1) + ((y + i + 1) * MULT_RENGLON);
+		ajedrez[(x + i + 1) + ((y + i + 1) * MULT_RENGLON)].posible_mov = TRUE;
 		alfil->opciones.number_opciones++;
 	}
-	if(ajedrez[(x + coordenada) + ((y + coordenada) * 8)].color != alfil->color)
+	if(ajedrez[(x + coordenada) + ((y + coordenada) * MULT_RENGLON)].color != alfil->color)
 	{
-		alfil->opciones.valor_opciones[alfil->opciones.number_opciones] = (x + coordenada) + ((y + coordenada) * 8);
-		ajedrez[(x + coordenada) + ((y + coordenada) * 8)].posible_mov = TRUE;
+		alfil->opciones.valor_opciones[alfil->opciones.number_opciones] = (x + coordenada) + ((y + coordenada) * MULT_RENGLON);
+		ajedrez[(x + coordenada) + ((y + coordenada) * MULT_RENGLON)].posible_mov = TRUE;
 		alfil->opciones.number_opciones++;
 	}
 }
@@ -705,102 +710,102 @@ void fichas_caballo_UART(UART_channel_t UART_name)
 void fichas_caballo_mov(uint8_t x, uint8_t y, struct_ficha_t ajedrez[64])
 {
 	struct_ficha_t* caballo;
-	caballo = ajedrez + x + (y * 8);
+	caballo = ajedrez + x + (y * MULT_RENGLON);
 	uint8_t coordenada_x;
 	uint8_t coordenada_y;
 
 	coordenada_x = x + 1;
 	coordenada_y = y + 2;
-	if((coordenada_y < 8) & (coordenada_x < 8))
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB))
 	{
-		if((caballo->color) != (ajedrez[(coordenada_x) + (coordenada_y * 8)].color))
+		if((caballo->color) != (ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)].color))
 		{
-			caballo->opciones.valor_opciones[caballo->opciones.number_opciones] = (coordenada_x) + (coordenada_y * 8);
-			ajedrez[(coordenada_x) + (coordenada_y * 8)].posible_mov = TRUE;
+			caballo->opciones.valor_opciones[caballo->opciones.number_opciones] = (coordenada_x) + (coordenada_y * MULT_RENGLON);
+			ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)].posible_mov = TRUE;
 			caballo->opciones.number_opciones++;
 		}
 	}
 
 	coordenada_x = x + 1;
 	coordenada_y = y - 2;
-	if((coordenada_y < 8) & (coordenada_x < 8))
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB))
 	{
-		if((caballo->color) != (ajedrez[(coordenada_x) + (coordenada_y * 8)].color))
+		if((caballo->color) != (ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)].color))
 		{
-			caballo->opciones.valor_opciones[caballo->opciones.number_opciones] = (coordenada_x) + (coordenada_y * 8);
-			ajedrez[(coordenada_x) + (coordenada_y * 8)].posible_mov = TRUE;
+			caballo->opciones.valor_opciones[caballo->opciones.number_opciones] = (coordenada_x) + (coordenada_y * MULT_RENGLON);
+			ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)].posible_mov = TRUE;
 			caballo->opciones.number_opciones++;
 		}
 	}
 
 	coordenada_x = x + 2;
 	coordenada_y = y + 1;
-	if((coordenada_y < 8) & (coordenada_x < 8))
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB))
 	{
-		if((caballo->color) != (ajedrez[(coordenada_x) + (coordenada_y * 8)].color))
+		if((caballo->color) != (ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)].color))
 		{
-			caballo->opciones.valor_opciones[caballo->opciones.number_opciones] = (coordenada_x) + (coordenada_y * 8);
-			ajedrez[(coordenada_x) + (coordenada_y * 8)].posible_mov = TRUE;
+			caballo->opciones.valor_opciones[caballo->opciones.number_opciones] = (coordenada_x) + (coordenada_y * MULT_RENGLON);
+			ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)].posible_mov = TRUE;
 			caballo->opciones.number_opciones++;
 		}
 	}
 
 	coordenada_x = x + 2;
 	coordenada_y = y - 1;
-	if((coordenada_y < 8) & (coordenada_x < 8))
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB))
 	{
-		if((caballo->color) != (ajedrez[(coordenada_x) + (coordenada_y * 8)].color))
+		if((caballo->color) != (ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)].color))
 		{
-			caballo->opciones.valor_opciones[caballo->opciones.number_opciones] = (coordenada_x) + (coordenada_y * 8);
-			ajedrez[(coordenada_x) + (coordenada_y * 8)].posible_mov = TRUE;
+			caballo->opciones.valor_opciones[caballo->opciones.number_opciones] = (coordenada_x) + (coordenada_y * MULT_RENGLON);
+			ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)].posible_mov = TRUE;
 			caballo->opciones.number_opciones++;
 		}
 	}
 
 	coordenada_x = x - 1;
 	coordenada_y = y + 2;
-	if((coordenada_y < 8) & (coordenada_x < 8))
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB))
 	{
-		if((caballo->color) != (ajedrez[(coordenada_x) + (coordenada_y * 8)].color))
+		if((caballo->color) != (ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)].color))
 		{
-			caballo->opciones.valor_opciones[caballo->opciones.number_opciones] = (coordenada_x) + (coordenada_y * 8);
-			ajedrez[(coordenada_x) + (coordenada_y * 8)].posible_mov = TRUE;
+			caballo->opciones.valor_opciones[caballo->opciones.number_opciones] = (coordenada_x) + (coordenada_y * MULT_RENGLON);
+			ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)].posible_mov = TRUE;
 			caballo->opciones.number_opciones++;
 		}
 	}
 
 	coordenada_x = x - 1;
 	coordenada_y = y - 2;
-	if((coordenada_y < 8) & (coordenada_x < 8))
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB))
 	{
-		if((caballo->color) != (ajedrez[(coordenada_x) + (coordenada_y * 8)].color))
+		if((caballo->color) != (ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)].color))
 		{
-			caballo->opciones.valor_opciones[caballo->opciones.number_opciones] = (coordenada_x) + (coordenada_y * 8);
-			ajedrez[(coordenada_x) + (coordenada_y * 8)].posible_mov = TRUE;
+			caballo->opciones.valor_opciones[caballo->opciones.number_opciones] = (coordenada_x) + (coordenada_y * MULT_RENGLON);
+			ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)].posible_mov = TRUE;
 			caballo->opciones.number_opciones++;
 		}
 	}
 
 	coordenada_x = x - 2;
 	coordenada_y = y + 1;
-	if((coordenada_y < 8) & (coordenada_x < 8))
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB))
 	{
-		if((caballo->color) != (ajedrez[(coordenada_x) + (coordenada_y * 8)].color))
+		if((caballo->color) != (ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)].color))
 		{
-			caballo->opciones.valor_opciones[caballo->opciones.number_opciones] = (coordenada_x) + (coordenada_y * 8);
-			ajedrez[(coordenada_x) + (coordenada_y * 8)].posible_mov = TRUE;
+			caballo->opciones.valor_opciones[caballo->opciones.number_opciones] = (coordenada_x) + (coordenada_y * MULT_RENGLON);
+			ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)].posible_mov = TRUE;
 			caballo->opciones.number_opciones++;
 		}
 	}
 
 	coordenada_x = x - 2;
 	coordenada_y = y - 1;
-	if((coordenada_y < 8) & (coordenada_x < 8))
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB))
 	{
-		if((caballo->color) != (ajedrez[(coordenada_x) + (coordenada_y * 8)].color))
+		if((caballo->color) != (ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)].color))
 		{
-			caballo->opciones.valor_opciones[caballo->opciones.number_opciones] = (coordenada_x) + (coordenada_y * 8);
-			ajedrez[(coordenada_x) + (coordenada_y * 8)].posible_mov = TRUE;
+			caballo->opciones.valor_opciones[caballo->opciones.number_opciones] = (coordenada_x) + (coordenada_y * MULT_RENGLON);
+			ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)].posible_mov = TRUE;
 			caballo->opciones.number_opciones++;
 		}
 	}
@@ -950,102 +955,102 @@ void fichas_rey_UART(UART_channel_t UART_name)
 void fichas_rey_mov(uint8_t x, uint8_t y, struct_ficha_t ajedrez[64])
 {
 	struct_ficha_t* rey;
-	rey = ajedrez + x + (y * 8);
+	rey = ajedrez + x + (y * MULT_RENGLON);
 	uint8_t coordenada_x;
 	uint8_t coordenada_y;
 
 	coordenada_x = x - 1;
 	coordenada_y = y - 1;
-	if((coordenada_y < 8) & (coordenada_x < 8))
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB))
 	{
-		if((rey->color) != (ajedrez[(coordenada_x) + (coordenada_y * 8)].color))
+		if((rey->color) != (ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)].color))
 		{
-			rey->opciones.valor_opciones[rey->opciones.number_opciones] = (coordenada_x) + (coordenada_y * 8);
-			ajedrez[(coordenada_x) + (coordenada_y * 8)].posible_mov = TRUE;
+			rey->opciones.valor_opciones[rey->opciones.number_opciones] = (coordenada_x) + (coordenada_y * MULT_RENGLON);
+			ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)].posible_mov = TRUE;
 			rey->opciones.number_opciones++;
 		}
 	}
 
 	coordenada_x = x;
 	coordenada_y = y - 1;
-	if((coordenada_y < 8) & (coordenada_x < 8))
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB))
 	{
-		if((rey->color) != (ajedrez[(coordenada_x) + (coordenada_y * 8)].color))
+		if((rey->color) != (ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)].color))
 		{
-			rey->opciones.valor_opciones[rey->opciones.number_opciones] = (coordenada_x) + (coordenada_y * 8);
-			ajedrez[(coordenada_x) + (coordenada_y * 8)].posible_mov = TRUE;
+			rey->opciones.valor_opciones[rey->opciones.number_opciones] = (coordenada_x) + (coordenada_y * MULT_RENGLON);
+			ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)].posible_mov = TRUE;
 			rey->opciones.number_opciones++;
 		}
 	}
 
 	coordenada_x = x + 1;
 	coordenada_y = y - 1;
-	if((coordenada_y < 8) & (coordenada_x < 8))
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB))
 	{
-		if((rey->color) != (ajedrez[(coordenada_x) + (coordenada_y * 8)].color))
+		if((rey->color) != (ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)].color))
 		{
-			rey->opciones.valor_opciones[rey->opciones.number_opciones] = (coordenada_x) + (coordenada_y * 8);
-			ajedrez[(coordenada_x) + (coordenada_y * 8)].posible_mov = TRUE;
+			rey->opciones.valor_opciones[rey->opciones.number_opciones] = (coordenada_x) + (coordenada_y * MULT_RENGLON);
+			ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)].posible_mov = TRUE;
 			rey->opciones.number_opciones++;
 		}
 	}
 
 	coordenada_x = x - 1;
 	coordenada_y = y;
-	if((coordenada_y < 8) & (coordenada_x < 8))
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB))
 	{
-		if((rey->color) != (ajedrez[(coordenada_x) + (coordenada_y * 8)].color))
+		if((rey->color) != (ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)].color))
 		{
-			rey->opciones.valor_opciones[rey->opciones.number_opciones] = (coordenada_x) + (coordenada_y * 8);
-			ajedrez[(coordenada_x) + (coordenada_y * 8)].posible_mov = TRUE;
+			rey->opciones.valor_opciones[rey->opciones.number_opciones] = (coordenada_x) + (coordenada_y * MULT_RENGLON);
+			ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)].posible_mov = TRUE;
 			rey->opciones.number_opciones++;
 		}
 	}
 
 	coordenada_x = x + 1;
 	coordenada_y = y;
-	if((coordenada_y < 8) & (coordenada_x < 8))
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB))
 	{
-		if((rey->color) != (ajedrez[(coordenada_x) + (coordenada_y * 8)].color))
+		if((rey->color) != (ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)].color))
 		{
-			rey->opciones.valor_opciones[rey->opciones.number_opciones] = (coordenada_x) + (coordenada_y * 8);
-			ajedrez[(coordenada_x) + (coordenada_y * 8)].posible_mov = TRUE;
+			rey->opciones.valor_opciones[rey->opciones.number_opciones] = (coordenada_x) + (coordenada_y * MULT_RENGLON);
+			ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)].posible_mov = TRUE;
 			rey->opciones.number_opciones++;
 		}
 	}
 
 	coordenada_x = x - 1;
 	coordenada_y = y + 1;
-	if((coordenada_y < 8) & (coordenada_x < 8))
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB))
 	{
-		if((rey->color) != (ajedrez[(coordenada_x) + (coordenada_y * 8)].color))
+		if((rey->color) != (ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)].color))
 		{
-			rey->opciones.valor_opciones[rey->opciones.number_opciones] = (coordenada_x) + (coordenada_y * 8);
-			ajedrez[(coordenada_x) + (coordenada_y * 8)].posible_mov = TRUE;
+			rey->opciones.valor_opciones[rey->opciones.number_opciones] = (coordenada_x) + (coordenada_y * MULT_RENGLON);
+			ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)].posible_mov = TRUE;
 			rey->opciones.number_opciones++;
 		}
 	}
 
 	coordenada_x = x;
 	coordenada_y = y + 1;
-	if((coordenada_y < 8) & (coordenada_x < 8))
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB))
 	{
-		if((rey->color) != (ajedrez[(coordenada_x) + (coordenada_y * 8)].color))
+		if((rey->color) != (ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)].color))
 		{
-			rey->opciones.valor_opciones[rey->opciones.number_opciones] = (coordenada_x) + (coordenada_y * 8);
-			ajedrez[(coordenada_x) + (coordenada_y * 8)].posible_mov = TRUE;
+			rey->opciones.valor_opciones[rey->opciones.number_opciones] = (coordenada_x) + (coordenada_y * MULT_RENGLON);
+			ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)].posible_mov = TRUE;
 			rey->opciones.number_opciones++;
 		}
 	}
 
 	coordenada_x = x + 1;
 	coordenada_y = y + 1;
-	if((coordenada_y < 8) & (coordenada_x < 8))
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB))
 	{
-		if((rey->color) != (ajedrez[(coordenada_x) + (coordenada_y * 8)].color))
+		if((rey->color) != (ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)].color))
 		{
-			rey->opciones.valor_opciones[rey->opciones.number_opciones] = (coordenada_x) + (coordenada_y * 8);
-			ajedrez[(coordenada_x) + (coordenada_y * 8)].posible_mov = TRUE;
+			rey->opciones.valor_opciones[rey->opciones.number_opciones] = (coordenada_x) + (coordenada_y * MULT_RENGLON);
+			ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)].posible_mov = TRUE;
 			rey->opciones.number_opciones++;
 		}
 	}
@@ -1131,14 +1136,14 @@ void fichas_clear_opciones(struct_opciones_t* posibilidades, UART_channel_t UART
 	for(i = 0; i < posibilidades->number_opciones; i++)
 	{
 		ajedrez[posibilidades->valor_opciones[i]].posible_mov = FALSE;
-		x = posibilidades->valor_opciones[i] % 8;
-		y = posibilidades->valor_opciones[i] / 8;
-		ficha = *(ajedrez + x + (y * 8));
-		fichas_mover_cursor(UART_name, (x * 16) + 1, (y * 8) + 1);
-		fichas_vacio_print(indefinido, (x * 16) + 1, (y * 8) + 1);
+		x = posibilidades->valor_opciones[i] % LIMITE_TAB;
+		y = posibilidades->valor_opciones[i] / LIMITE_TAB;
+		ficha = *(ajedrez + x + (y * MULT_RENGLON));
+		fichas_mover_cursor(UART_name, (x * 16) + 1, (y * MULT_RENGLON) + 1);
+		fichas_vacio_print(indefinido, (x * 16) + 1, (y * MULT_RENGLON) + 1);
 		if(ninguno != ficha.ficha_name)
 		{
-				ficha.print_ficha(ficha.color, (x * 16) + 1, (y * 8) + 1);
+				ficha.print_ficha(ficha.color, (x * 16) + 1, (y * MULT_RENGLON) + 1);
 		}
 	}
 	posibilidades->number_opciones = 0;
@@ -1153,21 +1158,21 @@ void fichas_mostrar_opciones(struct_opciones_t* posibilidades, uint8_t jugador, 
 	struct_ficha_t ficha;
 	for(index = 0; index < posibilidades->number_opciones; index++)
 	{
-		x = posibilidades->valor_opciones[index] % 8;
-		y = posibilidades->valor_opciones[index] / 8;
+		x = posibilidades->valor_opciones[index] % LIMITE_TAB;
+		y = posibilidades->valor_opciones[index] / LIMITE_TAB;
 		ficha = *(ajedrez + x + (y * 8));
 		if(0 == jugador)
 		{
-			fichas_mover_cursor(UART_num, (x * 16) + 1, (y * 8) + 1);
+			fichas_mover_cursor(UART_num, (x * 16) + 1, (y * MULT_RENGLON) + 1);
 		}
 		else
 		{
-			fichas_mover_cursor(UART_num, ((7 - x) * 16) + 1, ((7 - y) * 8) + 1);
+			fichas_mover_cursor(UART_num, ((7 - x) * 16) + 1, ((7 - y) * MULT_RENGLON) + 1);
 		}
 		fichas_print_opcion(UART_num);
 		if(ninguno != ficha.ficha_name)
 		{
-				ficha.print_ficha(ficha.color, (x * 16) + 1, (y * 8) + 1);
+				ficha.print_ficha(ficha.color, (x * 16) + 1, (y * MULT_RENGLON) + 1);
 		}
 	}
 }
@@ -1191,7 +1196,7 @@ uint8_t fichas_jaque_sencillo(uint8_t jugador, uint8_t x, uint8_t y, struct_fich
 
 	/*---------------------------------TORRE REINA-------------------------------*/
 	fichas_movimiento_vertical(y_min, x, y, ajedrez);
-	posibilidad = ajedrez[x + (y_min[0] * 8)];
+	posibilidad = ajedrez[x + (y_min[0] * MULT_RENGLON)];
 
 	if((posibilidad.ficha_name == torre) | (posibilidad.ficha_name == reina))
 	{
@@ -1201,7 +1206,7 @@ uint8_t fichas_jaque_sencillo(uint8_t jugador, uint8_t x, uint8_t y, struct_fich
 		}
 	}
 
-	posibilidad = ajedrez[x + (y_min[1] * 8)];
+	posibilidad = ajedrez[x + (y_min[1] * MULT_RENGLON)];
 
 	if((posibilidad.ficha_name == torre) | (posibilidad.ficha_name == reina))
 	{
@@ -1213,7 +1218,7 @@ uint8_t fichas_jaque_sencillo(uint8_t jugador, uint8_t x, uint8_t y, struct_fich
 
 	fichas_movimiento_horizontal(x_min, x, y, ajedrez);
 
-	posibilidad = ajedrez[x_min[0] + (y * 8)];
+	posibilidad = ajedrez[x_min[0] + (y * MULT_RENGLON)];
 	if((posibilidad.ficha_name == torre) | (posibilidad.ficha_name == reina))
 	{
 		if(color == posibilidad.color)
@@ -1222,7 +1227,7 @@ uint8_t fichas_jaque_sencillo(uint8_t jugador, uint8_t x, uint8_t y, struct_fich
 		}
 	}
 
-	posibilidad = ajedrez[x_min[1] + (y * 8)];
+	posibilidad = ajedrez[x_min[1] + (y * MULT_RENGLON)];
 	if((posibilidad.ficha_name == torre) | (posibilidad.ficha_name == reina))
 	{
 		if(color == posibilidad.color)
@@ -1253,12 +1258,12 @@ uint8_t fichas_jaque_sencillo(uint8_t jugador, uint8_t x, uint8_t y, struct_fich
 	coordenada = limite;
 	for(i = 0; i < limite; i++)
 	{
-		if(ninguno != ajedrez[(x - limite + i) + ((y - limite + i) * 8)].ficha_name)
+		if(ninguno != ajedrez[(x - limite + i) + ((y - limite + i) * MULT_RENGLON)].ficha_name)
 		{
 			coordenada = (limite - i);
 		}
 	}
-	posibilidad = *(ajedrez + (x - coordenada) + ((y - coordenada) * 8));
+	posibilidad = *(ajedrez + (x - coordenada) + ((y - coordenada) * MULT_RENGLON));
 	if((posibilidad.ficha_name == alfil) | (posibilidad.ficha_name == reina))
 	{
 		if(color == posibilidad.color)
@@ -1279,12 +1284,12 @@ uint8_t fichas_jaque_sencillo(uint8_t jugador, uint8_t x, uint8_t y, struct_fich
 	coordenada = limite;
 	for(i = 0; i < limite; i++)
 	{
-		if(ninguno != ajedrez[(x + limite - i) + ((y - limite + i) * 8)].ficha_name)
+		if(ninguno != ajedrez[(x + limite - i) + ((y - limite + i) * MULT_RENGLON)].ficha_name)
 		{
 			coordenada = (limite - i);
 		}
 	}
-	posibilidad = *(ajedrez + (x + coordenada) + ((y - coordenada) * 8));
+	posibilidad = *(ajedrez + (x + coordenada) + ((y - coordenada) * MULT_RENGLON));
 	if((posibilidad.ficha_name == alfil) | (posibilidad.ficha_name == reina))
 	{
 		if(color == posibilidad.color)
@@ -1305,12 +1310,12 @@ uint8_t fichas_jaque_sencillo(uint8_t jugador, uint8_t x, uint8_t y, struct_fich
 	coordenada = limite;
 	for(i = 0; i < limite; i++)
 	{
-		if(ninguno != ajedrez[(x - limite + i) + ((y + limite - i) * 8)].ficha_name)
+		if(ninguno != ajedrez[(x - limite + i) + ((y + limite - i) * MULT_RENGLON)].ficha_name)
 		{
 			coordenada = (limite - i);
 		}
 	}
-	posibilidad = *(ajedrez + (x - coordenada) + ((y + coordenada) * 8));
+	posibilidad = *(ajedrez + (x - coordenada) + ((y + coordenada) * MULT_RENGLON));
 	if((posibilidad.ficha_name == alfil) | (posibilidad.ficha_name == reina))
 	{
 		if(color == posibilidad.color)
@@ -1331,12 +1336,12 @@ uint8_t fichas_jaque_sencillo(uint8_t jugador, uint8_t x, uint8_t y, struct_fich
 	coordenada = limite;
 	for(i = 0; i < limite; i++)
 	{
-		if(ninguno != ajedrez[(x + limite - i) + ((y + limite - i) * 8)].ficha_name)
+		if(ninguno != ajedrez[(x + limite - i) + ((y + limite - i) * MULT_RENGLON)].ficha_name)
 		{
 			coordenada = (limite - i);
 		}
 	}
-	posibilidad = *(ajedrez + (x + coordenada) + ((y + coordenada) * 8));
+	posibilidad = *(ajedrez + (x + coordenada) + ((y + coordenada) * MULT_RENGLON));
 	if((posibilidad.ficha_name == alfil) | (posibilidad.ficha_name == reina))
 	{
 		if(color == posibilidad.color)
@@ -1352,9 +1357,9 @@ uint8_t fichas_jaque_sencillo(uint8_t jugador, uint8_t x, uint8_t y, struct_fich
 
 	coordenada_x = x + 1;
 	coordenada_y = y + 2;
-	if((coordenada_y < 8) & (coordenada_x < 8))
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB))
 	{
-		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)];
 		if(caballo == posibilidad.ficha_name)
 		{
 			if(color == posibilidad.color)
@@ -1366,9 +1371,9 @@ uint8_t fichas_jaque_sencillo(uint8_t jugador, uint8_t x, uint8_t y, struct_fich
 
 	coordenada_x = x + 1;
 	coordenada_y = y - 2;
-	if((coordenada_y < 8) & (coordenada_x < 8))
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB))
 	{
-		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)];
 		if(caballo == posibilidad.ficha_name)
 		{
 			if(color == posibilidad.color)
@@ -1380,9 +1385,9 @@ uint8_t fichas_jaque_sencillo(uint8_t jugador, uint8_t x, uint8_t y, struct_fich
 
 	coordenada_x = x + 2;
 	coordenada_y = y + 1;
-	if((coordenada_y < 8) & (coordenada_x < 8))
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB))
 	{
-		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)];
 		if(caballo == posibilidad.ficha_name)
 		{
 			if(color == posibilidad.color)
@@ -1394,9 +1399,9 @@ uint8_t fichas_jaque_sencillo(uint8_t jugador, uint8_t x, uint8_t y, struct_fich
 
 	coordenada_x = x + 2;
 	coordenada_y = y - 1;
-	if((coordenada_y < 8) & (coordenada_x < 8))
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB))
 	{
-		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)];
 		if(caballo == posibilidad.ficha_name)
 		{
 			if(color == posibilidad.color)
@@ -1408,9 +1413,9 @@ uint8_t fichas_jaque_sencillo(uint8_t jugador, uint8_t x, uint8_t y, struct_fich
 
 	coordenada_x = x - 1;
 	coordenada_y = y + 2;
-	if((coordenada_y < 8) & (coordenada_x < 8))
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB))
 	{
-		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)];
 		if(caballo == posibilidad.ficha_name)
 		{
 			if(color == posibilidad.color)
@@ -1422,9 +1427,9 @@ uint8_t fichas_jaque_sencillo(uint8_t jugador, uint8_t x, uint8_t y, struct_fich
 
 	coordenada_x = x - 1;
 	coordenada_y = y - 2;
-	if((coordenada_y < 8) & (coordenada_x < 8))
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB))
 	{
-		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)];
 		if(caballo == posibilidad.ficha_name)
 		{
 			if(color == posibilidad.color)
@@ -1436,9 +1441,9 @@ uint8_t fichas_jaque_sencillo(uint8_t jugador, uint8_t x, uint8_t y, struct_fich
 
 	coordenada_x = x - 2;
 	coordenada_y = y + 1;
-	if((coordenada_y < 8) & (coordenada_x < 8))
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB))
 	{
-		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)];
 		if(caballo == posibilidad.ficha_name)
 		{
 			if(color == posibilidad.color)
@@ -1450,9 +1455,9 @@ uint8_t fichas_jaque_sencillo(uint8_t jugador, uint8_t x, uint8_t y, struct_fich
 
 	coordenada_x = x - 2;
 	coordenada_y = y - 1;
-	if((coordenada_y < 8) & (coordenada_x < 8))
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB))
 	{
-		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)];
 		if(caballo == posibilidad.ficha_name)
 		{
 			if(color == posibilidad.color)
@@ -1474,9 +1479,9 @@ uint8_t fichas_jaque_sencillo(uint8_t jugador, uint8_t x, uint8_t y, struct_fich
 	}
 
 	coordenada_x = x + 1;
-	if((coordenada_y < 8) & (coordenada_x < 8))
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB))
 	{
-		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)];
 		if(peon == posibilidad.ficha_name)
 		{
 			if(color == posibilidad.color)
@@ -1487,9 +1492,9 @@ uint8_t fichas_jaque_sencillo(uint8_t jugador, uint8_t x, uint8_t y, struct_fich
 	}
 
 	coordenada_x = x - 1;
-	if((coordenada_y < 8) & (coordenada_x < 8))
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB))
 	{
-		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)];
 		if(peon == posibilidad.ficha_name)
 		{
 			if(color == posibilidad.color)
@@ -1509,13 +1514,13 @@ uint8_t fichas_jaque_mate(uint8_t jugador, uint8_t x, uint8_t y, struct_ficha_t 
 	uint8_t coordenada_x;
 	uint8_t coordenada_y;
 	struct_ficha_t ficha;
-	struct_ficha_t rey = ajedrez[x + (8 * y)];
+	struct_ficha_t rey = ajedrez[x + (MULT_RENGLON * y)];
 	uint8_t color = rey.color;
 
 	coordenada_x = x - 1;
 	coordenada_y = y - 1;
-	ficha = ajedrez[coordenada_x + (8 * coordenada_y)];
-	if((coordenada_y < 8) & (coordenada_x < 8) & (color != ficha.color))
+	ficha = ajedrez[coordenada_x + (MULT_RENGLON * coordenada_y)];
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB) & (color != ficha.color))
 	{
 		s_jaque = fichas_jaque_sencillo(jugador, coordenada_x, coordenada_y, ajedrez);
 		if(jaque == s_jaque)
@@ -1530,8 +1535,8 @@ uint8_t fichas_jaque_mate(uint8_t jugador, uint8_t x, uint8_t y, struct_ficha_t 
 
 	coordenada_x = x;
 	coordenada_y = y - 1;
-	ficha = ajedrez[coordenada_x + (8 * coordenada_y)];
-	if((coordenada_y < 8) & (coordenada_x < 8) & (color != ficha.color))
+	ficha = ajedrez[coordenada_x + (MULT_RENGLON * coordenada_y)];
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB) & (color != ficha.color))
 	{
 		s_jaque = fichas_jaque_sencillo(jugador, coordenada_x, coordenada_y, ajedrez);
 		if(jaque == s_jaque)
@@ -1546,8 +1551,8 @@ uint8_t fichas_jaque_mate(uint8_t jugador, uint8_t x, uint8_t y, struct_ficha_t 
 
 	coordenada_x = x + 1;
 	coordenada_y = y - 1;
-	ficha = ajedrez[coordenada_x + (8 * coordenada_y)];
-	if((coordenada_y < 8) & (coordenada_x < 8) & (color != ficha.color))
+	ficha = ajedrez[coordenada_x + (MULT_RENGLON * coordenada_y)];
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB) & (color != ficha.color))
 	{
 		s_jaque = fichas_jaque_sencillo(jugador, coordenada_x, coordenada_y, ajedrez);
 		if(jaque == s_jaque)
@@ -1562,8 +1567,8 @@ uint8_t fichas_jaque_mate(uint8_t jugador, uint8_t x, uint8_t y, struct_ficha_t 
 
 	coordenada_x = x - 1;
 	coordenada_y = y;
-	ficha = ajedrez[coordenada_x + (8 * coordenada_y)];
-	if((coordenada_y < 8) & (coordenada_x < 8) & (color != ficha.color))
+	ficha = ajedrez[coordenada_x + (MULT_RENGLON * coordenada_y)];
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB) & (color != ficha.color))
 	{
 		s_jaque = fichas_jaque_sencillo(jugador, coordenada_x, coordenada_y, ajedrez);
 		if(jaque == s_jaque)
@@ -1578,8 +1583,8 @@ uint8_t fichas_jaque_mate(uint8_t jugador, uint8_t x, uint8_t y, struct_ficha_t 
 
 	coordenada_x = x + 1;
 	coordenada_y = y;
-	ficha = ajedrez[coordenada_x + (8 * coordenada_y)];
-	if((coordenada_y < 8) & (coordenada_x < 8) & (color != ficha.color))
+	ficha = ajedrez[coordenada_x + (MULT_RENGLON * coordenada_y)];
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB) & (color != ficha.color))
 	{
 		s_jaque = fichas_jaque_sencillo(jugador, coordenada_x, coordenada_y, ajedrez);
 		if(jaque == s_jaque)
@@ -1594,8 +1599,8 @@ uint8_t fichas_jaque_mate(uint8_t jugador, uint8_t x, uint8_t y, struct_ficha_t 
 
 	coordenada_x = x - 1;
 	coordenada_y = y + 1;
-	ficha = ajedrez[coordenada_x + (8 * coordenada_y)];
-	if((coordenada_y < 8) & (coordenada_x < 8) & (color != ficha.color))
+	ficha = ajedrez[coordenada_x + (MULT_RENGLON * coordenada_y)];
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB) & (color != ficha.color))
 	{
 		s_jaque = fichas_jaque_sencillo(jugador, coordenada_x, coordenada_y, ajedrez);
 		if(jaque == s_jaque)
@@ -1610,8 +1615,8 @@ uint8_t fichas_jaque_mate(uint8_t jugador, uint8_t x, uint8_t y, struct_ficha_t 
 
 	coordenada_x = x;
 	coordenada_y = y + 1;
-	ficha = ajedrez[coordenada_x + (8 * coordenada_y)];
-	if((coordenada_y < 8) & (coordenada_x < 8) & (color != ficha.color))
+	ficha = ajedrez[coordenada_x + (MULT_RENGLON * coordenada_y)];
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB) & (color != ficha.color))
 	{
 		s_jaque = fichas_jaque_sencillo(jugador, coordenada_x, coordenada_y, ajedrez);
 		if(jaque == s_jaque)
@@ -1626,8 +1631,8 @@ uint8_t fichas_jaque_mate(uint8_t jugador, uint8_t x, uint8_t y, struct_ficha_t 
 
 	coordenada_x = x + 1;
 	coordenada_y = y + 1;
-	ficha = ajedrez[coordenada_x + (8 * coordenada_y)];
-	if((coordenada_y < 8) & (coordenada_x < 8) & (color != ficha.color))
+	ficha = ajedrez[coordenada_x + (MULT_RENGLON * coordenada_y)];
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB) & (color != ficha.color))
 	{
 		s_jaque = fichas_jaque_sencillo(jugador, coordenada_x, coordenada_y, ajedrez);
 		if(jaque == s_jaque)
@@ -1655,7 +1660,7 @@ uint8_t fichas_jaque_mate(uint8_t jugador, uint8_t x, uint8_t y, struct_ficha_t 
 
 void fichas_ficha_jaque(struct_ficha_jaque_t* ficha, uint8_t x, uint8_t y, struct_ficha_t ajedrez[64])
 {
-	struct_ficha_t rey = ajedrez[x + (8 * y)];
+	struct_ficha_t rey = ajedrez[x + (MULT_RENGLON * y)];
 
 	uint8_t color;
 	struct_ficha_t posibilidad;
@@ -1678,7 +1683,7 @@ void fichas_ficha_jaque(struct_ficha_jaque_t* ficha, uint8_t x, uint8_t y, struc
 
 	/*---------------------------------TORRE REINA-------------------------------*/
 	fichas_movimiento_vertical(y_min, x, y, ajedrez);
-	posibilidad = ajedrez[x + (y_min[0] * 8)];
+	posibilidad = ajedrez[x + (y_min[0] * MULT_RENGLON)];
 
 	if((posibilidad.ficha_name == torre) | (posibilidad.ficha_name == reina))
 	{
@@ -1690,7 +1695,7 @@ void fichas_ficha_jaque(struct_ficha_jaque_t* ficha, uint8_t x, uint8_t y, struc
 		}
 	}
 
-	posibilidad = ajedrez[x + (y_min[1] * 8)];
+	posibilidad = ajedrez[x + (y_min[1] * MULT_RENGLON)];
 
 	if((posibilidad.ficha_name == torre) | (posibilidad.ficha_name == reina))
 	{
@@ -1704,7 +1709,7 @@ void fichas_ficha_jaque(struct_ficha_jaque_t* ficha, uint8_t x, uint8_t y, struc
 
 	fichas_movimiento_horizontal(x_min, x, y, ajedrez);
 
-	posibilidad = ajedrez[x_min[0] + (y * 8)];
+	posibilidad = ajedrez[x_min[0] + (y * MULT_RENGLON)];
 	if((posibilidad.ficha_name == torre) | (posibilidad.ficha_name == reina))
 	{
 		if(color == posibilidad.color)
@@ -1715,7 +1720,7 @@ void fichas_ficha_jaque(struct_ficha_jaque_t* ficha, uint8_t x, uint8_t y, struc
 		}
 	}
 
-	posibilidad = ajedrez[x_min[1] + (y * 8)];
+	posibilidad = ajedrez[x_min[1] + (y * MULT_RENGLON)];
 	if((posibilidad.ficha_name == torre) | (posibilidad.ficha_name == reina))
 	{
 		if(color == posibilidad.color)
@@ -1748,12 +1753,12 @@ void fichas_ficha_jaque(struct_ficha_jaque_t* ficha, uint8_t x, uint8_t y, struc
 	coordenada = limite;
 	for(i = 0; i < limite; i++)
 	{
-		if(ninguno != ajedrez[(x - limite + i) + ((y - limite + i) * 8)].ficha_name)
+		if(ninguno != ajedrez[(x - limite + i) + ((y - limite + i) * MULT_RENGLON)].ficha_name)
 		{
 			coordenada = (limite - i);
 		}
 	}
-	posibilidad = *(ajedrez + (x - coordenada) + ((y - coordenada) * 8));
+	posibilidad = *(ajedrez + (x - coordenada) + ((y - coordenada) * MULT_RENGLON));
 	if((posibilidad.ficha_name == alfil) | (posibilidad.ficha_name == reina))
 	{
 		if(color == posibilidad.color)
@@ -1776,12 +1781,12 @@ void fichas_ficha_jaque(struct_ficha_jaque_t* ficha, uint8_t x, uint8_t y, struc
 	coordenada = limite;
 	for(i = 0; i < limite; i++)
 	{
-		if(ninguno != ajedrez[(x + limite - i) + ((y - limite + i) * 8)].ficha_name)
+		if(ninguno != ajedrez[(x + limite - i) + ((y - limite + i) * MULT_RENGLON)].ficha_name)
 		{
 			coordenada = (limite - i);
 		}
 	}
-	posibilidad = *(ajedrez + (x + coordenada) + ((y - coordenada) * 8));
+	posibilidad = *(ajedrez + (x + coordenada) + ((y - coordenada) * MULT_RENGLON));
 	if((posibilidad.ficha_name == alfil) | (posibilidad.ficha_name == reina))
 	{
 		if(color == posibilidad.color)
@@ -1804,12 +1809,12 @@ void fichas_ficha_jaque(struct_ficha_jaque_t* ficha, uint8_t x, uint8_t y, struc
 	coordenada = limite;
 	for(i = 0; i < limite; i++)
 	{
-		if(ninguno != ajedrez[(x - limite + i) + ((y + limite - i) * 8)].ficha_name)
+		if(ninguno != ajedrez[(x - limite + i) + ((y + limite - i) * MULT_RENGLON)].ficha_name)
 		{
 			coordenada = (limite - i);
 		}
 	}
-	posibilidad = *(ajedrez + (x - coordenada) + ((y + coordenada) * 8));
+	posibilidad = *(ajedrez + (x - coordenada) + ((y + coordenada) * MULT_RENGLON));
 	if((posibilidad.ficha_name == alfil) | (posibilidad.ficha_name == reina))
 	{
 		if(color == posibilidad.color)
@@ -1832,12 +1837,12 @@ void fichas_ficha_jaque(struct_ficha_jaque_t* ficha, uint8_t x, uint8_t y, struc
 	coordenada = limite;
 	for(i = 0; i < limite; i++)
 	{
-		if(ninguno != ajedrez[(x + limite - i) + ((y + limite - i) * 8)].ficha_name)
+		if(ninguno != ajedrez[(x + limite - i) + ((y + limite - i) * MULT_RENGLON)].ficha_name)
 		{
 			coordenada = (limite - i);
 		}
 	}
-	posibilidad = *(ajedrez + (x + coordenada) + ((y + coordenada) * 8));
+	posibilidad = *(ajedrez + (x + coordenada) + ((y + coordenada) * MULT_RENGLON));
 	if((posibilidad.ficha_name == alfil) | (posibilidad.ficha_name == reina))
 	{
 		if(color == posibilidad.color)
@@ -1855,9 +1860,9 @@ void fichas_ficha_jaque(struct_ficha_jaque_t* ficha, uint8_t x, uint8_t y, struc
 
 	coordenada_x = x + 1;
 	coordenada_y = y + 2;
-	if((coordenada_y < 8) & (coordenada_x < 8))
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB))
 	{
-		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)];
 		if(caballo == posibilidad.ficha_name)
 		{
 			if(color == posibilidad.color)
@@ -1871,9 +1876,9 @@ void fichas_ficha_jaque(struct_ficha_jaque_t* ficha, uint8_t x, uint8_t y, struc
 
 	coordenada_x = x + 1;
 	coordenada_y = y - 2;
-	if((coordenada_y < 8) & (coordenada_x < 8))
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB))
 	{
-		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)];
 		if(caballo == posibilidad.ficha_name)
 		{
 			if(color == posibilidad.color)
@@ -1887,9 +1892,9 @@ void fichas_ficha_jaque(struct_ficha_jaque_t* ficha, uint8_t x, uint8_t y, struc
 
 	coordenada_x = x + 2;
 	coordenada_y = y + 1;
-	if((coordenada_y < 8) & (coordenada_x < 8))
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB))
 	{
-		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)];
 		if(caballo == posibilidad.ficha_name)
 		{
 			if(color == posibilidad.color)
@@ -1903,9 +1908,9 @@ void fichas_ficha_jaque(struct_ficha_jaque_t* ficha, uint8_t x, uint8_t y, struc
 
 	coordenada_x = x + 2;
 	coordenada_y = y - 1;
-	if((coordenada_y < 8) & (coordenada_x < 8))
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB))
 	{
-		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)];
 		if(caballo == posibilidad.ficha_name)
 		{
 			if(color == posibilidad.color)
@@ -1919,9 +1924,9 @@ void fichas_ficha_jaque(struct_ficha_jaque_t* ficha, uint8_t x, uint8_t y, struc
 
 	coordenada_x = x - 1;
 	coordenada_y = y + 2;
-	if((coordenada_y < 8) & (coordenada_x < 8))
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB))
 	{
-		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)];
 		if(caballo == posibilidad.ficha_name)
 		{
 			if(color == posibilidad.color)
@@ -1935,9 +1940,9 @@ void fichas_ficha_jaque(struct_ficha_jaque_t* ficha, uint8_t x, uint8_t y, struc
 
 	coordenada_x = x - 1;
 	coordenada_y = y - 2;
-	if((coordenada_y < 8) & (coordenada_x < 8))
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB))
 	{
-		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)];
 		if(caballo == posibilidad.ficha_name)
 		{
 			if(color == posibilidad.color)
@@ -1951,9 +1956,9 @@ void fichas_ficha_jaque(struct_ficha_jaque_t* ficha, uint8_t x, uint8_t y, struc
 
 	coordenada_x = x - 2;
 	coordenada_y = y + 1;
-	if((coordenada_y < 8) & (coordenada_x < 8))
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB))
 	{
-		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)];
 		if(caballo == posibilidad.ficha_name)
 		{
 			if(color == posibilidad.color)
@@ -1967,9 +1972,9 @@ void fichas_ficha_jaque(struct_ficha_jaque_t* ficha, uint8_t x, uint8_t y, struc
 
 	coordenada_x = x - 2;
 	coordenada_y = y - 1;
-	if((coordenada_y < 8) & (coordenada_x < 8))
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB))
 	{
-		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)];
 		if(caballo == posibilidad.ficha_name)
 		{
 			if(color == posibilidad.color)
@@ -1993,9 +1998,9 @@ void fichas_ficha_jaque(struct_ficha_jaque_t* ficha, uint8_t x, uint8_t y, struc
 	}
 
 	coordenada_x = x + 1;
-	if((coordenada_y < 8) & (coordenada_x < 8))
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB))
 	{
-		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)];
 		if(peon == posibilidad.ficha_name)
 		{
 			if(color == posibilidad.color)
@@ -2008,9 +2013,9 @@ void fichas_ficha_jaque(struct_ficha_jaque_t* ficha, uint8_t x, uint8_t y, struc
 	}
 
 	coordenada_x = x - 1;
-	if((coordenada_y < 8) & (coordenada_x < 8))
+	if((coordenada_y < LIMITE_TAB) & (coordenada_x < LIMITE_TAB))
 	{
-		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * 8)];
+		posibilidad = ajedrez[(coordenada_x) + (coordenada_y * MULT_RENGLON)];
 		if(peon == posibilidad.ficha_name)
 		{
 			if(color == posibilidad.color)
@@ -2034,7 +2039,7 @@ uint8_t fichas_salvar_jaque(struct_ficha_jaque_t* ficha, uint8_t x, uint8_t y, s
 	uint8_t y_ficha = ficha->coordenada_y;
 
 	ficha->casillas.number_opciones = 0;
-	uint8_t color = ajedrez[x + (8 * y)].color;
+	uint8_t color = ajedrez[x + (MULT_RENGLON * y)].color;
 	uint8_t y_aux;
 	uint8_t x_aux;
 	uint8_t aux;
@@ -2046,12 +2051,12 @@ uint8_t fichas_salvar_jaque(struct_ficha_jaque_t* ficha, uint8_t x, uint8_t y, s
 	/*-----------------------------------------Rescate de un peón-----------------------------------------------*/
 	case peon:
 		ficha->casillas.number_opciones = 1;
-		ficha->casillas.valor_opciones[0] = x_ficha + (y_ficha * 8);
+		ficha->casillas.valor_opciones[0] = x_ficha + (y_ficha * MULT_RENGLON);
 		break;
 	/*-----------------------------------------Rescate de una caballo-------------------------------------------*/
 	case caballo:
 		ficha->casillas.number_opciones = 1;
-		ficha->casillas.valor_opciones[0] = x_ficha + (y_ficha * 8);
+		ficha->casillas.valor_opciones[0] = x_ficha + (y_ficha * MULT_RENGLON);
 		break;
 	/*-----------------------------------------Rescate de un alfil----------------------------------------------*/
 	case alfil:
@@ -2061,28 +2066,28 @@ uint8_t fichas_salvar_jaque(struct_ficha_jaque_t* ficha, uint8_t x, uint8_t y, s
 		case 0:
 			for(i = 0; i < (y - y_ficha); i++)
 			{
-				ficha->casillas.valor_opciones[ficha->casillas.number_opciones] = (x_ficha + i) + ((y_ficha + i) * 8);
+				ficha->casillas.valor_opciones[ficha->casillas.number_opciones] = (x_ficha + i) + ((y_ficha + i) * MULT_RENGLON);
 				ficha->casillas.number_opciones++;
 			}
 			break;
 		case 1:
 			for(i = 0; i < (y - y_ficha); i++)
 			{
-				ficha->casillas.valor_opciones[ficha->casillas.number_opciones] = (x_ficha - i) + ((y_ficha + i) * 8);
+				ficha->casillas.valor_opciones[ficha->casillas.number_opciones] = (x_ficha - i) + ((y_ficha + i) * MULT_RENGLON);
 				ficha->casillas.number_opciones++;
 			}
 			break;
 		case 2:
 			for(i = 0; i < (y_ficha - y); i++)
 			{
-				ficha->casillas.valor_opciones[ficha->casillas.number_opciones] = (x_ficha + i) + ((y_ficha - i) * 8);
+				ficha->casillas.valor_opciones[ficha->casillas.number_opciones] = (x_ficha + i) + ((y_ficha - i) * MULT_RENGLON);
 				ficha->casillas.number_opciones++;
 			}
 			break;
 		case 3:
 			for(i = 0; i < (y_ficha - y); i++)
 			{
-				ficha->casillas.valor_opciones[ficha->casillas.number_opciones] = (x_ficha - i) + ((y_ficha - i) * 8);
+				ficha->casillas.valor_opciones[ficha->casillas.number_opciones] = (x_ficha - i) + ((y_ficha - i) * MULT_RENGLON);
 				ficha->casillas.number_opciones++;
 			}
 			break;
@@ -2096,7 +2101,7 @@ uint8_t fichas_salvar_jaque(struct_ficha_jaque_t* ficha, uint8_t x, uint8_t y, s
 			{
 				for(y_aux = y_ficha; y_aux < y; y_aux++)
 				{
-					ficha->casillas.valor_opciones[ficha->casillas.number_opciones] = x_ficha + (y_ficha * 8);
+					ficha->casillas.valor_opciones[ficha->casillas.number_opciones] = x_ficha + (y_ficha * MULT_RENGLON);
 					ficha->casillas.number_opciones++;
 				}
 			}
@@ -2104,7 +2109,7 @@ uint8_t fichas_salvar_jaque(struct_ficha_jaque_t* ficha, uint8_t x, uint8_t y, s
 			{
 				for(y_aux = y_ficha; y_aux > y; y_aux--)
 				{
-					ficha->casillas.valor_opciones[ficha->casillas.number_opciones] = x_ficha + (y_ficha * 8);
+					ficha->casillas.valor_opciones[ficha->casillas.number_opciones] = x_ficha + (y_ficha * MULT_RENGLON);
 					ficha->casillas.number_opciones++;
 				}
 			}
@@ -2115,7 +2120,7 @@ uint8_t fichas_salvar_jaque(struct_ficha_jaque_t* ficha, uint8_t x, uint8_t y, s
 			{
 				for(x_aux = x_ficha; x_aux < x; x_aux++)
 				{
-					ficha->casillas.valor_opciones[ficha->casillas.number_opciones] = x_ficha + (y_ficha * 8);
+					ficha->casillas.valor_opciones[ficha->casillas.number_opciones] = x_ficha + (y_ficha * MULT_RENGLON);
 					ficha->casillas.number_opciones++;
 				}
 			}
@@ -2123,7 +2128,7 @@ uint8_t fichas_salvar_jaque(struct_ficha_jaque_t* ficha, uint8_t x, uint8_t y, s
 			{
 				for(x_aux = x_ficha; x_aux > x; x_aux--)
 				{
-					ficha->casillas.valor_opciones[ficha->casillas.number_opciones] = x_ficha + (y_ficha * 8);
+					ficha->casillas.valor_opciones[ficha->casillas.number_opciones] = x_ficha + (y_ficha * MULT_RENGLON);
 					ficha->casillas.number_opciones++;
 				}
 			}
@@ -2142,19 +2147,19 @@ uint8_t fichas_salvar_jaque(struct_ficha_jaque_t* ficha, uint8_t x, uint8_t y, s
 			switch(name_ficha)
 			{
 			case peon:
-				fichas_peon_mov((l % 8), (l / 8), ajedrez);
+				fichas_peon_mov((l % LIMITE_TAB), (l / LIMITE_TAB), ajedrez);
 				break;
 			case caballo:
-				fichas_caballo_mov((l % 8), (l / 8), ajedrez);
+				fichas_caballo_mov((l % LIMITE_TAB), (l / LIMITE_TAB), ajedrez);
 				break;
 			case alfil:
-				fichas_alfil_mov((l % 8), (l / 8), ajedrez);
+				fichas_alfil_mov((l % LIMITE_TAB), (l / LIMITE_TAB), ajedrez);
 				break;
 			case torre:
-				fichas_torre_mov((l % 8), (l / 8), ajedrez);
+				fichas_torre_mov((l % LIMITE_TAB), (l / LIMITE_TAB), ajedrez);
 				break;
 			case reina:
-				fichas_reina_mov((l % 8), (l / 8), ajedrez);
+				fichas_reina_mov((l % LIMITE_TAB), (l / LIMITE_TAB), ajedrez);
 				break;
 			default:
 				break;
@@ -2188,7 +2193,7 @@ void fichas_roque(uint8_t x, uint8_t y, struct_ficha_t ajedrez[64], type_roque_t
 	uint8_t status;
 	struct_ficha_t ficha_aux;
 
-	rey = ajedrez + x + (8 * y);
+	rey = ajedrez + x + (MULT_RENGLON * y);
 	uint8_t color = rey->color - 1;
 
 	switch(opcion)
@@ -2196,34 +2201,34 @@ void fichas_roque(uint8_t x, uint8_t y, struct_ficha_t ajedrez[64], type_roque_t
 	case roque_largo:
 		coordenada_x = x - 1;
 		status = fichas_jaque_sencillo(color, coordenada_x, y, ajedrez);
-		ficha_aux = ajedrez[coordenada_x + (8 * y)];
+		ficha_aux = ajedrez[coordenada_x + (MULT_RENGLON * y)];
 		if((jaque != status) & (ninguno == ficha_aux.ficha_name))
 		{
 			coordenada_x--;
 			status = fichas_jaque_sencillo(color, coordenada_x, y, ajedrez);
-			ficha_aux = ajedrez[coordenada_x + (8 * y)];
+			ficha_aux = ajedrez[coordenada_x + (MULT_RENGLON * y)];
 			if((jaque != status) & (ninguno == ficha_aux.ficha_name))
 			{
-				rey->opciones.valor_opciones[rey->opciones.number_opciones] = (coordenada_x) + (y * 8);
+				rey->opciones.valor_opciones[rey->opciones.number_opciones] = (coordenada_x) + (y * MULT_RENGLON);
 				rey->opciones.number_opciones++;
-				ajedrez[(coordenada_x) + (y * 8)].posible_mov = TRUE;
+				ajedrez[(coordenada_x) + (y * MULT_RENGLON)].posible_mov = TRUE;
 			}
 		}
 		break;
 	case roque_corto:
 		coordenada_x = x + 1;
 		status = fichas_jaque_sencillo(color, coordenada_x, y, ajedrez);
-		ficha_aux = ajedrez[coordenada_x + (8 * y)];
+		ficha_aux = ajedrez[coordenada_x + (MULT_RENGLON * y)];
 		if((jaque != status) & (ninguno == ficha_aux.ficha_name))
 		{
 			coordenada_x++;
 			status = fichas_jaque_sencillo(color, coordenada_x, y, ajedrez);
-			ficha_aux = ajedrez[coordenada_x + (8 * y)];
+			ficha_aux = ajedrez[coordenada_x + (MULT_RENGLON * y)];
 			if((jaque != status) & (ninguno == ficha_aux.ficha_name))
 			{
-				rey->opciones.valor_opciones[rey->opciones.number_opciones] = (coordenada_x) + (y * 8);
+				rey->opciones.valor_opciones[rey->opciones.number_opciones] = (coordenada_x) + (y * MULT_RENGLON);
 				rey->opciones.number_opciones++;
-				ajedrez[(coordenada_x) + (y * 8)].posible_mov = TRUE;
+				ajedrez[(coordenada_x) + (y * MULT_RENGLON)].posible_mov = TRUE;
 			}
 		}
 		break;
