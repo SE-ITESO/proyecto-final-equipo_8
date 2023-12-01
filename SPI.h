@@ -1,14 +1,22 @@
-/*
- * SPI.h
+/**
+ * @file SPI.h
  *
- *  Created on: 19 jun. 2021
- *      Author: jlpe
+ * @Authors Leonardo Arechiga
+ * 			Brandon Gutiérrez
+ *
+ * 	@brief  It controls the operation
+ * 			of SPI peripheral
+ *
  */
 
 #ifndef SPI_H_
 #define SPI_H_
 
-
+#include "fsl_dspi.h"
+#include "fsl_port.h"
+#include "fsl_gpio.h"
+#include "fsl_clock.h"
+#include "clock_config.h"
 
 #define PIN0_IDX                        (0u)   /*!< Pin number for pin 0 in a port */
 #define PIN1_IDX                        (1u)   /*!< Pin number for pin 1 in a port */

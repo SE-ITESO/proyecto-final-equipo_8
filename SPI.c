@@ -1,10 +1,15 @@
+/**
+ * @file SPI.c
+ *
+ * @Authors Leonardo Arechiga
+ * 			Brandon Gutiérrez
+ *
+ * 	@brief  It controls the operation
+ * 			of SPI peripheral
+ *
+ */
 
 #include "SPI.h"
-#include "fsl_dspi.h"
-#include "fsl_port.h"
-#include "fsl_gpio.h"
-#include "fsl_clock.h"
-#include "clock_config.h"
 
 void SPI_config(void)
 {

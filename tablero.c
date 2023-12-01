@@ -1,8 +1,12 @@
-/*
- * tablero.c
+/**
+ * @file tablero.c
  *
- *  Created on: 11 nov 2023
- *      Author: brand
+ * @Authors Leonardo Arechiga
+ * 			Brandon Gutiérrez
+ *
+ * 	@brief  It controls the operation
+ * 			of the board in the game
+ *
  */
 
 #include "tablero.h"
@@ -435,11 +439,11 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button, uint8_t* reinic
 	case 1:
 		if(0 == *jugador)
 		{
-			ficha = *(g_array_ajedrez + coordenada_x + (coordenada_y * 8));
+			ficha = *(g_array_ajedrez + coordenada_x + (coordenada_y * MULT_RENGLON));
 		}
 		else
 		{
-			ficha = *(g_array_ajedrez + (7 - coordenada_x) + ((7 - coordenada_y) * 8));
+			ficha = *(g_array_ajedrez + (7 - coordenada_x) + ((7 - coordenada_y) * MULT_RENGLON));
 		}
 		fichas_mover_cursor((*jugador) * 4, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
 		fichas_color((*jugador) * 4, verde);
@@ -462,10 +466,8 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button, uint8_t* reinic
 		if(0 == *jugador)
 		{
 			g_funct_movimiento[ficha.ficha_name - 1](coordenada_x, coordenada_y, g_array_ajedrez);
-			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			if(rey == ficha.ficha_name)
 			{
-				///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Pendiente
 				if((TRUE == g_posible_roque[*jugador][roque_corto]) & (7 == (coordenada_y)))
 				{
 					fichas_roque(coordenada_x, coordenada_y, g_array_ajedrez, roque_corto);
@@ -479,7 +481,6 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button, uint8_t* reinic
 		else
 		{
 			g_funct_movimiento[ficha.ficha_name - 1](7 - coordenada_x, 7 - coordenada_y, g_array_ajedrez);
-			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			if(rey == ficha.ficha_name)
 			{
 				if((TRUE == g_posible_roque[*jugador][roque_corto]) & (0 == (7 - coordenada_y)))
@@ -495,13 +496,13 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button, uint8_t* reinic
 
 		if(0 == *jugador)
 		{
-			ficha = *(g_array_ajedrez + coordenada_x + (coordenada_y * 8));
-			ficha_seleccionada = *(g_array_ajedrez + coordenada_x + (coordenada_y * 8));
+			ficha = *(g_array_ajedrez + coordenada_x + (coordenada_y * MULT_RENGLON));
+			ficha_seleccionada = *(g_array_ajedrez + coordenada_x + (coordenada_y * MULT_RENGLON));
 		}
 		else
 		{
-			ficha = *(g_array_ajedrez + (7 - coordenada_x) + ((7 - coordenada_y) * 8));
-			ficha_seleccionada = *(g_array_ajedrez + (7 - coordenada_x) + ((7 - coordenada_y) * 8));
+			ficha = *(g_array_ajedrez + (7 - coordenada_x) + ((7 - coordenada_y) * MULT_RENGLON));
+			ficha_seleccionada = *(g_array_ajedrez + (7 - coordenada_x) + ((7 - coordenada_y) * MULT_RENGLON));
 		}
 
 		x_selec = coordenada_x;
@@ -696,14 +697,14 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button, uint8_t* reinic
 			{
 				if(0 == *jugador)
 				{
-					fichas_clear_opciones(&((g_array_ajedrez + x_selec + (y_selec * 8))->opciones), (*jugador) * 4, g_array_ajedrez);
-					ficha_temporal =  *(g_array_ajedrez + coordenada_x + (coordenada_y * 8));
+					fichas_clear_opciones(&((g_array_ajedrez + x_selec + (y_selec * MULT_RENGLON))->opciones), (*jugador) * 4, g_array_ajedrez);
+					ficha_temporal =  *(g_array_ajedrez + coordenada_x + (coordenada_y * MULT_RENGLON));
 					tablero_movimiento(x_selec, y_selec, coordenada_x, coordenada_y);
 				}
 				else
 				{
-					fichas_clear_opciones(&((g_array_ajedrez + (7 - x_selec) + ((7 - y_selec) * 8))->opciones), (*jugador) * 4, g_array_ajedrez);
-					ficha_temporal =  *(g_array_ajedrez + (7 - coordenada_x) + ((7 - coordenada_y) * 8));
+					fichas_clear_opciones(&((g_array_ajedrez + (7 - x_selec) + ((7 - y_selec) * MULT_RENGLON))->opciones), (*jugador) * 4, g_array_ajedrez);
+					ficha_temporal =  *(g_array_ajedrez + (7 - coordenada_x) + ((7 - coordenada_y) * MULT_RENGLON));
 					tablero_movimiento(7 - x_selec, 7 - y_selec, 7 - coordenada_x, 7 - coordenada_y);
 				}
 
@@ -810,19 +811,17 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button, uint8_t* reinic
 					g_modo = 7;
 				}
 			}
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 		}
 		break;
 
 	case 4:
 		if(0 == *jugador)
 		{
-			ficha = *(g_array_ajedrez + coordenada_x + (coordenada_y * 8));
+			ficha = *(g_array_ajedrez + coordenada_x + (coordenada_y * MULT_RENGLON));
 		}
 		else
 		{
-			ficha = *(g_array_ajedrez + (7 - coordenada_x) + ((7 - coordenada_y) * 8));
+			ficha = *(g_array_ajedrez + (7 - coordenada_x) + ((7 - coordenada_y) * MULT_RENGLON));
 		}
 
 		fichas_mover_cursor((*jugador) * 4, (coordenada_x * 16) + 1, (coordenada_y * 8) + 1);
@@ -853,7 +852,6 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button, uint8_t* reinic
 	case 6:
 		status = s_jaque_mate;
 		break;
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	case 7:
 		y_aux = 10;
 		UART_put_string((*jugador) * 4, g_array_clear);
@@ -870,8 +868,6 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button, uint8_t* reinic
 		fichas_seleccion_print((*jugador) * 4, rojo);
 		g_modo = 8;
 	case 8:
-		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 		if(FALSE != *(array_button + DOWN))
 		{
 			fichas_mover_cursor((*jugador) * 4, 10, y_aux);
@@ -945,7 +941,6 @@ uint8_t tablero_control(uint8_t* jugador, uint8_t* array_button, uint8_t* reinic
 			fichas_color(UART_0, negras);
 			temporizador_timer_encabezados_print();
 		}
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		break;
 	}
 
@@ -961,14 +956,14 @@ void tablero_movimiento(uint8_t x_old, uint8_t y_old, uint8_t x_new, uint8_t y_n
 		memory_add_movimiento(x_old, y_old, x_new, y_new);
 	}
 
-	ficha = *(g_array_ajedrez + x_old + (y_old * 8));
-	*(g_array_ajedrez + x_new + (y_new * 8)) = ficha;
+	ficha = *(g_array_ajedrez + x_old + (y_old * MULT_RENGLON));
+	*(g_array_ajedrez + x_new + (y_new * MULT_RENGLON)) = ficha;
 
 	fichas_vacio_print(indefinido, (x_new * 16) + 1, (y_new * 8) + 1);
 	ficha.print_ficha(ficha.color, (x_new * 16) + 1, (y_new * 8) + 1);
 
 	fichas_config(&ficha, ninguno, indefinido);
-	*(g_array_ajedrez + x_old + (y_old * 8)) = ficha;
+	*(g_array_ajedrez + x_old + (y_old * MULT_RENGLON)) = ficha;
 
 	ficha.print_ficha(ficha.color, (x_old * 16) + 1, (y_old * 8) + 1);
 }
@@ -1001,11 +996,11 @@ void tablero_repeticion_init(uint8_t log_number_here)
 	uint8_t data_correcta = 0;
 	uint8_t errores = 0;
 	memory_create_log(log_number_here);
-	while(0 == data_correcta && errores<10)
+	while((0 == data_correcta) && (errores < 10))
 	{
 		memory_read_log(data_for_log);
 		size_of_log = data_for_log[0];
-		if(data_for_log[size_of_log+1] == 0)
+		if(data_for_log[size_of_log + 1] == 0)
 		{
 			data_correcta = 1;
 		}else{
@@ -1024,12 +1019,12 @@ void tablero_avanza_movimiento()
 
 	if(movimientos_log_index < size_of_log)
 	{
-		x_origen_a = (data_for_log[movimientos_log_index]>>4) & 0x0F;
+		x_origen_a = (data_for_log[movimientos_log_index] >> 4) & 0x0F;
 		y_origen_a = (data_for_log[movimientos_log_index]) & (0x0F);
-		x_destino_a = (data_for_log[movimientos_log_index+1]>>4) & 0x0F;
-		y_destino_a = (data_for_log[movimientos_log_index+1]) & (0x0F);
+		x_destino_a = (data_for_log[movimientos_log_index + 1] >> 4) & 0x0F;
+		y_destino_a = (data_for_log[movimientos_log_index + 1]) & (0x0F);
 		tablero_movimiento(x_origen_a, y_origen_a, x_destino_a, y_destino_a);
-		movimientos_log_index+=2;
+		movimientos_log_index += 2;
 	}
 
 }
@@ -1044,10 +1039,10 @@ void tablero_retrocede_movimiento()
 	if(movimientos_log_index > 1)
 	{
 		movimientos_log_index-=2;
-		x_destino_r = (data_for_log[movimientos_log_index]>>4) & 0x0F;
+		x_destino_r = (data_for_log[movimientos_log_index] >> 4) & 0x0F;
 		y_destino_r = (data_for_log[movimientos_log_index]) & (0x0F);
-		x_origen_r = (data_for_log[movimientos_log_index+1]>>4) & 0x0F;
-		y_origen_r = (data_for_log[movimientos_log_index+1]) & (0x0F);
+		x_origen_r = (data_for_log[movimientos_log_index + 1] >> 4) & 0x0F;
+		y_origen_r = (data_for_log[movimientos_log_index + 1]) & (0x0F);
 		tablero_movimiento(x_origen_r, y_origen_r, x_destino_r, y_destino_r);
 	}
 }

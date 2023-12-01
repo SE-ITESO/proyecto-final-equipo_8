@@ -108,8 +108,6 @@ uint8_t array_nueve[8][9] =
 	"  #####  "
 };
 
-
-
 static uint8_t array_jugador_1[6][54] =
 {
     "    #### #  #  ###   ###  ###   ###  ###      ##     ",

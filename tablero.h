@@ -1,8 +1,12 @@
-/*
- * tablero.h
+/**
+ * @file tablero.h
  *
- *  Created on: 11 nov 2023
- *      Author: brand
+ * @Authors Leonardo Arechiga
+ * 			Brandon Gutiérrez
+ *
+ * 	@brief  It controls the operation
+ * 			of the board in the game
+ *
  */
 
 #ifndef TABLERO_H_
@@ -15,14 +19,27 @@
 #include "temporizador.h"
 #include "alarma.h"
 
+#define MULT_RENGLON	(8U)
+
 typedef enum{
 	s_none_t,
 	s_change_t,
 	s_jaque_mate
 }status_player_t;
 
+/*!
+ * @brief Function to initialize the board
+ */
 void tablero_init(void);
+
+/*!
+ * @brief Function to accommodate the arrau
+ */
 void tablero_acomodo_arreglo(void);
+
+/*!
+ * @brief Function to show the chess pieces in tera term
+ */
 void tablero_print_fichas(void);
 
 void tablero_switch_string(uint8_t* array, uint8_t old_character, uint8_t new_character);
