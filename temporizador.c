@@ -1,7 +1,16 @@
-#include <temporizador.h>
+/**
+ * @file temporizador.c
+ *
+ * @Authors Leonardo Arechiga
+ * 			Brandon Gutiérrez
+ *
+ * 	@brief  It controls the operation
+ * 			of temporizador
+ *
+ */
+
+#include "temporizador.h"
 #include "numeros.h"
-#include "PIT.h"
-#include "NVIC.h"
 
 static uint8_t g_temporizador_posicion[] = {'\e','[','0','0',';','0','0','0','H','\0'};
 
@@ -11,7 +20,7 @@ static uint8_t g_tiempo_restante_minutos[2] = {0, 0};
 static uint8_t g_tiempo_restante_segundos[2] = {0, 0};
 static uint8_t g_timer_flag = 0;
 
-static uint8_t renglon_index = 0;
+static uint8_t g_renglon_index = 0;
 static uint8_t fila_index = 0;
 static uint8_t temp = 0;
 
@@ -54,16 +63,16 @@ void temporizador_timer_encabezados_print(void)
 
 	array_player = &array_jugador_1[0][0];
 
-	for (renglon_index = 0; renglon_index < 6; renglon_index++)
+	for (g_renglon_index = 0; g_renglon_index < 6; g_renglon_index++)
 	{
 		g_temporizador_posicion[2] = NUM_TO_ASCII(1);
-		g_temporizador_posicion[3] = NUM_TO_ASCII(renglon_index+1);
+		g_temporizador_posicion[3] = NUM_TO_ASCII(g_renglon_index+1);
 		UART_put_string(UART_0, g_temporizador_posicion);
 		UART_put_string(UART_4, g_temporizador_posicion);
 
 		for (fila_index = 0; fila_index < 54; fila_index++)
 		{
-			temp = *(array_player+(renglon_index*54)+(fila_index));
+			temp = *(array_player+(g_renglon_index*54)+(fila_index));
 			temp = (temp == 35)? 219U : temp;
 			UART_put_char(UART_0, temp);
 			UART_put_char(UART_4, temp);
@@ -72,16 +81,16 @@ void temporizador_timer_encabezados_print(void)
 
 	array_player = &array_jugador_2[0][0];
 
-		for (renglon_index = 0; renglon_index < 6; renglon_index++)
+		for (g_renglon_index = 0; g_renglon_index < 6; g_renglon_index++)
 		{
 			g_temporizador_posicion[2] = NUM_TO_ASCII(2);
-			g_temporizador_posicion[3] = NUM_TO_ASCII(renglon_index+1);
+			g_temporizador_posicion[3] = NUM_TO_ASCII(g_renglon_index+1);
 			UART_put_string(UART_0, g_temporizador_posicion);
 			UART_put_string(UART_4, g_temporizador_posicion);
 
 			for (fila_index = 0; fila_index < 54; fila_index++)
 			{
-				temp = *(array_player+(renglon_index*54)+(fila_index));
+				temp = *(array_player+(g_renglon_index*54)+(fila_index));
 				temp = (temp == 35)? 219U : temp;
 				UART_put_char(UART_0, temp);
 				UART_put_char(UART_4, temp);
@@ -222,12 +231,12 @@ void temporizador_numero_print(uint8_t jugador, uint8_t posicion, uint8_t numero
 	break;
 	}
 
-	for (renglon_index = 0; renglon_index < 7; renglon_index++)
+	for (g_renglon_index = 0; g_renglon_index < 7; g_renglon_index++)
 	{
-		temporizador_mover_cursor(jugador, posicion, renglon_index);
+		temporizador_mover_cursor(jugador, posicion, g_renglon_index);
 		for (fila_index = 0; fila_index < 9; fila_index++)
 		{
-			temp = *(array_num+(renglon_index*9)+(fila_index));
+			temp = *(array_num+(g_renglon_index*9)+(fila_index));
 			temp = (temp == 35)? 219U : temp;
 			UART_put_char(UART_0, temp);
 			UART_put_char(UART_4, temp);
