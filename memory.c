@@ -10,24 +10,21 @@
 
 #include "memory.h"
 
-static uint8_t array_cmd[4] = {0x03, 0x00, 0x00, 0x00};
+static uint8_t g_array_cmd[4] = {0x03, 0x00, 0x00, 0x00};
 
 uint8_t g_PIT_memory_flag = 0;
 
-void memory_write_enable(void);
-void memory_erase_page(log_struct_t* log);
-void memory_write_page(log_struct_t* log);
-void memory_write_disable(void);
-void memory_erase_page(log_struct_t* log);
+static uint8_t g_movimientos[250] = {0};
+static log_struct_t g_current_log;
+static uint8_t g_movimientos_index = 5;
+static uint8_t *p_aux_ptr;
+static uint8_t g_ptr_index = 0;
 
 void PIT_set_flag_memory(uint8_t pit)
 {
 	g_PIT_memory_flag++;
 }
 
-/*PUBLICAS---------------------------------------------------------------*/
-
-void log_config(uint8_t operation, void* data);
 
 void memory_create_log(uint8_t log_number)
 {
@@ -85,41 +82,30 @@ void memory_read_log(void* data)
 	log_config(3, data);
 }
 
-/*INTERNAS---------------------------------------------------------------*/
-
-void memory_write_log(log_struct_t* log);
-void memory_read(log_struct_t* log);
-
-static uint8_t movimientos[250] = {0};
-static log_struct_t current_log;
-static uint8_t movimientos_index = 5;
-static uint8_t *aux_ptr;
-static uint8_t ptr_index = 0;
-
 void log_config(uint8_t operation, void* data)
 {
 
 	switch (operation)
 	{
 	case 0:
-		current_log.address = *(uint32_t*)data;
-		current_log.data = movimientos;
+		g_current_log.address = *(uint32_t*)data;
+		g_current_log.data = g_movimientos;
 	break;
 	case 1:
-		current_log.data[movimientos_index] = *(uint8_t*)data;
-		movimientos_index++;
+		g_current_log.data[g_movimientos_index] = *(uint8_t*)data;
+		g_movimientos_index++;
 	break;
 	case 2:
-		current_log.data[4] = (movimientos_index-5);
-		memory_write_log(&current_log);
+		g_current_log.data[4] = (g_movimientos_index - 5);
+		memory_write_log(&g_current_log);
 	break;
 	case 3:
-		memory_read(&current_log);
-		aux_ptr = data;
-		for (ptr_index = 0; ptr_index<250; ptr_index++)
+		memory_read(&g_current_log);
+		p_aux_ptr = data;
+		for (g_ptr_index = 0; g_ptr_index < 250; g_ptr_index++)
 		{
-			*aux_ptr = current_log.data[ptr_index];
-			aux_ptr++;
+			*p_aux_ptr = g_current_log.data[g_ptr_index];
+			p_aux_ptr++;
 		}
 	break;
 	}
@@ -244,11 +230,11 @@ void memory_read(log_struct_t* log)
 {
 	dspi_half_duplex_transfer_t masterXfer;
 	uint32_t address = log->address;
-	array_cmd[0] = 0x03;
-	array_cmd[1] = ((address) >> SHIFT_PART_1) & MASK_8_BYTES;
-	array_cmd[2] = ((address) >> SHIFT_PART_2) & MASK_8_BYTES;
-	array_cmd[3] = ((address) >> SHIFT_PART_3) & MASK_8_BYTES;
-	masterXfer.txData = array_cmd;
+	g_array_cmd[0] = 0x03;
+	g_array_cmd[1] = ((address) >> SHIFT_PART_1) & MASK_8_BYTES;
+	g_array_cmd[2] = ((address) >> SHIFT_PART_2) & MASK_8_BYTES;
+	g_array_cmd[3] = ((address) >> SHIFT_PART_3) & MASK_8_BYTES;
+	masterXfer.txData = g_array_cmd;
 	masterXfer.rxData = log->data;
 	masterXfer.txDataSize            = 4u;
 	masterXfer.rxDataSize            = 250;
@@ -257,65 +243,4 @@ void memory_read(log_struct_t* log)
     masterXfer.configFlags = kDSPI_MasterCtar0 | kDSPI_MasterPcs0 | kDSPI_MasterPcsContinuous;
 
     DSPI_MasterHalfDuplexTransferBlocking(SPI0, &masterXfer);
-}
-
-void initial_logs(void)
-{
-	log_struct_t current_log;
-	uint8_t current_data[255];
-
-	for (uint8_t index = 0; index<255; index++)
-	{
-		current_data[index] = 1;
-	}
-
-	current_log.address = 0x40000;
-	current_log.data = current_data;
-
-	memory_write_log(&current_log);
-	memory_read(&current_log);
-
-	for (uint8_t index = 0; index<255; index++)
-	{
-		current_data[index] = 2;
-	}
-
-	current_log.address = 0x41000;
-	current_log.data = current_data;
-
-	memory_write_log(&current_log);
-	memory_read(&current_log);
-
-	for (uint8_t index = 0; index<255; index++)
-	{
-		current_data[index] = 3;
-	}
-
-	current_log.address = 0x42000;
-	current_log.data = current_data;
-
-	memory_write_log(&current_log);
-	memory_read(&current_log);
-
-	for (uint8_t index = 0; index<255; index++)
-	{
-		current_data[index] = 4;
-	}
-
-	current_log.address = 0x43000;
-	current_log.data = current_data;
-
-	memory_write_log(&current_log);
-	memory_read(&current_log);
-
-	for (uint8_t index = 0; index<255; index++)
-	{
-		current_data[index] = 4;
-	}
-
-	current_log.address = 0x44000;
-	current_log.data = current_data;
-
-	memory_write_log(&current_log);
-	memory_read(&current_log);
 }
