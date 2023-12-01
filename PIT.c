@@ -125,7 +125,7 @@ void PIT2_IRQHandler(void)
 		PIT_channel_2_callback(irq_status);
 	}
 
-	PIT_channel_ClearInterruptFlags(PIT_CH0);
+	PIT_channel_ClearInterruptFlags(PIT_CH2);
 }
 
 void PIT3_IRQHandler(void)
