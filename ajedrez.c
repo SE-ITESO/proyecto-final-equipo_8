@@ -477,7 +477,7 @@ void ajedrez_v_juego(uint8_t * modo)
 		UART_put_string(UART_0, g_array_clear);
 		UART_put_string(UART_4, g_array_clear);
 		tablero_init();
-		temporizador_init(1, 0);
+		temporizador_init(15, 0);////////////////////////////////////////////////Linea a modificar
 		g_turno   = jugador_1;
 		*modo = 1;
 	case 1:
@@ -632,6 +632,9 @@ void ajedrez_v_pausa(uint8_t * modo)
 		control_nintendo_clear(g_buttons_control_1);
 		control_nintendo_clear(g_buttons_control_2);
 		tablero_print_tablero();
+		fichas_color(UART_4, negras);
+		fichas_color(UART_0, negras);
+		temporizador_timer_encabezados_print();
 		*modo = 1;
 		g_ventana = v_juego;
 		break;
@@ -931,11 +934,6 @@ void ajedrez_v_repeticion(uint8_t * modo)
 			control_nintendo_clear(g_buttons_control_1);
 			control_nintendo_clear(g_buttons_control_2);
 			tablero_avanza_movimiento();
-		}else if ((FALSE != g_buttons_control_1[B]) | (FALSE != g_buttons_control_2[B]))
-		{
-			control_nintendo_clear(g_buttons_control_1);
-			control_nintendo_clear(g_buttons_control_2);
-			tablero_retrocede_movimiento();
 		}else if ((FALSE != g_buttons_control_1[SELECT]) | (FALSE != g_buttons_control_2[SELECT]))
 		{
 			control_nintendo_clear(g_buttons_control_1);

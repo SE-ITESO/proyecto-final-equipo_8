@@ -24,7 +24,6 @@
 #include "NVIC.h"
 #include "clock.h"
 #include "SPI.h"
-#include "alarma.h"
 
 int main(void)
 {
@@ -41,12 +40,13 @@ int main(void)
 
 	ajedrez_init();
 
-	while(1)
-	{
-		ajedrez_control();
-	}
+    while(1)
+    {
+    	ajedrez_control();
+    }
 
-	return 0;
+    return 0;
+
 }
 
 /*

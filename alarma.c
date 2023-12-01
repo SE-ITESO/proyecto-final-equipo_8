@@ -25,7 +25,7 @@ static uint16_t g_alarma_flag = 0;
 
 void set_alarma_flag(uint8_t pit)
 {
-	g_alarma_flag = 1;
+	g_alarma_flag ++;
 }
 
 void alarma_init(void)
@@ -65,9 +65,13 @@ void alarma_sonido()
 	static uint8_t seno_activo = 0;
 	static uint32_t conteo = 0;
 
-	if(g_alarma_flag)
+	if (g_alarma_flag)					//hubo bandera, actualiza valor del DAC
 	{
+		i = i + g_alarma_flag;
+		i = i % ELEMENTOS_ARRAY;
+		value_DAC = sin_array[i];
 		conteo++;
+		g_alarma_flag = 0;
 	}
 
 	if(conteo == LIMITE)
@@ -76,23 +80,15 @@ void alarma_sonido()
 		conteo = 0;
 	}
 
-
 	if (seno_activo)			//segundo non?
 	{
-		if (g_alarma_flag)					//hubo bandera, actualiza valor del DAC
-		{
-			i = i + g_alarma_flag;
-			i = i % ELEMENTOS_ARRAY;
-			value_DAC = sin_array[i];
-		}
-
+		value_DAC  = value_DAC;
 	}
 	else									//DAC en cero, detiene el pit
 	{
  		value_DAC = 0;
 	}
 
-	g_alarma_flag = 0;
 	DAC_write_buffer_value(DAC_0_BASE_ADDR, BUFFER_0, value_DAC);
 }
 

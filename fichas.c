@@ -2055,7 +2055,7 @@ uint8_t fichas_salvar_jaque(struct_ficha_jaque_t* ficha, uint8_t x, uint8_t y, s
 		break;
 	/*-----------------------------------------Rescate de un alfil----------------------------------------------*/
 	case alfil:
-		aux = (y_ficha > y) | ((x_ficha > x) << 1);
+		aux = (x_ficha > x) | ((y_ficha > y) << 1);
 		switch(aux)
 		{
 		case 0:
@@ -2153,9 +2153,12 @@ uint8_t fichas_salvar_jaque(struct_ficha_jaque_t* ficha, uint8_t x, uint8_t y, s
 			case torre:
 				fichas_torre_mov((l % 8), (l / 8), ajedrez);
 				break;
+			case reina:
+				fichas_reina_mov((l % 8), (l / 8), ajedrez);
+				break;
 			default:
 				break;
-
+			}
 			for(m = 0; m < ficha_aux->opciones.number_opciones; m++)
 			{
 				for(i = 0; i < ficha->casillas.number_opciones; i++)
@@ -2172,9 +2175,59 @@ uint8_t fichas_salvar_jaque(struct_ficha_jaque_t* ficha, uint8_t x, uint8_t y, s
 				ajedrez[ficha_aux->opciones.valor_opciones[i]].posible_mov = FALSE;
 			}
 			ficha_aux->opciones.number_opciones = 0;
-			}
 		}
 	}
 
 	return status;
+}
+
+void fichas_roque(uint8_t x, uint8_t y, struct_ficha_t ajedrez[64], type_roque_t opcion)
+{
+	struct_ficha_t* rey;
+	uint8_t coordenada_x;
+	uint8_t status;
+	struct_ficha_t ficha_aux;
+
+	rey = ajedrez + x + (8 * y);
+	uint8_t color = rey->color - 1;
+
+	switch(opcion)
+	{
+	case roque_largo:
+		coordenada_x = x - 1;
+		status = fichas_jaque_sencillo(color, coordenada_x, y, ajedrez);
+		ficha_aux = ajedrez[coordenada_x + (8 * y)];
+		if((jaque != status) & (ninguno == ficha_aux.ficha_name))
+		{
+			coordenada_x--;
+			status = fichas_jaque_sencillo(color, coordenada_x, y, ajedrez);
+			ficha_aux = ajedrez[coordenada_x + (8 * y)];
+			if((jaque != status) & (ninguno == ficha_aux.ficha_name))
+			{
+				rey->opciones.valor_opciones[rey->opciones.number_opciones] = (coordenada_x) + (y * 8);
+				rey->opciones.number_opciones++;
+				ajedrez[(coordenada_x) + (y * 8)].posible_mov = TRUE;
+			}
+		}
+		break;
+	case roque_corto:
+		coordenada_x = x + 1;
+		status = fichas_jaque_sencillo(color, coordenada_x, y, ajedrez);
+		ficha_aux = ajedrez[coordenada_x + (8 * y)];
+		if((jaque != status) & (ninguno == ficha_aux.ficha_name))
+		{
+			coordenada_x++;
+			status = fichas_jaque_sencillo(color, coordenada_x, y, ajedrez);
+			ficha_aux = ajedrez[coordenada_x + (8 * y)];
+			if((jaque != status) & (ninguno == ficha_aux.ficha_name))
+			{
+				rey->opciones.valor_opciones[rey->opciones.number_opciones] = (coordenada_x) + (y * 8);
+				rey->opciones.number_opciones++;
+				ajedrez[(coordenada_x) + (y * 8)].posible_mov = TRUE;
+			}
+		}
+		break;
+	default:
+		break;
+	}
 }
